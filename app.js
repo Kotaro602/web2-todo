@@ -15,11 +15,7 @@ var app = express();
 var db = require('./model/database');
 
 // all environments
-if ('development' == app.get('env')) {
-  app.set('port', process.env.PORT || 8080);
-}else{
-  app.set('port', 80);
-}
+app.set('port', process.env.PORT || 8080);
 app.set('views', __dirname + '/views');
 app.use(express.favicon());
 app.use(express.logger('dev'));
