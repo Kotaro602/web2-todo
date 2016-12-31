@@ -1,0 +1,404 @@
+
+html {
+	height:100%;
+	overflow: hidden;
+}
+
+body {
+	height:100%;
+	overflow: hidden;
+	font: 13px "Lucida Grande", Helvetica, Arial, sans-serif;
+	letter-spacing: 0px;
+	margin: 0px;
+	padding: 50px 0 20px 0;
+}
+
+input {
+	font: 13px "Lucida Grande", Helvetica, Arial, sans-serif;
+	background-color: transparent;
+}
+
+#header_area{
+    position: absolute;
+    width: 100%;
+    height: 50px;
+    top: 0;
+    left: 0;
+    position: fixed;
+    background-color: #0070a3;
+    color: #eee;
+}
+
+h1{
+	width: 980px;
+	margin: 0px auto 0px;
+	font: 32px "Comic Sans MS", Helvetica, Arial, sans-serif;
+}
+
+#footer_area {  
+    position: absolute;  
+    bottom: 0;  
+    left: 0; 
+    width: 100%; 
+    height: 20px;  
+    background-color: #0070a3;  
+}
+
+#main_area {
+	height: 100%;
+	width: 980px;
+	margin: auto;
+	overflow: auto;
+}
+
+#main_area::-webkit-scrollbar{
+    overflow:hidden;
+    width:5px;
+    background:#fafafa;
+    -webkit-border-radius:3px;
+    border-radius:3px;
+}
+
+#main_area::-webkit-scrollbar:horizontal{
+    height:5px;
+}
+
+#main_area::-webkit-scrollbar-button{
+    display:none;
+}
+
+#main_area::-webkit-scrollbar-piece{
+	background:#eee;
+}
+
+#main_area::-webkit-scrollbar-piece:start
+{
+	background:#eee;
+}
+
+#main_area::-webkit-scrollbar-thumb
+{
+    overflow:hidden;
+    -webkit-border-radius:3px;
+    border-radius:3px;
+    background:#0070a3;
+}
+
+#main_area::-webkit-scrollbar-corner
+{
+    overflow:hidden;
+    -webkit-border-radius:3px;
+    border-radius:3px;
+    background:#333;
+}
+
+#side_area {
+	position: fixed; 
+	width:130px;
+	height:100%;
+	float:left;
+	background: #deedf7;	
+}  
+
+#main_contents {
+	width:850px;
+	float:right;
+	padding-bottom: 100px;
+}
+
+#display_task_area{
+    position: relative;
+    margin: 30px 30px;
+    width:90%;
+    height:100%;
+}
+
+.todo_list_li_box{
+    padding: 2px;
+    border-radius: 5px;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.todo_list_li_box_active{
+    padding: 1px;
+    background-color: #f2f5f7 !important;
+    border: solid 1px #aaa;
+}
+
+.todo_list_li_box_main{
+
+}
+
+.todo_list_li_box_main_name{
+	display: inline-block;
+	width:74%;
+}
+
+.todo_list_li_box_main_duedate{
+	display: inline-block;
+	width:9%;
+}
+
+.todo_list_li_box_main_est{
+	display: inline-block;
+	width:9%;
+}
+
+.todo_list_li_box_main_mark{
+	display: inline-block;
+	width:5%;
+	text-align: center;
+}
+
+.todo_list_li_box_sub{
+	margin-top: 7px;
+	display: none;
+}
+
+.todo_list_li_box_sub_icon{
+	display: inline-block;
+    vertical-align: middle;
+    margin-left: 4px;
+}
+
+.todo_list_li_box_sub_memo{
+    display: inline-block;
+    vertical-align: middle;
+    width: 95%;
+}
+
+
+.user_name_div{
+    width: 100%;
+}
+
+.user_name_span{
+    display: inline-block;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 3px 8px;
+    margin-bottom: 2px;
+    text-align: left;
+    color: #222;
+    border-left: 6px solid #ccc;
+    border-bottom: 2px solid #aaa;
+    font: 20px "Tahoma";
+    font-weight: bold;
+}
+
+.todo_list_each_member_ul{
+    list-style:none;
+    margin-top: 5px;
+    padding: 0px;
+}
+
+.task_list_inner_table{
+    padding: 1px;
+    border-radius: 5px;
+    width: 100%;
+    table-layout: fixed;
+    cursor:pointer;
+}
+
+.task_list_inner_table_active {
+    padding: 0px;
+    background-color: #f2f5f7 !important;
+    border: solid 1px #aaa;
+}
+
+.task_list_inner_table_oneclick{
+    padding: 0px;
+    border: solid 1px #aaa;
+}
+
+.task_name_td {
+    height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.task_name_tr{
+
+}
+/* -----------タスクチェックボックス(アイコン)------------*/
+
+.task_comp_check {
+	display: none; /* 元のチェックボックスを表示しない */
+}
+
+.task_comp_span:before{
+    content: '';
+    width: 12px;
+    height: 12px;
+    margin-left: 4px;
+    margin-right: 4px;
+    display: inline-block;
+    background-color: #fff;
+    border-radius: 3px;
+    border: solid 2px #3baae3;
+    cursor:pointer;
+    vertical-align: middle;
+}
+
+.task_comp_check:checked + .task_comp_span:before{
+	content: '\2713';
+	font-size: 12px;
+	font-weight: bold;
+	color: #3baae3;
+	opacity: 0.5;
+}
+
+.task_redmine_icon {
+    display: inline-block;
+}
+
+.task_redmine_icon:before{
+    content: 'R';
+    width: 16px;
+    height: 16px;
+    margin-left: 4px;
+    margin-right: 2px;
+    display: inline-block;
+    background-color: #d80a1f;
+    border-radius: 3px;
+    text-align: center;
+    cursor: pointer;
+    color: #fafafa;
+    font-size: 14px;
+}
+
+/* -----------タスク名------------*/
+
+.task_name_span {
+    margin-left: 6px;
+}
+
+.is_deleted_task {
+	opacity: 0.5;
+    text-decoration: line-through;
+}
+
+.task_name_input {
+	display: inline-block;
+    width: 90%;
+    height: 100%;
+    outline: 0;
+    border: 0px;
+    margin-left: 6px;
+}
+
+.dueDate_td {
+    width: 10%;
+}
+
+.dueDate {
+    outline: 0;
+    border: 0px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.estimateHour_td {
+    width: 10%;
+}
+
+.estimateHour {
+    outline: 0;
+    border: 0px;
+    cursor: pointer;
+}
+
+.mark_td {
+    width: 5%;
+}
+
+.mark_span {
+    font-size: 16px;
+}
+
+#mark_box {
+    position: absolute;
+    background: #fafafa;
+    height: 85px;
+    width: 140px;
+    border: 1px solid #999;
+    border-radius: 5px;
+}
+
+#mark_box:before {
+    content: '';
+    position: absolute;
+    display: block;
+    bottom: -15px;
+    left: 105px;
+    border-top: 14px solid #999;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+}
+
+#mark_box:after {
+    content: '';
+    position: absolute;
+    display: block;
+    bottom: -13px;
+    left: 105px;
+    border-top: 14px solid #fff;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+}
+
+#mark_ul {
+    list-style: none;
+    padding:5px;
+    margin:0px;
+    cursor: pointer;
+}
+
+.mark_li_1{
+    background-color: #f1a3a3;
+}
+
+.mark_li_2{
+    background-color: #f7c8c8;
+}
+
+.mark_li_3{
+    background-color: #fff;
+}
+
+.mark_li_4{
+    background-color: #c1ebff;
+}
+
+.mark_li_5{
+    background-color: #9bdeff;
+}
+
+.task_list_memo_tr {
+	display: none; /* 元のチェックボックスを表示しない */
+
+}
+
+.todo_list_li_box_sub_memo_box{
+	float: left;
+	width: 20px;
+	vertical-align:middle;
+}
+
+.todo_list_li_box_sub_memo_boc_img {
+    width: 20px;
+}
+
+.task_list_memo {
+    width: 100%;
+	outline: 0;
+	border: 0px;
+	resize: none;
+	background-color: transparent;
+}
+
+.todo_list_each_member_div{
+	padding-bottom: 35px;
+}
