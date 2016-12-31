@@ -31,9 +31,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 var crudTask = require('./routes/crudTask');
 
 //development only
-if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
-}
+// if ('development' == app.get('env')) {
+//   app.use(express.errorHandler());
+// }
 
 
 //ルーティング
