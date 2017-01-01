@@ -16,7 +16,6 @@ var memberListSchema = new mongoose.Schema({
   _id: Number, //redmineUserId;
   userName: String,
   redmineKey: String,
-  sortNoList:[],
   memberConf:[]
 });
 
@@ -35,6 +34,7 @@ var todoListSchema = new mongoose.Schema({
    estimate: Number,
    priority: {type: Number ,default: 0},
    privateFlg: {type: Boolean ,default: false},
+   sortValue: Number
 });
 
 // modelへ登録

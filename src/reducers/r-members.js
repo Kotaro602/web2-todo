@@ -8,12 +8,7 @@ export default function members(state=List([]), action) {
       //タスク一覧取得
       case taskActions.RECIEVE_TASKS:
          return fromJS(action.data.members);
-
-      //追加
-      case taskActions.ADD_TASK:
-         return state.updateIn([findIndexById(action.task.redmineUserId), 'sortNoList'],
-            sortNoList => sortNoList.push(action.task._id));
-
+      
       //順序変更
       case taskActions.CHG_SORT_NO:
          let tmpState = state.setIn([findIndexById(action.dragUserId), 'sortNoList'], action.dragSortNoList);

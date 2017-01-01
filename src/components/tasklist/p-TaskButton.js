@@ -6,13 +6,23 @@ export default class TaskButton extends Component {
 
    /** ActionCreater呼び出し **/
    actOpenTask(e) {
-      const {reqAddTask} = this.props;
+      const {state, member, reqAddTask} = this.props;
+      const tasks = state.get('tasks');
+      const userId = member.get('_id');
 
       let addTaskObject = new Object();
       let redmineUserId = e.currentTarget.getAttribute('data-id');
       addTaskObject.redmineUserId = parseFloat(redmineUserId);
       addTaskObject._id = redmineUserId + createFormatDate();
       addTaskObject.redmineFlg = false;
+
+      let maxSortVal = 100;
+      tasks.map((task) => {
+         let taskSortVal = task.get('sortValue');
+         if( taskSortVal !== undefined && task.get('redmineUserId') == userId && taskSortVal >=  maxSortVal)
+            maxSortVal = taskSortVal + 1;
+      })
+      addTaskObject.sortValue = maxSortVal;
 
       reqAddTask(addTaskObject);
    }

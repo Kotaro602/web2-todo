@@ -32,21 +32,15 @@ export function fetchRedmineTaskList(taskListEachMember) {
             redmineTask.tempDelFlg = false;
             redmineTask.compDelFlg = false;
 
-            //既にDBにタスクが登録済みならばリストから一旦削除して、redmineTaskを更新する。
+            //既にDBにタスクが登録済みならばリストから一旦削除して、redmineTaskをマージする。
             taskListEachMember.tasks.map((tmpTask,i) =>{
                if(tmpTask._id == redmineTask._id){
-                  console.log(taskListEachMember.tasks.length);
                   redmineTask = Object.assign({}, tmpTask, redmineTask);
                   taskListEachMember.tasks.splice(i,1);
                }
             })
 
             taskListEachMember.tasks.push(redmineTask);
-
-            //既存のソートリストに存在しない場合は配列に追加する。
-            if(!taskListEachMember.members[i].sortNoList.indexOf(redmineTask._id) >= 0){
-               taskListEachMember.members[i].sortNoList.push(redmineTask._id);
-            };
          })
       })
       return taskListEachMember;
