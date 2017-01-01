@@ -1,9 +1,9 @@
 {
-  "name": "application-name",
+  "name": "web2-todo",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "npm install && node app.js",
+    "start": "webpack && node app.js",
     "build": "webpack-dev-server --hot --inline",
     "webpack": "webpack",
     "webpackDispError": "webpack --display-error-details"
