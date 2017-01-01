@@ -11,10 +11,11 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "express": "3.2.6",
+    "forever": "^0.15.3",
     "handlebars": "^4.0.5",
     "jade": "*",
-    "react-date-picker": "^5.3.28",
-    "mongoose": "^4.6.3"
+    "mongoose": "^4.6.3",
+    "react-date-picker": "^5.3.28"
   },
   "devDependencies": {
     "aphrodite": "^1.1.0",
