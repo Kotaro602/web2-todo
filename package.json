@@ -15,9 +15,7 @@
     "handlebars": "^4.0.5",
     "jade": "*",
     "mongoose": "^4.6.3",
-    "react-date-picker": "^5.3.28"
-  },
-  "devDependencies": {
+    "react-date-picker": "^5.3.28",
     "aphrodite": "^1.1.0",
     "babel-core": "^6.17.0",
     "babel-loader": "^6.2.5",
@@ -80,5 +78,8 @@
     "webpack-dev-middleware": "^1.9.0",
     "webpack-dev-server": "^1.16.2",
     "webpack-hot-middleware": "^2.14.0"
+  },
+  "devDependencies": {
+
   }
 }
