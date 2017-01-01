@@ -6,7 +6,7 @@ export default class TaskMemBxSbSi extends Component {
    render(){
 
    /** prop取得 **/
-   const {task} = this.props;
+   const {task} = this.props; 
 
    /** レンダリング **/
    return(
