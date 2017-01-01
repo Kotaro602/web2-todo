@@ -10,7 +10,10 @@ var express = require('express')
   , mongoose = require('mongoose');
 
 var app = express();
-require('dotenv').config();
+if ('development' == app.get('env')){
+  console.log('dotenvを使用')
+  require('dotenv').config();
+}
 
 // Modelの設定
 var db = require('./model/database');
