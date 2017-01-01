@@ -1,10 +1,9 @@
 // Modelでもmongooseを読み込みます
 var mongoose = require( 'mongoose' );
 var express = require('express')
-var app = express();
 
 // MongoDBに接続
-var mURI = process.env.MONGODB_URI;
+var mURI = process.env.MONGODB_URI || 'mongodb://localhost/todoListDb';
 mongoose.connect(mURI);
 
 // 接続イベントを利用してログ出力

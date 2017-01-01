@@ -19,7 +19,7 @@ var app = express();
 var db = require('./model/database');
 
 // all environments
-app.set('port', process.env.PORT);
+app.set('port', process.env.PORT || 8080);
 app.set('views', __dirname + '/views');
 app.use(express.favicon());
 app.use(express.logger('dev'));
