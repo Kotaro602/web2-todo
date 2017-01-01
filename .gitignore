@@ -1,9 +1,7 @@
 /bin
+/.idea
 /data
 /node_modules
 /dist/testdata
-/.env
 /tips
 /debug.log
-/gulpfile.js
-/gulpfile.js.forLinux
