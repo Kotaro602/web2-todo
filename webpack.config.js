@@ -2,24 +2,24 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-   context: path.join(__dirname, './public/client'),
+   context: path.join(__dirname, './src'),
    entry: {
          javascript: './index.js',
          html: './index.html'
    },
    output: {
-      path: path.join(__dirname, './public/build'),
+      path: path.join(__dirname, './dist'),
       filename: 'bundle.js'
    },
-   devServer: {
-      contentBase: 'public/build',
-      port: 80,
-      proxy: {
-         '/api': {
-            target: 'http://localhost:8080'
-         }
-      }
-   },
+   // devServer: {
+   //    contentBase: 'dist',
+   //    port: 80,
+   //    proxy: {
+   //       '/api': {
+   //          target: 'http://localhost:8080'
+   //       }
+   //    }
+   // },
    //devtool: 'inline-source-map',
    module: {
       loaders: [

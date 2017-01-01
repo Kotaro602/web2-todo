@@ -51,9 +51,10 @@ export function fetchRedmineTaskList(taskListEachMember) {
       })
       return taskListEachMember;
 
-   },function(error) {
-      console.log(error);
-   });
+   }).catch(function(e)  {
+      console.log(e);
+      return taskListEachMember;
+   })
 }
 
 export function updateTask(task) {

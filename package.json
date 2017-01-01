@@ -5,6 +5,7 @@
   "scripts": {
     "start": "npm install && node app.js",
     "build": "webpack-dev-server --hot --inline",
+    "webpack": "webpack",
     "webpackDispError": "webpack --display-error-details"
   },
   "dependencies": {

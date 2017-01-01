@@ -40451,8 +40451,9 @@
 	         });
 	      });
 	      return taskListEachMember;
-	   }, function (error) {
-	      console.log(error);
+	   }).catch(function (e) {
+	      console.log(e);
+	      return taskListEachMember;
 	   });
 	}
 
@@ -41052,14 +41053,14 @@
 	};
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/p-Body.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/p-Body.js',
 	   components: _components,
 	   locals: [module],
 	   imports: [_react3.default]
 	});
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/p-Body.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/p-Body.js',
 	   components: _components,
 	   locals: [],
 	   imports: [_react3.default, _index2.default]
@@ -49785,14 +49786,14 @@
 	};
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-Task.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-Task.js',
 	   components: _components,
 	   locals: [module],
 	   imports: [_react3.default]
 	});
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-Task.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-Task.js',
 	   components: _components,
 	   locals: [],
 	   imports: [_react3.default, _index2.default]
@@ -51354,14 +51355,14 @@
 	};
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-TaskMem.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-TaskMem.js',
 	   components: _components,
 	   locals: [module],
 	   imports: [_react3.default]
 	});
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-TaskMem.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-TaskMem.js',
 	   components: _components,
 	   locals: [],
 	   imports: [_react3.default, _index2.default]
@@ -61375,14 +61376,14 @@
 	};
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-TaskMemBx.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-TaskMemBx.js',
 	   components: _components,
 	   locals: [module],
 	   imports: [_react3.default]
 	});
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-TaskMemBx.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-TaskMemBx.js',
 	   components: _components,
 	   locals: [],
 	   imports: [_react3.default, _index2.default]
@@ -61624,14 +61625,14 @@
 	};
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-TaskMemBxMa.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-TaskMemBxMa.js',
 	   components: _components,
 	   locals: [module],
 	   imports: [_react3.default]
 	});
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-TaskMemBxMa.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-TaskMemBxMa.js',
 	   components: _components,
 	   locals: [],
 	   imports: [_react3.default, _index2.default]
@@ -61819,14 +61820,14 @@
 	};
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-TaskMemBxMaNa.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-TaskMemBxMaNa.js',
 	   components: _components,
 	   locals: [module],
 	   imports: [_react3.default]
 	});
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-TaskMemBxMaNa.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-TaskMemBxMaNa.js',
 	   components: _components,
 	   locals: [],
 	   imports: [_react3.default, _index2.default]
@@ -62170,14 +62171,14 @@
 	};
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-TaskMemBxMaPr.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-TaskMemBxMaPr.js',
 	   components: _components,
 	   locals: [module],
 	   imports: [_react3.default]
 	});
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-TaskMemBxMaPr.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-TaskMemBxMaPr.js',
 	   components: _components,
 	   locals: [],
 	   imports: [_react3.default, _index2.default]
@@ -77472,14 +77473,14 @@
 	};
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-TaskMemBxSb.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-TaskMemBxSb.js',
 	   components: _components,
 	   locals: [module],
 	   imports: [_react3.default]
 	});
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-TaskMemBxSb.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-TaskMemBxSb.js',
 	   components: _components,
 	   locals: [],
 	   imports: [_react3.default, _index2.default]
@@ -77623,14 +77624,14 @@
 	};
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-TaskMemBxSbSi.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-TaskMemBxSbSi.js',
 	   components: _components,
 	   locals: [module],
 	   imports: [_react3.default]
 	});
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-TaskMemBxSbSi.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-TaskMemBxSbSi.js',
 	   components: _components,
 	   locals: [],
 	   imports: [_react3.default, _index2.default]
@@ -77778,14 +77779,14 @@
 	};
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-TaskUser.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-TaskUser.js',
 	   components: _components,
 	   locals: [module],
 	   imports: [_react3.default]
 	});
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-TaskUser.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-TaskUser.js',
 	   components: _components,
 	   locals: [],
 	   imports: [_react3.default, _index2.default]
@@ -80038,14 +80039,14 @@
 	};
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-TaskButton.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-TaskButton.js',
 	   components: _components,
 	   locals: [module],
 	   imports: [_react3.default]
 	});
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-TaskButton.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-TaskButton.js',
 	   components: _components,
 	   locals: [],
 	   imports: [_react3.default, _index2.default]
@@ -80212,14 +80213,14 @@
 	};
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-TaskPro.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-TaskPro.js',
 	   components: _components,
 	   locals: [module],
 	   imports: [_react3.default]
 	});
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/p-TaskPro.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/p-TaskPro.js',
 	   components: _components,
 	   locals: [],
 	   imports: [_react3.default, _index2.default]
@@ -80365,14 +80366,14 @@
 	};
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/redmine/p-TaskRed.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/redmine/p-TaskRed.js',
 	   components: _components,
 	   locals: [module],
 	   imports: [_react3.default]
 	});
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/tasklist/redmine/p-TaskRed.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/tasklist/redmine/p-TaskRed.js',
 	   components: _components,
 	   locals: [],
 	   imports: [_react3.default, _index2.default]
@@ -80505,14 +80506,14 @@
 	};
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/sideArea/p-Side.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/sideArea/p-Side.js',
 	   components: _components,
 	   locals: [module],
 	   imports: [_react3.default]
 	});
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/sideArea/p-Side.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/sideArea/p-Side.js',
 	   components: _components,
 	   locals: [],
 	   imports: [_react3.default, _index2.default]
@@ -80633,14 +80634,14 @@
 	};
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/sideArea/p-SideSearch.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/sideArea/p-SideSearch.js',
 	   components: _components,
 	   locals: [module],
 	   imports: [_react3.default]
 	});
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/sideArea/p-SideSearch.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/sideArea/p-SideSearch.js',
 	   components: _components,
 	   locals: [],
 	   imports: [_react3.default, _index2.default]
@@ -80775,14 +80776,14 @@
 	};
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/sideArea/p-SidePublic.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/sideArea/p-SidePublic.js',
 	   components: _components,
 	   locals: [module],
 	   imports: [_react3.default]
 	});
 
 	var _CUsersMaWebstormProjectsWeb2Node_modulesBabelPresetReactHmreNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-	   filename: 'C:/Users/ma/WebstormProjects/Web2/public/client/components/sideArea/p-SidePublic.js',
+	   filename: 'C:/Users/ma/WebstormProjects/Web2/src/components/sideArea/p-SidePublic.js',
 	   components: _components,
 	   locals: [],
 	   imports: [_react3.default, _index2.default]
