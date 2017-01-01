@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "npm install && node app.js",
+    "start": "npm install && npm run webpack && node app.js",
     "build": "webpack-dev-server --hot --inline",
     "webpack": "webpack",
     "webpackDispError": "webpack --display-error-details"
