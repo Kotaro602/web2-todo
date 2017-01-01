@@ -10,12 +10,13 @@ var express = require('express')
   , mongoose = require('mongoose');
 
 var app = express();
+require('dotenv').config();
 
 // Modelの設定
 var db = require('./model/database');
 
 // all environments
-app.set('port', process.env.PORT || 8080);
+app.set('port', process.env.PORT);
 app.set('views', __dirname + '/views');
 app.use(express.favicon());
 app.use(express.logger('dev'));
@@ -24,6 +25,7 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
+var index = require('./routes/index');
 var crudTask = require('./routes/crudTask');
 
 //development only
@@ -33,6 +35,7 @@ var crudTask = require('./routes/crudTask');
 
 
 //ルーティング
+app.get('/', index.index);
 app.get('/api/readTaskList', crudTask.readTaskList);
 app.post('/api/registerTask', crudTask.registerTask);
 app.post('/api/updateTask', crudTask.updateTask);

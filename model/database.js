@@ -5,7 +5,6 @@ var app = express();
 
 // MongoDBに接続
 var mURI = process.env.MONGODB_URI;
-//    mURI = 'mongodb://localhost/todoListDb';
 mongoose.connect(mURI);
 
 // 接続イベントを利用してログ出力

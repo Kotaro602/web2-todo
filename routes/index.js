@@ -2,15 +2,10 @@
 // indexコントローラ
 exports.index = function(req, res){
 
-  var mongoose = require( 'mongoose' );
-  var TodoList = mongoose.model( 'TodoList' );
-  
-  // Engineerモデルのfindメソッドで一覧を取得
-  TodoList.find({}, function(error, todoLists) {
-    if(!error){
-  	  res.render('index', { 
-  	    todoLists: todoLists
-  	  });
-    }
-  });
+   var fs = require('fs');
+   fs.readFile(__dirname + '/build/index.html', 'utf-8',function(err,data) {
+      res.writeHead(200,{'content-Type': 'text/html'});
+      res.write(data);
+      res.end();
+   });
 };
