@@ -3,9 +3,16 @@ import TaskName from './p-TaskMemBxMaNa';
 import TaskMemBxMaPr from './p-TaskMemBxMaPr';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import DatePicker  from 'react-datepicker';
+import * as Immutable from 'immutable';
 import moment from 'moment';
 
 export default class TaskMainBox extends React.Component {
+
+   shouldComponentUpdate(nextProps) {
+      const taskDiff = Immutable.is(nextProps.task, this.props.task);
+      const confDiff = Immutable.is(nextProps.state.get('conf'), this.props.state.get('conf'));
+      return !(taskDiff && confDiff);
+   }
 
    /** ActionCreater呼び出し **/
    chgDueDate(date){

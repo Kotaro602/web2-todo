@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, css } from 'aphrodite/no-important';
-
+import Immutable from 'immutable';
 import { DragDropContext } from 'react-dnd';
 import ReactDnDHTML5Backend from 'react-dnd-html5-backend'
 
@@ -8,6 +8,11 @@ import TaskMemSo from './p-TaskMemBx'
 
 @DragDropContext(ReactDnDHTML5Backend)
 export default class TaskMemberList extends React.Component {
+
+   shouldComponentUpdate(nextProps) {
+      const stateDiff = Immutable.is(nextProps.state, this.props.state);
+      return !stateDiff;
+   }
 
    render(){
 

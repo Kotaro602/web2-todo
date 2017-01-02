@@ -20,7 +20,7 @@ module.exports = {
          }
       }
    },
-   //devtool: 'inline-source-map',
+   devtool: 'inline-source-map',
    module: {
       loaders: [
          {

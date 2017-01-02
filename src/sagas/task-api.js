@@ -19,27 +19,39 @@ export function fetchRedmineTaskList(taskListEachMember) {
       })
    ).then(function(results) {
 
+      let maxSortVal = 100;
+      taskListEachMember.tasks.map(task => {
+         if(task.sortValue >=  maxSortVal){
+            maxSortVal = task.sortValue;
+         }
+      })
+
       results.map((redmineMemTask, i) => {
-         redmineMemTask.issues.forEach((oriRedmineTask, j) => {
+         redmineMemTask.issues.forEach((task, j) => {
 
             let redmineTask = new Object();
             redmineTask.redmineFlg = true;
-            redmineTask.redmineUserId = oriRedmineTask.assigned_to.id;
-            redmineTask._id = oriRedmineTask.id;
-            redmineTask.taskName = oriRedmineTask.subject;
-            redmineTask.dueDate = oriRedmineTask.due_date;
-            redmineTask.description = oriRedmineTask.description;
+            redmineTask.redmineUserId = task.assigned_to.id;
+            redmineTask._id = task.id;
+            redmineTask.taskName = task.subject;
+            redmineTask.dueDate = task.due_date;
+            redmineTask.description = task.description;
             redmineTask.tempDelFlg = false;
             redmineTask.compDelFlg = false;
 
             //既にDBにタスクが登録済みならばリストから一旦削除して、redmineTaskをマージする。
-            taskListEachMember.tasks.map((tmpTask,i) =>{
-               if(tmpTask._id == redmineTask._id){
+            taskListEachMember.tasks.map((tmpTask,i) => {
+               if (tmpTask._id == redmineTask._id) {
                   redmineTask = Object.assign({}, tmpTask, redmineTask);
-                  taskListEachMember.tasks.splice(i,1);
+                  taskListEachMember.tasks.splice(i, 1);
                }
             })
 
+            //SortValueが登録されていないならば、新規登録する。
+            if(redmineTask.sortValue === undefined) {
+               maxSortVal++;
+               redmineTask.sortValue = maxSortVal;
+            }
             taskListEachMember.tasks.push(redmineTask);
          })
       })

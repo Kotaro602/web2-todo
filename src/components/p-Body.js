@@ -6,7 +6,6 @@ import SideArea from '../components/sideArea/p-Side';
 export default class Body extends Component {
 
    render(){
-
       /** レンダリング **/
       return(
          <div className={css(styles.container)}>

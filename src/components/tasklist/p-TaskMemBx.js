@@ -14,62 +14,52 @@ const taskSource = {
          task: props.task
       };
    },endDrag: function(props, monitor){
-      console.log('ここでActionに投げる');
+      //props.chgSortNo(props.task, monitor.getItem().task);
    }
 }
 const taskTarget = {
 
    hover(hoverProps, monitor, component) {
 
-      const dragTask = monitor.getItem().task;
+      //drag中のタスクと、hoverしているタスクを取得
+      let dragTask = monitor.getItem().task;
+      let hoverTask = hoverProps.task;
 
       const dragTaskId = dragTask.get('_id');
-      const dragUserId = dragTask.get('redmineUserId');
-      const hoverTaskId = hoverProps.task.get('_id');
-      const hoverUserId = hoverProps.task.get('redmineUserId');
-
-      if (dragTaskId === hoverTaskId) return;
-
-      const members = hoverProps.state.get('members');
-      let dragSortNoList = members.filter(m => m.get('_id') == dragUserId).get(0).get('sortNoList');
-      const dragTaskIndex = dragSortNoList.indexOf(dragTaskId);
-      let hoverSortNoList = members.filter(m => m.get('_id') == hoverUserId).get(0).get('sortNoList');
-      const hoverTaskIndex = hoverSortNoList.indexOf(hoverTaskId);
+      const hoverTaskId = hoverTask.get('_id');
+      if (dragTaskId === hoverTaskId) return; //同一タスク上ならば即リターン
 
       const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
-      if(dragUserId == hoverUserId){
+      const dragSortVal = dragTask.get('sortValue');
+      const hoverSortVal = hoverTask.get('sortValue');
+      const dragUserId = dragTask.get('redmineUserId');
+      const hoverUserId = hoverTask.get('redmineUserId');
+
+      const upwardsFlg = hoverSortVal < dragSortVal;
+
+      //ソートValが同じだったら、ホバー先を一つ変える。
+
+      if(dragUserId == hoverUserId) {
          //同じ人物のタスクにソートした場合
-         const upwardsFlg = dragTaskIndex > hoverTaskIndex;
          if (upwardsFlg && hoverClientY > hoverMiddleY) return;
          if (!upwardsFlg && hoverClientY < hoverMiddleY) return;
 
-         if(upwardsFlg) {
-            dragSortNoList = dragSortNoList.splice(dragTaskIndex-1, 2, dragSortNoList.get(dragTaskIndex), dragSortNoList.get(dragTaskIndex-1));
-         }else {
-            dragSortNoList = dragSortNoList.splice(dragTaskIndex, 2, dragSortNoList.get(dragTaskIndex+1), dragSortNoList.get(dragTaskIndex));
-         }
+         const nextSortVal = upwardsFlg ? hoverSortVal + 1 : hoverSortVal - 1;
+         dragTask = dragTask.set('sortValue', hoverSortVal);
+         hoverTask = hoverTask.set('sortValue', dragSortVal);
 
+         hoverProps.chgSortNo(dragTask, hoverTask);
       }else{
          //別人物のタスクにソートした場合
-         const upwardsFlg = dragTaskIndex < hoverTaskIndex;
+         dragTask = dragTask.set('redmineUserId', hoverUserId);
+         dragTask = dragTask.set('sortValue', hoverSortVal - 1);
 
-         dragSortNoList = dragSortNoList.splice(dragTaskIndex, 1);
-         if(upwardsFlg) {
-            hoverSortNoList = hoverSortNoList.push(dragTaskId);
-         }else {
-            hoverSortNoList = hoverSortNoList.unshift(dragTaskId);
-         }
-
-         //monitor(ドラッグ中のtask)を更新する
-         monitor.getItem().task = dragTask.set('redmineUserId', hoverUserId);
       }
-
-      //Actionにソート結果を投げる
-      hoverProps.chgSortNo(dragTaskId, dragUserId, dragSortNoList, hoverUserId, hoverSortNoList);
+      monitor.getItem().task = dragTask;
    }
 };
 
@@ -80,11 +70,18 @@ function arePropsEqual(nextProps, props){
    return taskDiff && confDiff;
 }
 
+function areDropPropsEqual(nextProps, props){
+
+   const taskDiff = Immutable.is(nextProps.task, props.task);
+   const confDiff = Immutable.is(nextProps.state.get('conf'), props.state.get('conf'));
+   return taskDiff && confDiff;
+}
+
 @DropTarget(TASK_SORT, taskTarget, connect => ({
    connectDropTarget: connect.dropTarget()
 }))
 @DragSource(TASK_SORT, taskSource, (connect, monitor) => {
-   const isDraggingTaskId = monitor.getItem() != null ? monitor.getItem().task.get('_id') : null;
+   const isDraggingTaskId = monitor.getItem() != undefined ? monitor.getItem().task.get('_id') : undefined;
    return {
       connectDragSource: connect.dragSource(),
       isDraggingTaskId: isDraggingTaskId
@@ -92,6 +89,13 @@ function arePropsEqual(nextProps, props){
 },{arePropsEqual})
 
 export default class TaskMemSo extends React.Component {
+
+   shouldComponentUpdate(nextProps) {
+      const taskDiff = Immutable.is(nextProps.task, this.props.task);
+      const confDiff = Immutable.is(nextProps.state.get('conf'), this.props.state.get('conf'));
+      const isDragging = this.props.isDraggingTaskId === nextProps.isDraggingTaskId;
+      return !(taskDiff && isDragging && confDiff);
+   }
 
    render(){
 

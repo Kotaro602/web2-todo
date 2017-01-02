@@ -26,11 +26,8 @@ export default function task(state=List([]), action) {
 
       //順序変更
       case a.CHG_SORT_NO:
-         let tmpState = state;
-         if(action.dragUserId != action.hoverUserId){
-            tmpState = tmpState.setIn([findIndexById(action.dragTaskId), 'redmineUserId'], action.hoverUserId);
-         }
-         return tmpState;
+         state = state.set(findIndexById(action.dragTask.get('_id')), action.dragTask);
+         return state.set(findIndexById(action.hoverTask.get('_id')), action.hoverTask);
 
       default:
          return state;

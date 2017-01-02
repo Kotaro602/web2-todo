@@ -34,7 +34,8 @@ var todoListSchema = new mongoose.Schema({
    estimate: Number,
    priority: {type: Number ,default: 0},
    privateFlg: {type: Boolean ,default: false},
-   sortValue: Number
+   sortValue: Number,
+   redmineFlg: {type: Boolean ,default: false}
 });
 
 // modelへ登録

@@ -7,7 +7,7 @@ export default class TaskMainBox extends Component {
    //オープンしたタスクにフォーカスをあてる
    componentDidUpdate(){
       const taskNameInputDom = document.getElementById('taskNameToFocus');
-      if(taskNameInputDom) taskNameInputDom.select();
+      if(taskNameInputDom) taskNameInputDom.focus();
    }
 
    //タスク一時完了

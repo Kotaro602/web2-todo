@@ -8,14 +8,6 @@ export default function members(state=List([]), action) {
       //タスク一覧取得
       case taskActions.RECIEVE_TASKS:
          return fromJS(action.data.members);
-      
-      //順序変更
-      case taskActions.CHG_SORT_NO:
-         let tmpState = state.setIn([findIndexById(action.dragUserId), 'sortNoList'], action.dragSortNoList);
-         if(action.dragUserId != action.hoverUserId){
-            tmpState = tmpState.setIn([findIndexById(action.hoverUserId), 'sortNoList'], action.hoverSortNoList);
-         }
-         return tmpState;
 
       default:
          return state;

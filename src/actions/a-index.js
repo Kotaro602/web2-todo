@@ -9,8 +9,7 @@ export function recieveTasks(data){return {type: RECIEVE_TASKS, data}};
 export function addTask(task){return {type: ADD_TASK, task}};
 export function updateTask(task){return {type: UPDATE_TASK, task}};
 export function cleanTask(userId){return{type: CLEAN_TASK, userId}};
-export function chgSortNo(dragTaskId, dragUserId, dragSortNoList, hoverUserId, hoverSortNoList) {
-  return {type: CHG_SORT_NO, dragTaskId, dragUserId, dragSortNoList, hoverUserId, hoverSortNoList}};
+export function chgSortNo(dragTask, hoverTask) {return {type: CHG_SORT_NO, dragTask, hoverTask}};
 
 /** メンバー系Action */
 
