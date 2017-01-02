@@ -18,7 +18,7 @@ export function fetchRedmineTaskList(taskListEachMember) {
       {
          const redmineUrl = `https://172.17.14.133:8085/redmine/issues.json?limit=100&key=${member.redmineKey}&assigned_to_id=${member._id}`
          const devRedmineUrl = `/testdata/issues_${member._id}.json`;
-         return fetch(redmineUrl).then(response => response.json());
+         return fetch(redmineUrl, {mode: 'cors'}).then(response => response.json());
       })
    ).then(function(results) {
 
