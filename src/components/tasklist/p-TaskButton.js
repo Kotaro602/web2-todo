@@ -21,6 +21,7 @@ export default class TaskButton extends Component {
          let taskSortVal = task.get('sortValue');
          if(taskSortVal !== undefined && task.get('redmineUserId') == userId && taskSortVal >=  maxSortVal)
             maxSortVal = taskSortVal;
+            maxSortVal++;
       })
       addTaskObject.sortValue = maxSortVal;
 
