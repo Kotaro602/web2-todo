@@ -45,16 +45,33 @@ function* hundleReqAddTask() {
 function* hundleReqCleanTask() {
    while (true) {
       const action = yield take(actCreater.REQ_CLEAN_TASK);
+      yield call(API.cleanTask, action.userId);
+      yield put(actCreater.cleanTask(action.userId));
+   }
+}
+
+function* hundleReqCleanTask() {
+   while (true) {
+      const action = yield take(actCreater.REQ_CLEAN_TASK);
       //ここは後で見直す
       yield call(API.cleanTask, action.userId);
       yield put(actCreater.cleanTask(action.userId));
    }
 }
 
+function* hundleReqChgTaskSort() {
+   while (true) {
+      const action = yield take(actCreater.REQ_CHG_SORT_TASK);
+      API.chgTaskSort(action.dragTask, action.hoverTask);
+   }
+}
+
+/** ルート **/
 export default function* rootSaga() {
    yield fork(hundleReqTasks);
    yield fork(hundleReqRedmineAll);
    yield fork(hundleReqUpdateTask);
    yield fork(hundleReqAddTask);
    yield fork(hundleReqCleanTask);
+   yield fork(hundleReqChgTaskSort);
 }

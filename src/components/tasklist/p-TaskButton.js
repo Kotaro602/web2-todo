@@ -1,6 +1,6 @@
 import React, { Component} from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
-import {createFormatDate} from '../../lib/utils';
+import {createFormatDate, getRandamMath} from '../../lib/utils';
 
 export default class TaskButton extends Component {
 
@@ -20,8 +20,7 @@ export default class TaskButton extends Component {
       tasks.map((task) => {
          let taskSortVal = task.get('sortValue');
          if(taskSortVal !== undefined && task.get('redmineUserId') == userId && taskSortVal >=  maxSortVal)
-            maxSortVal = taskSortVal;
-            maxSortVal++;
+            maxSortVal = taskSortVal + getRandamMath();
       })
       addTaskObject.sortValue = maxSortVal;
 

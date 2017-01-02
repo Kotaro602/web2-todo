@@ -1,4 +1,5 @@
 import { toJS } from 'immutable';
+import {getRandamMath} from '../lib/utils';
 
 export function fetchTaskList() {
 
@@ -13,9 +14,11 @@ export function fetchTaskList() {
 //redux-saga使っているのにPromiseで制御ってどうなんだろう…。
 export function fetchRedmineTaskList(taskListEachMember) {
 
-   return Promise.all(taskListEachMember.members.map(member => {
-      return fetch(`/testdata/issues_${member._id}.json`)
-         .then(response => response.json());
+   return Promise.all(taskListEachMember.members.map(member =>
+      {
+         const redmineUrl = `https://172.17.14.133:8085/redmine/issues.json?limit=100&key=${member.redmineKey}&assigned_to_id=${member._id}`
+         const devRedmineUrl = `/testdata/issues_${member._id}.json`;
+         return fetch(redmineUrl).then(response => response.json());
       })
    ).then(function(results) {
 
@@ -49,7 +52,7 @@ export function fetchRedmineTaskList(taskListEachMember) {
 
             //SortValueが登録されていないならば、新規登録する。
             if(redmineTask.sortValue === undefined) {
-               maxSortVal++;
+               maxSortVal += getRandamMath();
                redmineTask.sortValue = maxSortVal;
             }
             taskListEachMember.tasks.push(redmineTask);
@@ -88,6 +91,16 @@ export function cleanTask(userId) {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({userId: userId})
+   }).then(res => {
+      if(res.status != 200) alert('通信に失敗しました。F5を押して処理をやり直してください。')
+   }).catch(err => err);
+}
+
+export function chgTaskSort(dragTask, hoverTask) {
+   return fetch(`api/changeSortTask`,{
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({dragTask: dragTask, hoverTask: hoverTask})
    }).then(res => {
       if(res.status != 200) alert('通信に失敗しました。F5を押して処理をやり直してください。')
    }).catch(err => err);

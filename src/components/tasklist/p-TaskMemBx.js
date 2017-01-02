@@ -7,6 +7,7 @@ import {TASK_SORT} from './../../const'
 import { StyleSheet, css } from 'aphrodite/no-important';
 import TaskMainBox from './p-TaskMemBxMa'
 import TaskSubBox from './p-TaskMemBxSb'
+import {shouldComponentUpdate} from 'react-addons-pure-render-mixin'
 
 const taskSource = {
    beginDrag: function (props) {
@@ -14,7 +15,7 @@ const taskSource = {
          task: props.task
       };
    },endDrag: function(props, monitor){
-      //props.chgSortNo(props.task, monitor.getItem().task);
+      props.reqChgSortList(props.task, monitor.getItem().task);
    }
 }
 const taskTarget = {
@@ -41,25 +42,23 @@ const taskTarget = {
 
       const upwardsFlg = hoverSortVal < dragSortVal;
 
-      //ソートValが同じだったら、ホバー先を一つ変える。
-
+      //同じ値のSortValが存在した場合、まず間違いなく変な動きするはずだけど一旦無視する。
       if(dragUserId == hoverUserId) {
          //同じ人物のタスクにソートした場合
          if (upwardsFlg && hoverClientY > hoverMiddleY) return;
          if (!upwardsFlg && hoverClientY < hoverMiddleY) return;
 
-         const nextSortVal = upwardsFlg ? hoverSortVal + 1 : hoverSortVal - 1;
          dragTask = dragTask.set('sortValue', hoverSortVal);
          hoverTask = hoverTask.set('sortValue', dragSortVal);
 
-         hoverProps.chgSortNo(dragTask, hoverTask);
       }else{
          //別人物のタスクにソートした場合
+         const nextDragSortVal = upwardsFlg ? hoverSortVal + Math.random() : hoverSortVal - Math.random();
          dragTask = dragTask.set('redmineUserId', hoverUserId);
-         dragTask = dragTask.set('sortValue', hoverSortVal - 1);
-
+         dragTask = dragTask.set('sortValue', nextDragSortVal);
       }
       monitor.getItem().task = dragTask;
+      hoverProps.chgSortNo(dragTask, hoverTask);
    }
 };
 
@@ -90,12 +89,7 @@ function areDropPropsEqual(nextProps, props){
 
 export default class TaskMemSo extends React.Component {
 
-   shouldComponentUpdate(nextProps) {
-      const taskDiff = Immutable.is(nextProps.task, this.props.task);
-      const confDiff = Immutable.is(nextProps.state.get('conf'), this.props.state.get('conf'));
-      const isDragging = this.props.isDraggingTaskId === nextProps.isDraggingTaskId;
-      return !(taskDiff && isDragging && confDiff);
-   }
+   shouldComponentUpdate = shouldComponentUpdate;
 
    render(){
 
@@ -115,9 +109,7 @@ export default class TaskMemSo extends React.Component {
          connectDragSource(connectDropTarget(
             <li id={task.get('_id')} className={taskBoxClass}>
                <TaskMainBox  {...this.props}/>
-               <TogglePattern isTaskOpen={openTaskId == task.get('_id')}>
-                  <TaskSubBox {...this.props} isTaskOpen={true}/>
-               </TogglePattern>
+               {openTaskId == task.get('_id') ? <TaskSubBox {...this.props} isTaskOpen={true}/> :''}
             </li>
          ))
       );

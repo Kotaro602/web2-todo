@@ -1,13 +1,21 @@
 import React, {Component} from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import {substr} from '../../lib/utils';
+import Immutable from 'immutable';
+import {shouldComponentUpdate} from 'react-addons-pure-render-mixin'
 
 export default class TaskMainBox extends Component {
 
+   shouldComponentUpdate = shouldComponentUpdate;
+
    //オープンしたタスクにフォーカスをあてる
-   componentDidUpdate(){
+   componentDidUpdate(prevProps){
+      //最初にタスクがオープンした時のみフォーカスをあてる
+      const prevOpenTaskId = prevProps.state.get('conf').get('openTaskId');
+      const nowOpenTaskId = this.props.state.get('conf').get('openTaskId');
       const taskNameInputDom = document.getElementById('taskNameToFocus');
-      if(taskNameInputDom) taskNameInputDom.focus();
+
+      if(taskNameInputDom && prevOpenTaskId != nowOpenTaskId) taskNameInputDom.focus();
    }
 
    //タスク一時完了
@@ -19,7 +27,7 @@ export default class TaskMainBox extends Component {
 
    //タスク名称変更
    chgTaskName() {
-      const {task, reqUpdateTask} = this.props;
+      const {state, task, reqUpdateTask} = this.props;
       const taskNameVal = this.refs.taskName.value;
 
       if(task.get('taskName') == taskNameVal) return;

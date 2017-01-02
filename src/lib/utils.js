@@ -44,3 +44,7 @@ export function substr(text, lenPoint, truncation) {
     }
     return text;
 }
+
+export function getRandamMath(){
+   return Math.random()　+ 1
+}

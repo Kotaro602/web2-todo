@@ -30,7 +30,7 @@ exports.registerTask = function(req, res){
    console.log(task);
 
    //タスク追加処理
-   TodoList.update({_id: task._id}, task, {upsert: false}, function(err){
+   TodoList.update({_id: task._id}, task, {upsert: true}, function(err){
       if (err) console.log({'error': 'An error has occurred - ' + err});
    });
    res.end();
@@ -72,18 +72,18 @@ exports.cleanTask = function(req, res){
 /**
  * ソート順更新用のメソッド
  **/
-exports.taskSortRegister = function(req, res){
+exports.changeSortTask = function(req, res){
 
-  //ソート順 登録・更新処理
-  MemberList.update({_id: req.body.redmineUserId},
-                  {$set: {taskSortArray: req.body.taskSortArray}},
-                  {upsert: true},
-                  function(err, result){
-    if (err) {
-        console.log({'error': 'An error has occurred - ' + err});
-    } else {
-        console.log('Success: ' + result + ' document(s) insert/update');
-    }
-  });
-  res.end();
+   //ソート順更新処理
+   var dragTask = req.body.dragTask;
+   var hoverTask = req.body.hoverTask;
+
+   TodoList.update({_id: dragTask._id}, dragTask, {upsert: true}, function(err, result){
+      if (err) console.log({'error': 'An error has occurred - ' + err});
+   });
+   TodoList.update({_id: hoverTask._id}, hoverTask, {upsert: true}, function(err, result){
+      if (err) console.log({'error': 'An error has occurred - ' + err});
+   });
+
+   res.end();
 };
