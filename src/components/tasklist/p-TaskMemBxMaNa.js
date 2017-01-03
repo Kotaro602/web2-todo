@@ -15,7 +15,7 @@ export default class TaskMainBox extends Component {
       const nowOpenTaskId = this.props.state.get('conf').get('openTaskId');
       const taskNameInputDom = document.getElementById('taskNameToFocus');
 
-      if(taskNameInputDom && prevOpenTaskId != nowOpenTaskId) taskNameInputDom.focus();
+      if(taskNameInputDom && prevOpenTaskId != nowOpenTaskId) taskNameInputDom.select();
    }
 
    componentWillReceiveProps(nextProps){
@@ -95,8 +95,7 @@ export default class TaskMainBox extends Component {
       }else if(!redmineFlg && !openFlg){
          //ノーマルタスク 非オープン
          taskNameDOM = <input type="text" className={css(styles.nameInput, styles.redmineTaskName)}
-                              defaultValue={task.get('taskName')}
-                              ref='taskName'  readOnly/>
+                              defaultValue={task.get('taskName')} ref='taskName' readOnly/>
 
       }else{
          //ノーマルタスク オープン
