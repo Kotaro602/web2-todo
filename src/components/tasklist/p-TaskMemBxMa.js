@@ -14,6 +14,16 @@ export default class TaskMainBox extends React.Component {
       return !(taskDiff && confDiff);
    }
 
+   componentWillReceiveProps(nextProps){
+      if(nextProps.task.get('estimate') !== this.props.task.get('estimate')){
+         if(nextProps.task.get('estimate') === undefined) {
+            this.refs.estimate.value = "";
+         }else{
+            this.refs.estimate.value = nextProps.task.get('estimate');
+         }
+      }
+   }
+
    /** ActionCreater呼び出し **/
    chgDueDate(date){
       const {task, reqUpdateTask} = this.props;
@@ -24,7 +34,7 @@ export default class TaskMainBox extends React.Component {
 
    chgEstimateHour(){
       const {task, reqUpdateTask} = this.props;
-      const estimateHour = this.refs.estimateHour.value;
+      const estimateHour = this.refs.estimate.value;
 
       if((estimateHour == '') || task.get('estimate') == estimateHour) return;
       reqUpdateTask(task.set('estimate', estimateHour));
@@ -58,8 +68,8 @@ export default class TaskMainBox extends React.Component {
                       step="0.5" min="0"
                       className={css(styles.estimateInput)}
                       placeholder="-"
-                      ref='estimateHour'
-                      defaultValue={task.get('estimateHour')}
+                      ref='estimate'
+                      defaultValue={task.get('estimate')}
                       onChange={::this.chgEstimateHour}/>
                <datalist id="estimateDateInput">
                   <option value="0.5"></option>

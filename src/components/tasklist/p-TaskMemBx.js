@@ -35,7 +35,7 @@ const taskTarget = {
       const clientOffset = monitor.getClientOffset();
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
-      const dragSortVal = dragTask.get('sortValue');
+      let dragSortVal = dragTask.get('sortValue');
       const hoverSortVal = hoverTask.get('sortValue');
       const dragUserId = dragTask.get('redmineUserId');
       const hoverUserId = hoverTask.get('redmineUserId');
@@ -43,6 +43,8 @@ const taskTarget = {
       const upwardsFlg = hoverSortVal < dragSortVal;
 
       //同じ値のSortValが存在した場合、まず間違いなく変な動きするはずだけど一旦無視する。
+      if(dragSortVal == hoverSortVal) dragSortVal =  hoverSortVal - Math.random();
+
       if(dragUserId == hoverUserId) {
          //同じ人物のタスクにソートした場合
          if (upwardsFlg && hoverClientY > hoverMiddleY) return;
@@ -56,7 +58,8 @@ const taskTarget = {
          const nextDragSortVal = upwardsFlg ? hoverSortVal - Math.random() : hoverSortVal + Math.random();
          dragTask = dragTask.set('redmineUserId', hoverUserId);
          dragTask = dragTask.set('sortValue', nextDragSortVal);
-
+         console.log('dragTaskVal:'+ nextDragSortVal);
+         console.log('hoverTaskVal:'+ hoverSortVal);
       }
       monitor.getItem().task = dragTask;
       hoverProps.chgSortNo(dragTask, hoverTask);
@@ -108,7 +111,7 @@ export default class TaskMemSo extends React.Component {
       /** レンダリング **/
       return(
          connectDragSource(connectDropTarget(
-            <li id={task.get('_id')} className={taskBoxClass}>
+            <li id={task.get('_id')} className={taskBoxClass} data-test={task.get('sortValue')}>
                <TaskMainBox  {...this.props}/>
                {openTaskId == task.get('_id') ? <TaskSubBox {...this.props} isTaskOpen={true}/> :''}
             </li>

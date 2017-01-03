@@ -15,7 +15,13 @@ export default class TaskMainBox extends Component {
       const nowOpenTaskId = this.props.state.get('conf').get('openTaskId');
       const taskNameInputDom = document.getElementById('taskNameToFocus');
 
-      if(taskNameInputDom && prevOpenTaskId != nowOpenTaskId) taskNameInputDom.select();
+      if(taskNameInputDom && prevOpenTaskId != nowOpenTaskId) taskNameInputDom.focus();
+   }
+
+   componentWillReceiveProps(nextProps){
+      if(nextProps.task.get('taskName') !== this.props.task.get('taskName')){
+         this.refs.taskName.value = nextProps.task.get('taskName');
+      }
    }
 
    //タスク一時完了
@@ -27,7 +33,7 @@ export default class TaskMainBox extends Component {
 
    //タスク名称変更
    chgTaskName() {
-      const {state, task, reqUpdateTask} = this.props;
+      const {task, reqUpdateTask} = this.props;
       const taskNameVal = this.refs.taskName.value;
 
       if(task.get('taskName') == taskNameVal) return;
@@ -56,6 +62,7 @@ export default class TaskMainBox extends Component {
    }
 
    render(){
+
       /** prop取得 **/
       const {state, task} = this.props;
 
@@ -77,23 +84,25 @@ export default class TaskMainBox extends Component {
       if(redmineFlg && !openFlg){
          //REDMINEタスク 非オープン
          taskNameDOM = <input type="text" className={css(styles.nameInput, styles.redmineTaskName)}
-                              defaultValue={task.get('sortValue')} onClick={::this.openTask} readOnly/>
+                              defaultValue={task.get('taskName')} ref='taskName'
+                              onClick={::this.openTask} readOnly/>
 
       }else if(redmineFlg && openFlg){
          //REDMINEタスク オープン
          taskNameDOM = <input type="text" className={css(styles.nameInput, styles.redmineTaskName)}
-                              defaultValue={task.get('sortValue')} readOnly/>
+                              ref='taskName' defaultValue={task.get('taskName')}  readOnly/>
 
       }else if(!redmineFlg && !openFlg){
          //ノーマルタスク 非オープン
          taskNameDOM = <input type="text" className={css(styles.nameInput, styles.redmineTaskName)}
-                              defaultValue={task.get('sortValue')} onClick={::this.openTask} />
+                              defaultValue={task.get('taskName')}
+                              ref='taskName'  readOnly/>
 
       }else{
          //ノーマルタスク オープン
          taskNameDOM = <input type="text" className={css(styles.nameInput)}
-                              defaultValue={task.get('sortValue')} ref='taskName'
-                              id="taskNameToFocus" onBlur={::this.chgTaskName}/>
+                              defaultValue={task.get('taskName')}
+                              ref='taskName' id="taskNameToFocus" onBlur={::this.chgTaskName}/>
       }
 
       /** レンダリング **/
@@ -103,7 +112,7 @@ export default class TaskMainBox extends Component {
                <input type="checkbox" className={css(styles.taskCompCheckBox)}/>
                {chkBoxDOM}
             </div>
-            <div className={css(styles.taskNameBox)}>
+            <div className={css(styles.taskNameBox)} onClick={::this.openTask}>
                {taskNameDOM}
             </div>
          </div>

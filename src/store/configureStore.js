@@ -14,8 +14,6 @@ export default function configureStore() {
 
    const sagaMiddleware = createSagaMiddleware();
 
-   console.log(process.env.NODE_ENV);
-
    let store;
    if (process.env.NODE_ENV === `production`) {
        store = createStore(

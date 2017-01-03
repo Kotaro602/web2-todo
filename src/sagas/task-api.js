@@ -58,6 +58,7 @@ export function fetchRedmineTaskList(taskListEachMember) {
                maxSortVal += getRandamMath();
                redmineTask.sortValue = maxSortVal;
             }
+
             taskListEachMember.tasks.push(redmineTask);
          })
       })
