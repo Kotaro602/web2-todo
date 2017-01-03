@@ -4,6 +4,7 @@ import { put, call, take, fork } from "redux-saga/effects";
 import * as actCreater from "../actions/a-index";
 import * as API from "./task-api.js";
 
+/** 通常タスク取得 */
 function* hundleReqTasks() {
    while (true) {
       yield take(actCreater.REQ_TASKS);
@@ -12,6 +13,7 @@ function* hundleReqTasks() {
    }
 }
 
+/** Redmineタスク取得 */
 function* hundleReqRedmineAll() {
    while (true) {
       const action = yield take(actCreater.REQ_REDMINE_ALL);
@@ -20,28 +22,26 @@ function* hundleReqRedmineAll() {
    }
 }
 
-/**
- * yield call(API.updateTask, action.task);
- * どうせサーバサイドでエラーハンドリングなんてしてないんだし、逆に非同期にしてみました。
- * エラー出たらPromiseの中でアラートだします。
- */
 function* ReqUpdateTask(action){
-   API.updateTask(action.task);
+   API.updateTask(action.task); //非同期
    yield put(actCreater.updateTask(action.task));
 }
 
+/** タスク変更 */
 function* hundleReqUpdateTask() {
    yield takeEvery(actCreater.REQ_UPDATE_TASK, ReqUpdateTask);
 }
 
+/** タスク追加 */
 function* hundleReqAddTask() {
    while (true) {
       const action = yield take(actCreater.REQ_ADD_TASK);
-      API.addTask(action.task);
+      API.addTask(action.task);　//非同期
       yield put(actCreater.addTask(action.task));
    }
 }
 
+/** タスククリーニング */
 function* hundleReqCleanTask() {
    while (true) {
       const action = yield take(actCreater.REQ_CLEAN_TASK);
@@ -50,19 +50,11 @@ function* hundleReqCleanTask() {
    }
 }
 
-function* hundleReqCleanTask() {
-   while (true) {
-      const action = yield take(actCreater.REQ_CLEAN_TASK);
-      //ここは後で見直す
-      yield call(API.cleanTask, action.userId);
-      yield put(actCreater.cleanTask(action.userId));
-   }
-}
-
+/** ソート順更新 */
 function* hundleReqChgTaskSort() {
    while (true) {
       const action = yield take(actCreater.REQ_CHG_SORT_TASK);
-      API.chgTaskSort(action.dragTask, action.hoverTask);
+      API.chgTaskSort(action.dragTask, action.hoverTask);//非同期
    }
 }
 

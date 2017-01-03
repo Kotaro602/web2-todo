@@ -13,14 +13,23 @@ export default function configureStore() {
    })
 
    const sagaMiddleware = createSagaMiddleware();
-   const store = createStore(
-      rootReducer,
-      Immutable.fromJS({}),
-      applyMiddleware(
-         sagaMiddleware, logger
-      )
-   );
 
+   console.log(process.env.NODE_ENV);
+
+   let store;
+   if (process.env.NODE_ENV === `production`) {
+       store = createStore(
+         rootReducer,
+         Immutable.fromJS({}),
+         applyMiddleware(sagaMiddleware)
+      )
+   }else{
+      store = createStore(
+         rootReducer,
+         Immutable.fromJS({}),
+         applyMiddleware(sagaMiddleware, logger)
+      );
+   }
    sagaMiddleware.run(rootSaga);
 
    return store;

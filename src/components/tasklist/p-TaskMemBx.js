@@ -50,12 +50,13 @@ const taskTarget = {
 
          dragTask = dragTask.set('sortValue', hoverSortVal);
          hoverTask = hoverTask.set('sortValue', dragSortVal);
-
       }else{
          //別人物のタスクにソートした場合
-         const nextDragSortVal = upwardsFlg ? hoverSortVal + Math.random() : hoverSortVal - Math.random();
+         console.log('別人物になったよ')
+         const nextDragSortVal = upwardsFlg ? hoverSortVal - Math.random() : hoverSortVal + Math.random();
          dragTask = dragTask.set('redmineUserId', hoverUserId);
          dragTask = dragTask.set('sortValue', nextDragSortVal);
+
       }
       monitor.getItem().task = dragTask;
       hoverProps.chgSortNo(dragTask, hoverTask);

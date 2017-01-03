@@ -45,7 +45,7 @@ export default class Task extends Component {
 
       //タスクリスト定期的に取得する
       this.props.reqTasks();
-      setInterval(this.props.reqTasks, 1000000);
+      setInterval(this.props.reqTasks, 500000);
    }
 
    render() {

@@ -15,7 +15,7 @@ export default class TaskMainBox extends Component {
       const nowOpenTaskId = this.props.state.get('conf').get('openTaskId');
       const taskNameInputDom = document.getElementById('taskNameToFocus');
 
-      if(taskNameInputDom && prevOpenTaskId != nowOpenTaskId) taskNameInputDom.focus();
+      if(taskNameInputDom && prevOpenTaskId != nowOpenTaskId) taskNameInputDom.select();
    }
 
    //タスク一時完了
@@ -60,35 +60,41 @@ export default class TaskMainBox extends Component {
       const {state, task} = this.props;
 
       /** レンダリング前処理 **/
-      const normalChkBoxDOM = task.get('tempDelFlg') ?
-         <span className={css(styles.taskCompBoxChecked)} onClick={::this.chgTempCompFlg}>&#x2713;</span>
-         :<span className={css(styles.taskCompBox)} onClick={::this.chgTempCompFlg}></span>;
+      //チェックボックスアイコン
+      let chkBoxDOM;
+      if(task.get('redmineFlg')){
+         chkBoxDOM = <span className={css(styles.redmineIcon)} onClick={::this.openRedmineModal}>R</span>;
+      }else if(task.get('tempDelFlg')){
+         chkBoxDOM = <span className={css(styles.taskCompBoxChecked)} onClick={::this.chgTempCompFlg}>&#x2713;</span>;
+      }else{
+         chkBoxDOM = <span className={css(styles.taskCompBox)} onClick={::this.chgTempCompFlg}></span>;
+      }
 
-      //完了ボタン作成
-      const chkBoxDOM = task.get('redmineFlg') ?
-         <span className={css(styles.redmineIcon)} onClick={::this.openRedmineModal}>R</span> :
-         normalChkBoxDOM;
+      const redmineFlg = task.get('redmineFlg');
+      const openFlg = task.get('_id') == state.get('conf').get('openTaskId');
 
-      //完了済み処理
-      const taskNameStyle = css(
-         styles.taskName,
-         task.get('tempDelFlg') && styles.taskNameChecked,
-         (state.get('conf').get('openTaskId') && task.get('redmineFlg')) && styles.redmineTaskName);
+      let taskNameDOM;
+      if(redmineFlg && !openFlg){
+         //REDMINEタスク 非オープン
+         taskNameDOM = <input type="text" className={css(styles.nameInput, styles.redmineTaskName)}
+                              defaultValue={task.get('sortValue')} onClick={::this.openTask} readOnly/>
 
-      const cutTaskName = substr(task.get('taskName'), 82, '…');
+      }else if(redmineFlg && openFlg){
+         //REDMINEタスク オープン
+         taskNameDOM = <input type="text" className={css(styles.nameInput, styles.redmineTaskName)}
+                              defaultValue={task.get('sortValue')} readOnly/>
 
-      //タスクオープン処理
-      const taskNameDOM = task.get('_id') == state.get('conf').get('openTaskId') && !task.get('redmineFlg') ?
-         <input type="text"
-                className={css(styles.nameInput)}
-                defaultValue={task.get('taskName')}
-                ref='taskName'
-                id="taskNameToFocus"
-                onBlur={::this.chgTaskName}
-         /> :
-         <span className={taskNameStyle} data-closeId={task.get('_id')} onClick={::this.openTask}>
-            {cutTaskName}
-         </span>
+      }else if(!redmineFlg && !openFlg){
+         //ノーマルタスク 非オープン
+         taskNameDOM = <input type="text" className={css(styles.nameInput, styles.redmineTaskName)}
+                              defaultValue={task.get('sortValue')} onClick={::this.openTask} />
+
+      }else{
+         //ノーマルタスク オープン
+         taskNameDOM = <input type="text" className={css(styles.nameInput)}
+                              defaultValue={task.get('sortValue')} ref='taskName'
+                              id="taskNameToFocus" onBlur={::this.chgTaskName}/>
+      }
 
       /** レンダリング **/
       return(
@@ -170,7 +176,7 @@ const styles = StyleSheet.create({
       whiteSpace: 'nowrap'
    },
    redmineTaskName:{
-      cursor: 'default'
+      cursor: 'pointer'
    },
    taskNameChecked:{
       opacity: '0.5',

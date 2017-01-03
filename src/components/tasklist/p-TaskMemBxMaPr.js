@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
+import {shouldComponentUpdate} from 'react-addons-pure-render-mixin'
 
 export default class TaskMemBxMaPr extends Component {
+
+   shouldComponentUpdate = shouldComponentUpdate;
 
    chgPriority() {
       const {task, reqUpdateTask} = this.props;

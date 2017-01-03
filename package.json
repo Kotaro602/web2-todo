@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "start": "npm install && npm run webpack && node app.js",
-    "build": "webpack-dev-server --hot --inline",
+    "hot": "webpack-dev-server --hot --inline",
     "webpack": "webpack",
-    "webpackDispError": "webpack --display-error-details"
+    "webpackDispError": "webpack --display-error-details",
+    "mongod": "mongod --dbpath=data --nojournal"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
