@@ -1,4 +1,5 @@
 import React from 'react';
+import TaskMemBxMaIc from './p-TaskMemBxMaIc';
 import TaskName from './p-TaskMemBxMaNa';
 import TaskMemBxMaPr from './p-TaskMemBxMaPr';
 import { StyleSheet, css } from 'aphrodite/no-important';
@@ -51,6 +52,7 @@ export default class TaskMainBox extends React.Component {
       /** レンダリング **/
       return(
          <div className={css(styles.taskNameBox)}>
+            <TaskMemBxMaIc {...this.props} task={task}/>
             <TaskName {...this.props} task={task}/>
             <div className={css(styles.dueDateBox)}>
                <DatePicker

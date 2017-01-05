@@ -6,7 +6,13 @@ import {shouldComponentUpdate} from 'react-addons-pure-render-mixin'
 
 export default class TaskMainBox extends Component {
 
-   shouldComponentUpdate = shouldComponentUpdate;
+   // shouldComponentUpdate(nextProps) {
+   //    const {state, task} = this.props;
+   //
+   //    const taskSameFlg = Immutable.is(nextProps.task, task);
+   //    console.log(taskSameFlg);
+   //    return false;
+   // }
 
    //オープンしたタスクにフォーカスをあてる
    componentDidUpdate(prevProps){
@@ -15,20 +21,13 @@ export default class TaskMainBox extends Component {
       const nowOpenTaskId = this.props.state.get('conf').get('openTaskId');
       const taskNameInputDom = document.getElementById('taskNameToFocus');
 
-      if(taskNameInputDom && prevOpenTaskId != nowOpenTaskId) taskNameInputDom.select();
+      if(taskNameInputDom && prevOpenTaskId != nowOpenTaskId) taskNameInputDom.focus();
    }
 
    componentWillReceiveProps(nextProps){
       if(nextProps.task.get('taskName') !== this.props.task.get('taskName')){
          this.refs.taskName.value = nextProps.task.get('taskName');
       }
-   }
-
-   //タスク一時完了
-   chgTempCompFlg() {
-      const {task, reqUpdateTask} = this.props;
-      const nextTempDelFlg = !task.get('tempDelFlg');
-      reqUpdateTask(task.set('tempDelFlg', nextTempDelFlg));
    }
 
    //タスク名称変更
@@ -39,16 +38,6 @@ export default class TaskMainBox extends Component {
       if(task.get('taskName') == taskNameVal) return;
       const nextTaskName = taskNameVal != '' ? taskNameVal: '<タスク名を入力してください>';
       reqUpdateTask(task.set('taskName', nextTaskName));
-   }
-
-   //Redmineモーダルを開く
-   openRedmineModal() {
-      const {state, task, openRedmineModal} = this.props;
-      const preOpenId = state.get('conf').get('openRedmineId');
-
-      //既に開いているボタンならば閉じる
-      const nextOpenId = preOpenId == task.get('_id') ? undefined : task.get('_id');
-      openRedmineModal(nextOpenId);
    }
 
    //タスクを開く
@@ -63,39 +52,30 @@ export default class TaskMainBox extends Component {
 
    render(){
 
+      //console.log('test');
       /** prop取得 **/
       const {state, task} = this.props;
 
       /** レンダリング前処理 **/
-      //チェックボックスアイコン
-      let chkBoxDOM;
-      if(task.get('redmineFlg')){
-         chkBoxDOM = <span className={css(styles.redmineIcon)} onClick={::this.openRedmineModal}>R</span>;
-      }else if(task.get('tempDelFlg')){
-         chkBoxDOM = <span className={css(styles.taskCompBoxChecked)} onClick={::this.chgTempCompFlg}>&#x2713;</span>;
-      }else{
-         chkBoxDOM = <span className={css(styles.taskCompBox)} onClick={::this.chgTempCompFlg}></span>;
-      }
-
       const redmineFlg = task.get('redmineFlg');
       const openFlg = task.get('_id') == state.get('conf').get('openTaskId');
 
       let taskNameDOM;
       if(redmineFlg && !openFlg){
          //REDMINEタスク 非オープン
-         taskNameDOM = <input type="text" className={css(styles.nameInput, styles.redmineTaskName)}
+         taskNameDOM = <input type="text" className={css(styles.nameInput, styles.pointer)}
                               defaultValue={task.get('taskName')} ref='taskName'
-                              onClick={::this.openTask} readOnly/>
+                               readOnly/>
 
       }else if(redmineFlg && openFlg){
          //REDMINEタスク オープン
-         taskNameDOM = <input type="text" className={css(styles.nameInput, styles.redmineTaskName)}
+         taskNameDOM = <input type="text" className={css(styles.nameInput, styles.pointer)}
                               ref='taskName' defaultValue={task.get('taskName')}  readOnly/>
 
       }else if(!redmineFlg && !openFlg){
          //ノーマルタスク 非オープン
-         taskNameDOM = <input type="text" className={css(styles.nameInput, styles.redmineTaskName)}
-                              defaultValue={task.get('taskName')} ref='taskName' readOnly/>
+         taskNameDOM = <span className={css(styles.nameSpan, styles.pointer)}
+                             data-closeId={task.get('_id')}>{task.get('taskName')}</span>
 
       }else{
          //ノーマルタスク オープン
@@ -106,75 +86,17 @@ export default class TaskMainBox extends Component {
 
       /** レンダリング **/
       return(
-         <div className={css(styles.nameBox)}>
-            <div className={css(styles.taskCheckBox)}>
-               <input type="checkbox" className={css(styles.taskCompCheckBox)}/>
-               {chkBoxDOM}
-            </div>
-            <div className={css(styles.taskNameBox)} onClick={::this.openTask}>
-               {taskNameDOM}
-            </div>
+         <div className={css(styles.taskNameBox)} onClick={::this.openTask}>
+            {taskNameDOM}
          </div>
       );
     }
 }
 
 const styles = StyleSheet.create({
-   nameBox: {
-      display: 'inline-block',
-      width: '74%'
-   },
-   taskCheckBox:{
-      float: 'left'
-   },
-   redmineIcon: {
-      width: '16px',
-      height: '16px',
-      marginRight: '2px',
-      marginLeft: '4px',
-      display: 'inline-block',
-      backgroundColor: '#d80a1f',
-      borderRadius: '3px',
-      cursor: 'pointer',
-      verticalAlign: 'middle',
-      textAlign: 'center',
-      color: '#fafafa',
-      fontSize: '14px'
-   },
-   taskCompCheckBox: {
-      display: 'none'
-   },
-   taskCompBox: {
-      width: '11.5px',
-      height: '11.5px',
-      marginRight: '4px',
-      marginLeft: '4px',
-      display: 'inline-block',
-      backgroundColor: '#fff',
-      borderRadius: '3px',
-      border: 'solid 2px #3baae3',
-      cursor: 'pointer',
-      verticalAlign: 'middle'
-   },
-   taskCompBoxChecked: {
-      width: '11.5px',
-      height: '11.5px',
-      marginRight: '4px',
-      marginLeft: '4px',
-      display: 'inline-block',
-      backgroundColor: '#fff',
-      borderRadius: '3px',
-      border: 'solid 2px #3baae3',
-      cursor: 'pointer',
-      verticalAlign: 'middle',
-      fontSize: '12px',
-      fontWeight: 'bold',
-      color: '#3baae3',
-      opacity: '0.5'
-   },
    taskNameBox:{
-      width:' 100%',
-      marginLeft: '28px'
+      display: 'inline-block',
+      width: '70%'
    },
    taskName:{
       cursor: 'pointer',
@@ -183,7 +105,7 @@ const styles = StyleSheet.create({
       height: '100%',
       whiteSpace: 'nowrap'
    },
-   redmineTaskName:{
+   pointer:{
       cursor: 'pointer'
    },
    taskNameChecked:{
@@ -196,5 +118,13 @@ const styles = StyleSheet.create({
       height: '100%',
       outline: '0',
       border: '0px'
+   },
+   nameSpan:{
+      display: 'inline-block',
+      width: '90%',
+      height: '100%',
+      outline: '0',
+      border: '0px',
+      marginTop: 3
    }
 });

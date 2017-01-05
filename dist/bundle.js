@@ -54998,7 +54998,7 @@
 	         ) : normalChkBoxDOM;
 
 	         //完了済み処理
-	         var taskNameStyle = (0, _noImportant.css)(styles.taskName, task.get('tempDelFlg') && styles.taskNameChecked, state.get('conf').get('openTaskId') && task.get('redmineFlg') && styles.redmineTaskName);
+	         var taskNameStyle = (0, _noImportant.css)(styles.taskName, task.get('tempDelFlg') && styles.taskNameChecked, state.get('conf').get('openTaskId') && task.get('redmineFlg') && styles.pointer);
 
 	         var cutTaskName = (0, _utils.substr)(task.get('taskName'), 82, '…');
 
@@ -55104,7 +55104,7 @@
 	      height: '100%',
 	      whiteSpace: 'nowrap'
 	   },
-	   redmineTaskName: {
+	   pointer: {
 	      cursor: 'default'
 	   },
 	   taskNameChecked: {
