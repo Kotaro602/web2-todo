@@ -54785,7 +54785,7 @@
 	         /** レンダリング **/
 	         return _react2.default.createElement(
 	            'div',
-	            { className: (0, _noImportant.css)(styles.taskNameBox) },
+	            { className: (0, _noImportant.css)(styles.taskMainBox) },
 	            _react2.default.createElement(_pTaskMemBxMaNa2.default, _extends({}, this.props, { task: task })),
 	            _react2.default.createElement(
 	               'div',
@@ -54839,7 +54839,7 @@
 
 
 	var styles = _noImportant.StyleSheet.create({
-	   taskNameBox: {
+	   taskMainBox: {
 	      height: '21px'
 	   },
 	   dueDateBox: {
@@ -55027,7 +55027,7 @@
 	            ),
 	            _react2.default.createElement(
 	               'div',
-	               { className: (0, _noImportant.css)(styles.taskNameBox) },
+	               { className: (0, _noImportant.css)(styles.taskMainBox) },
 	               taskNameDOM
 	            )
 	         );
@@ -55093,7 +55093,7 @@
 	      color: '#3baae3',
 	      opacity: '0.5'
 	   },
-	   taskNameBox: {
+	   taskMainBox: {
 	      width: ' 100%',
 	      marginLeft: '28px'
 	   },
@@ -72932,7 +72932,7 @@
 	   }
 
 	   _createClass(TaskButton, [{
-	      key: 'actOpenTask',
+	      key: 'addTask',
 
 
 	      /** ActionCreater呼び出し **/
@@ -72971,7 +72971,7 @@
 	            { className: (0, _noImportant.css)(styles.taskFooterBox) },
 	            _react2.default.createElement(
 	               'button',
-	               { onClick: this.actOpenTask.bind(this),
+	               { onClick: this.addTask.bind(this),
 	                  'data-id': member.get('_id'),
 	                  className: (0, _noImportant.css)(styles.buttonCommon, styles.addTaskButton) },
 	               '\uFF0B ADD'

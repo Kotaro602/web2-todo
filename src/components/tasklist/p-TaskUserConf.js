@@ -9,8 +9,6 @@ export default class TaskUser extends Component {
        /** prop取得 **/
        const {member} = this.props;
 
-
-
        /** レンダリング **/
        return (
           <div className={css(styles.userNameBox)}>

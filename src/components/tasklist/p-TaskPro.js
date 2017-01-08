@@ -21,27 +21,13 @@ export default class TaskUser extends Component {
       }
    }
 
-// const modalStyle = {
-//    container : {
-//       width: 770,
-//       border: '1px solid rgba(3, 169, 244, 0.3)',
-//       borderRadius: 10,
-//       backgroundColor: 'rgb(226, 226, 226)',
-//       position :'absolute',
-//       zIndex : '100'
-//    }
-// }
-
 const styles = StyleSheet.create({
    projectTitleBox: {
-      padding: '5px 0px',
-      marginTop: 10,
-      width: 815,
-      position: 'fixed',
-      top: 0,
-      backgroundColor: 'white',
-      zIndex: 10,
-      borderBottom: '1px solid rgba(170, 170, 170, 0.7)'
+      paddingLeft: 10,
+      paddingTop: 10,
+      width: '100%',
+      height: 35,
+      borderBottom: '1px solid rgba(170, 170, 170, 0.5)',
    },
    titleLink: {
       cursor :'pointer',

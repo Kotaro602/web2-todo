@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import { StyleSheet, css } from 'aphrodite/no-important';
+import Textarea from 'react-textarea-autosize';
 import TaskMemBxSbSi from './p-TaskMemBxSbSi'
 
 export default class TaskSubBox extends Component {
@@ -24,12 +25,13 @@ export default class TaskSubBox extends Component {
                <img src="/images/memo-icon.png" className={css(styles.memoIcon)}/>
             </div>
             <div className={css(styles.memoTextBox)}>
-               <textarea className={css(styles.memoText)}
-                         defaultValue={task.get('taskMemo')}
-                         ref='taskMemo'
-                         rows="4" cols="10"
-                         placeholder="Notes"
-                         onBlur={::this.chgTaskMemo}/>
+               <Textarea
+                  className={css(styles.memoText)}
+                  defaultValue={task.get('taskMemo')}
+                  ref='taskMemo'
+                  minRows={4}
+                  placeholder="Notes"
+                  onBlur={::this.chgTaskMemo}/>
             </div>
             <TaskMemBxSbSi {...this.props} task={task}/>
          </div>
@@ -52,8 +54,9 @@ const styles = StyleSheet.create({
    memoTextBox: {
       display: 'inline-block',
       verticalAlign: 'middle',
-      width: 630,
-      marginLeft: 10
+      width: 580,
+      marginLeft: 10,
+      marginBottom: 10
    },
    memoText: {
       width: '100%',

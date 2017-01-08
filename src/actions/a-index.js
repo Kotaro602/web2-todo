@@ -16,10 +16,14 @@ export function chgSortNo(dragTask, hoverTask) {return {type: CHG_SORT_NO, dragT
 /** プロジェクト系Action */
 
 /** 画面操作系Action */
+export const SELECT_TASK = 'SELECT_TASK';
 export const OPEN_TASK = 'OPEN_TASK';
 export const OPEN_REDMINE_MODAL = 'OPEN_REDMINE_MODAL';
+export const ADD_LINE_MODAL = 'ADD_LINE_MODAL';
+export function selectTask(taskId){return {type: SELECT_TASK, taskId}};
 export function openTask(taskId){return {type: OPEN_TASK, taskId}};
 export function openRedmineModal(taskId){return {type: OPEN_REDMINE_MODAL, taskId}};
+export function addLineModal(userId){return {type: ADD_LINE_MODAL, userId}};
 
 /** Redux-Saga系 */
 export const REQ_TASKS = 'REQ_TASKS';

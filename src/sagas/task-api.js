@@ -1,5 +1,6 @@
-import { toJS } from 'immutable';
+import {List, toJS} from 'immutable';
 import {getRandamMath} from '../lib/utils';
+import {Task, createTaskListFromObj} from '../model/m-Task';
 
 export function fetchTaskList() {
 
@@ -14,16 +15,14 @@ export function fetchTaskList() {
 //redux-saga使っているのにPromiseで制御ってどうなんだろう…。
 export function fetchRedmineTaskList(taskListEachMember) {
 
-   return Promise.all(taskListEachMember.members.map(member =>
-      {
-         //RedmineURLを取得
-         const redmineUrl = process.env.NODE_ENV === `production`?
-            `https://172.17.14.133:8085/redmine/issues.json?limit=100&key=${member.redmineKey}&assigned_to_id=${member._id}`:
-            `/testdata/issues_${member._id}.json`;
+   //RedmineURLを取得
+   return Promise.all(taskListEachMember.members.map(member => {
+      const redmineUrl = process.env.NODE_ENV === `production` ?
+         `https://172.17.14.133:8085/redmine/issues.json?limit=100&key=${member.redmineKey}&assigned_to_id=${member._id}`:
+         `/testdata/issues_${member._id}.json`;
+      return fetch(redmineUrl).then(res => res.json());
 
-         return fetch(redmineUrl).then(response => response.json());
-      })
-   ).then(function(results) {
+   })).then(function(results) {
 
       let maxSortVal = 100;
       taskListEachMember.tasks.map(task => {
@@ -35,6 +34,7 @@ export function fetchRedmineTaskList(taskListEachMember) {
       results.map((redmineMemTask, i) => {
          redmineMemTask.issues.forEach((task, j) => {
 
+
             let redmineTask = new Object();
             redmineTask.redmineFlg = true;
             redmineTask.redmineUserId = task.assigned_to.id;
@@ -44,6 +44,9 @@ export function fetchRedmineTaskList(taskListEachMember) {
             redmineTask.description = task.description;
             redmineTask.tempDelFlg = false;
             redmineTask.compDelFlg = false;
+            redmineTask.project = new Object();
+            redmineTask.project.id = task.project.id;
+            redmineTask.project.name = task.project.name;
 
             //既にDBにタスクが登録済みならばリストから一旦削除して、redmineTaskをマージする。
             taskListEachMember.tasks.map((tmpTask,i) => {

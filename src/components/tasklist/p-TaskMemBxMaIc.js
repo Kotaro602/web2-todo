@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
       display: 'inline-block',
       width: 28,
       float: 'left',
-      marginTop: 2
+      marginTop: 4
    },
    redmineIcon: {
       width: '16px',
@@ -103,29 +103,7 @@ const styles = StyleSheet.create({
       color: '#3baae3',
       opacity: '0.5'
    },
-   taskNameBox:{
-      width:' 100%',
-      marginLeft: '28px'
-   },
-   taskName:{
-      cursor: 'pointer',
-      width: '100%',
-      display: 'block',
-      height: '100%',
-      whiteSpace: 'nowrap'
-   },
    pointer:{
       cursor: 'pointer'
-   },
-   taskNameChecked:{
-      opacity: '0.5',
-      textDecoration: 'line-through',
-   },
-   nameInput:{
-      display: 'inline-block',
-      width: '90%',
-      height: '100%',
-      outline: '0',
-      border: '0px'
    }
 });

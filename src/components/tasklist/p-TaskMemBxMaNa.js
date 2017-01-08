@@ -6,14 +6,6 @@ import {shouldComponentUpdate} from 'react-addons-pure-render-mixin'
 
 export default class TaskMainBox extends Component {
 
-   // shouldComponentUpdate(nextProps) {
-   //    const {state, task} = this.props;
-   //
-   //    const taskSameFlg = Immutable.is(nextProps.task, task);
-   //    console.log(taskSameFlg);
-   //    return false;
-   // }
-
    //オープンしたタスクにフォーカスをあてる
    componentDidUpdate(prevProps){
       //最初にタスクがオープンした時のみフォーカスをあてる
@@ -24,6 +16,7 @@ export default class TaskMainBox extends Component {
       if(taskNameInputDom && prevOpenTaskId != nowOpenTaskId) taskNameInputDom.focus();
    }
 
+   //defaultValueを更新する。
    componentWillReceiveProps(nextProps){
       if(nextProps.task.get('taskName') !== this.props.task.get('taskName')){
          this.refs.taskName.value = nextProps.task.get('taskName');
@@ -40,6 +33,16 @@ export default class TaskMainBox extends Component {
       reqUpdateTask(task.set('taskName', nextTaskName));
    }
 
+   //タスクを選択する
+   selectTask() {
+      const {state, task, selectTask} = this.props;
+
+      //既に選択されている or 開いているならばスキップする。
+      if(state.get('conf').get('selectTaskId') == task.get('_id')) return;
+      if(state.get('conf').get('openTaskId') == task.get('_id')) return;
+      selectTask(task.get('_id'))
+   }
+
    //タスクを開く
    openTask() {
       const {state, task, openTask} = this.props;
@@ -52,7 +55,6 @@ export default class TaskMainBox extends Component {
 
    render(){
 
-      //console.log('test');
       /** prop取得 **/
       const {state, task} = this.props;
 
@@ -60,33 +62,45 @@ export default class TaskMainBox extends Component {
       const redmineFlg = task.get('redmineFlg');
       const openFlg = task.get('_id') == state.get('conf').get('openTaskId');
 
+      const taskSpanStyle = css(
+         styles.nameSpan, styles.pointer,
+         task.get('tempDelFlg') && styles.taskNameChecked,
+      )
+
       let taskNameDOM;
-      if(redmineFlg && !openFlg){
-         //REDMINEタスク 非オープン
-         taskNameDOM = <input type="text" className={css(styles.nameInput, styles.pointer)}
-                              defaultValue={task.get('taskName')} ref='taskName'
-                               readOnly/>
+      if(redmineFlg && !openFlg){ //REDMINEタスク 非オープン
+         taskNameDOM = <input type="text"
+                              className={css(styles.nameInput, styles.pointer)}
+                              onClick={::this.selectTask}
+                              defaultValue={task.get('taskName')}
+                              ref='taskName'
+                              readOnly/>
 
-      }else if(redmineFlg && openFlg){
-         //REDMINEタスク オープン
-         taskNameDOM = <input type="text" className={css(styles.nameInput, styles.pointer)}
-                              ref='taskName' defaultValue={task.get('taskName')}  readOnly/>
+      }else if(redmineFlg && openFlg){ //REDMINEタスク オープン
+         taskNameDOM = <input type="text"
+                              className={css(styles.nameInput, styles.pointer)}
+                              defaultValue={task.get('taskName')}
+                              ref='taskName'
+                              readOnly/>
 
-      }else if(!redmineFlg && !openFlg){
-         //ノーマルタスク 非オープン
-         taskNameDOM = <span className={css(styles.nameSpan, styles.pointer)}
+      }else if(!redmineFlg && !openFlg){ //ノーマルタスク 非オープン
+         taskNameDOM = <span className={taskSpanStyle}
+                             onClick={::this.selectTask}
+                             ref='taskName'
                              data-closeId={task.get('_id')}>{task.get('taskName')}</span>
 
-      }else{
-         //ノーマルタスク オープン
-         taskNameDOM = <input type="text" className={css(styles.nameInput)}
+      }else{ //ノーマルタスク オープン
+         taskNameDOM = <input type="text"
+                              className={css(styles.nameInput)}
                               defaultValue={task.get('taskName')}
-                              ref='taskName' id="taskNameToFocus" onBlur={::this.chgTaskName}/>
+                              ref='taskName'
+                              id="taskNameToFocus"
+                              onBlur={::this.chgTaskName}/>
       }
 
       /** レンダリング **/
       return(
-         <div className={css(styles.taskNameBox)} onClick={::this.openTask}>
+         <div className={css(styles.taskMainBox)} onDoubleClick={::this.openTask}>
             {taskNameDOM}
          </div>
       );
@@ -94,9 +108,11 @@ export default class TaskMainBox extends Component {
 }
 
 const styles = StyleSheet.create({
-   taskNameBox:{
+   taskMainBox:{
       display: 'inline-block',
-      width: '70%'
+      width: '70%',
+      height: 25,
+      position: 'relative'
    },
    taskName:{
       cursor: 'pointer',
@@ -114,17 +130,21 @@ const styles = StyleSheet.create({
    },
    nameInput:{
       display: 'inline-block',
-      width: '90%',
-      height: '100%',
-      outline: '0',
-      border: '0px'
-   },
-   nameSpan:{
-      display: 'inline-block',
-      width: '90%',
+      width: '100%',
       height: '100%',
       outline: '0',
       border: '0px',
-      marginTop: 3
+      height: 18,
+      lineHeight: '16px',
+      WebkitUserSelect: 'none'
+   },
+   nameSpan:{
+      display: 'inline-block',
+      width: '100%',
+      height: '100%',
+      outline: '0',
+      border: '0px',
+      paddingTop: 2,
+      WebkitUserSelect: 'none'
    }
 });

@@ -1,12 +1,14 @@
 import React from 'react'
 import { StyleSheet, css } from 'aphrodite/no-important';
 import Immutable from 'immutable';
+import {TogglePattern} from "react-toggle-pattern";
+import {sortAndFilterTask} from '../../model/m-Task';
 import { DragDropContext } from 'react-dnd';
 import ReactDnDHTML5Backend from 'react-dnd-html5-backend'
-
+import TaskMemBo from './p-TaskMemBo'
 import TaskMemSo from './p-TaskMemBx'
 
-@DragDropContext(ReactDnDHTML5Backend)
+// @DragDropContext(ReactDnDHTML5Backend)
 export default class TaskMemberList extends React.Component {
 
    shouldComponentUpdate(nextProps) {
@@ -20,17 +22,20 @@ export default class TaskMemberList extends React.Component {
       const {state, member} = this.props;
 
       /** ユーザごとのタスク取得 & ソート処理 */
-      const userId = member.get('_id');
-      let taskList = state.get('tasks');
-      taskList = taskList.filter(t => t.get('redmineUserId') == userId && !t.get('compDelFlg'));
-      taskList= taskList.sort((a, b) => a.get('sortValue') - b.get('sortValue'));
+      const taskList = sortAndFilterTask(state.get('tasks'), member.get('_id'));
 
       /** レンダリング **/
       return(
          <ul className={css(styles.taskListUl)} >
-         {taskList.map((task, i)=> (
-            <TaskMemSo key={i} task={task} {...this.props} />
-         ))}
+            {taskList.map((t, i)=> (
+               <div key={i}>
+                  <TogglePattern
+                     isBorder={i == 0 || taskList.getIn([i - 1, 'project', 'id']) != t.getIn(['project', 'id'])}>
+                     <TaskMemBo isBorder={true} task={t} {...this.props}/>
+                  </TogglePattern>
+                  <TaskMemSo task={t} {...this.props}/>
+               </div>
+            ))}
          </ul>
       )
    }
@@ -39,7 +44,9 @@ export default class TaskMemberList extends React.Component {
 const styles = StyleSheet.create({
    taskListUl: {
       listStyle: 'none',
-      marginTop: '5px',
+      marginTop: 10,
+      marginLeft: 10,
+      marginRight: 25,
       padding: '0px'
    }
 })

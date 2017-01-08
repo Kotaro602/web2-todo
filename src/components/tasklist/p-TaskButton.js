@@ -1,30 +1,20 @@
 import React, { Component} from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
-import {createFormatDate, getRandamMath} from '../../lib/utils';
+import {createNewTask} from '../../model/m-Task';
 
 export default class TaskButton extends Component {
 
    /** ActionCreater呼び出し **/
-   actOpenTask(e) {
+   addTask(e) {
       const {state, member, reqAddTask} = this.props;
       const tasks = state.get('tasks');
       const userId = member.get('_id');
+      reqAddTask(createNewTask(userId, tasks));
+   }
 
-      let addTaskObject = new Object();
-      let redmineUserId = e.currentTarget.getAttribute('data-id');
-      addTaskObject.redmineUserId = parseFloat(redmineUserId);
-      addTaskObject._id = redmineUserId + createFormatDate();
-      addTaskObject.redmineFlg = false;
-
-      let maxSortVal = 100;
-      tasks.map((task) => {
-         let taskSortVal = task.get('sortValue');
-         if(taskSortVal !== undefined && task.get('redmineUserId') == userId && taskSortVal >=  maxSortVal)
-            maxSortVal = taskSortVal + getRandamMath();
-      })
-      addTaskObject.sortValue = maxSortVal;
-
-      reqAddTask(addTaskObject);
+   openLineModal() {
+      const {addLineModal, member} = this.props;
+      addLineModal(member.get('_id'));
    }
 
    actCleanTask() {
@@ -34,26 +24,19 @@ export default class TaskButton extends Component {
 
    render() {
 
-   /** prop取得 **/
-   const {member} = this.props;
-
-   /** レンダリング **/
-   return (
-      <div className={css(styles.taskFooterBox)}>
-         <button onClick={::this.actOpenTask}
-         data-id={member.get('_id')}
-         className={css(styles.buttonCommon, styles.addTaskButton)}>＋ ADD</button>
-         <button className={css(styles.buttonCommon, styles.groupTask)}>∟ GROUP</button>
-         <button onClick={::this.actCleanTask}
-         className={css(styles.buttonCommon, styles.cleaningTask)}>－ CLEAN</button>
-      </div>
-   );
+      /** レンダリング **/
+      return (
+         <div className={css(styles.taskFooterBox)}>
+            <button onClick={::this.addTask} className={css(styles.buttonCommon, styles.addTaskButton)}>＋ ADD</button>
+            <button onClick={::this.actCleanTask} className={css(styles.buttonCommon, styles.cleaningTask)}>－ CLEAN</button>
+         </div>
+      );
    }
 }
 
 const styles = StyleSheet.create({
    taskFooterBox: {
-      paddingBottom: '35px'
+      marginBottom: '50px'
    },
    buttonCommon: {
       background: '#FFF',
@@ -67,7 +50,7 @@ const styles = StyleSheet.create({
    addTaskButton: { //ここのclass名はp-Taskコンポーネントで使用中
       border: 'solid 2px #0070a3',
       color: '#0070a3',
-      marginLeft: '56%'
+      marginLeft: '68%'
    },
    cleaningTask: {
       border: 'solid 2px rgba(255, 0, 0, 0.60)' ,

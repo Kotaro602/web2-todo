@@ -3,10 +3,12 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 import { Map, List, fromJS, toJS } from 'immutable';
 import withScrolling from 'react-dnd-scrollzone';
 import {TogglePattern} from "react-toggle-pattern";
+import Modal from 'react-modal';
 import TaskMemberList from './p-TaskMem';
 import TaskUser from './p-TaskUser';
 import TaskButton from './p-TaskButton';
 import TaskPro from './p-TaskPro';
+import TaskLineModal from './p-TaskLineModal';
 import TaskRed from './redmine/p-TaskRed'
 
 const ScrollZone = withScrolling('div');
@@ -14,7 +16,6 @@ const ScrollZone = withScrolling('div');
 export default class Task extends Component {
 
    componentDidMount() {
-        
       //オープン中のタスクをクローズ
       const closeOpenTask = (evt) => {
          const openTaskDOM = document.getElementById(this.props.state.get('conf').get('openTaskId'));
@@ -26,6 +27,19 @@ export default class Task extends Component {
          if(this.props.state.get('conf').get('openTaskId') == evt.target.getAttribute('data-closeId')) return;
 
          this.props.openTask(undefined);
+      }
+
+      //選択中のタスクをクローズ
+      const closeSelectTask = (evt) => {
+         const selectTaskDOM = document.getElementById(this.props.state.get('conf').get('selectTaskId'));
+
+         // 追加ボタンを押した時、タイトルを押した時に2回呼ばれるのも無効にする
+         if(selectTaskDOM == null) return;
+         if(selectTaskDOM.contains(evt.target)) return;
+         if(event.target.className.match('addTaskButton')) return;
+         if(this.props.state.get('conf').get('selectTaskId') == evt.target.getAttribute('data-closeId')) return;
+
+         this.props.selectTask(undefined);
       }
 
       //オープン中のレッドマインモーダルをクローズ
@@ -40,6 +54,7 @@ export default class Task extends Component {
       }
 
       //イベントハンドラに追加
+      document.addEventListener('click', closeSelectTask);
       document.addEventListener('click', closeOpenTask);
       document.addEventListener('click', closeRedmineModal);
 
@@ -48,10 +63,15 @@ export default class Task extends Component {
       setInterval(this.props.reqTasks, 1150000);
    }
 
+   closeLineModal(){
+      this.props.addLineModal(undefined);
+   }
+
    render() {
 
       /** prop取得 **/
       const {state} = this.props;
+      const showLineModal = state.get('conf').get('lineModalUserId') !== undefined;
 
       /** レンダリング **/
       return (
@@ -59,7 +79,7 @@ export default class Task extends Component {
             <TaskPro />
             <ScrollZone className={css(styles.taskMainArea)}>
             {state.get('members').map((member, key) => (
-               <div key={key}>
+               <div key={key} >
                   <TaskUser {...this.props} member={member}/>
                   <TaskMemberList {...this.props} member={member}/>
                   <TaskButton {...this.props} member={member} />
@@ -69,23 +89,30 @@ export default class Task extends Component {
             <TogglePattern isOpenFlg={state.get('conf').get('openRedmineId') != undefined}>
                <TaskRed isOpenFlg={true} {...this.props}/>
             </TogglePattern>
+            <Modal isOpen={showLineModal}
+                   contentLabel="onRequestClose Example"
+                   onRequestClose={::this.closeLineModal}
+                   shouldCloseOnOverlayClick={true}
+                   overlayClassName={css(styles.addLinePopupOverLay)}
+                   className={css(styles.addLinePopup)}>
+               <TaskLineModal {...this.props}/>
+            </Modal>
          </div>
       );
    }
 }
 
-
 const styles = StyleSheet.create({
    taskAreaBox: {
-      padding: '10px 20px 0px 15px',
       height: '100%'
    },
    taskMainArea: {
-      marginTop: 45,
-      marginLeft: 4,
-      height: '90%',
+      paddingTop: 15,
+      marginLeft: 10,
+      marginRight: 180,
       overflowX: 'hidden',
       overflowY: 'auto',
+      height: '95%',
       '::-webkit-scrollbar':{
          overflow: 'hidden',
          width: 5,
@@ -117,5 +144,27 @@ const styles = StyleSheet.create({
          WebkitBorderRadius: 3,
          borderRadius: 3
       }
+   },
+   addLinePopupOverLay:{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(162, 159, 159, 0.74902)'
+   },
+   addLinePopup: {
+      position: 'absolute',
+      top: '40%',
+      left: '50%',
+      marginTop: -125,
+      marginLeft: -300,
+      border: '2px solid rgb(154, 153, 156)',
+      background: 'rgb(255, 255, 255)',
+      overflow: 'auto',
+      borderRadius: '4px',
+      outline: 'none',
+      width: 600,
+      height: 250
    }
 });

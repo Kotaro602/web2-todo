@@ -1,5 +1,6 @@
 import * as a from '../actions/a-index';
 import { Map, List, fromJS } from 'immutable';
+import {Task, createTaskListFromObj} from '../model/m-Task';
 
 export default function task(state=List([]), action) {
 
@@ -7,11 +8,11 @@ export default function task(state=List([]), action) {
 
       //一覧取得
       case a.RECIEVE_TASKS:
-         return fromJS(action.data.tasks);
+         return fromJS(createTaskListFromObj(action.data.tasks));
 
       //追加
       case a.ADD_TASK:
-         return state.push(fromJS(action.task));
+         return state.push(action.task);
 
       //タスク更新
       case a.UPDATE_TASK:

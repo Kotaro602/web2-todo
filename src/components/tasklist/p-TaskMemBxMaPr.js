@@ -38,12 +38,11 @@ export default class TaskMemBxMaPr extends Component {
 const styles = StyleSheet.create({
    markBox:{
       display: 'inline-block',
-      width: '5%',
-      textAlign: 'center',
-      verticalAlign: 'middle'
+      width: 40,
+      textAlign: 'center'
    },
    markImg:{
       cursor: 'pointer',
-      width: 15
+      width: 14
    }
 });

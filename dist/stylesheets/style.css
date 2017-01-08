@@ -6,8 +6,9 @@ html {
 body {
 	height:100%;
 	overflow: hidden;
-	font: 13px "Lucida Grande", Helvetica, Arial, sans-serif;
+	font: 15px "Lucida Grande", Helvetica, Arial, sans-serif;
 	letter-spacing: 0px;
+	margin: 0px;
 }
 
 #content {
@@ -15,7 +16,7 @@ body {
 }
 
 input {
-	font: 13px "Lucida Grande", Helvetica, Arial, sans-serif;
+	font: 15px "Lucida Grande", Helvetica, Arial, sans-serif;
 	background-color: transparent;
 }
 

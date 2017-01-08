@@ -23,22 +23,21 @@ export default class Body extends Component {
 const styles = StyleSheet.create({
    container: {
       height: '100%',
-      width: 980,
+      width: '100%',
       margin: 'auto'
    },
    sideAreaBox:{
       position: 'fixed',
-      width: 130,
+      width: 180,
       height: '100%',
       float: 'left',
-      background: '#1562c3',
-      borderRadius: 4
+      background: '#1562c3'
    },
    mainAreaBox:{
-      position: 'relative',
+      position: 'absolute',
       height: '100%',
-      width: 850,
-      float: 'right',
-      paddingBottom: 100
+      width: '100%',
+      top: 0,
+      left: 180
    }
 });
