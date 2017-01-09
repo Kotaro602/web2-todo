@@ -139,18 +139,17 @@ const styles = StyleSheet.create({
    taskListBox:{
       borderRadius: '5px',
       width: '99%',
-      tableLayout: 'fixed',
       backgroundColor: 'white'
    },
    selectedTask:{
-      backgroundColor: 'rgba(222, 222, 222, 0.52)'
+      backgroundColor: 'rgb(216, 216, 216)'
    },
    taskNoOpen:{
       padding: 1
    },
    taskOpen:{
       padding: 0,
-      backgroundColor: 'rgba(170, 229, 255, 0.23)',
+      backgroundColor: 'rgb(235, 249, 255)',
       border: 'solid 1px #aaa'
    },
    taskDraggingLi: {

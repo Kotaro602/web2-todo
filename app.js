@@ -12,7 +12,7 @@ var express = require('express')
 var app = express();
 
 // Modelの設定
-var db = require('./model/database');
+var db = require('./db/database');
 
 // all environments
 app.set('port', process.env.PORT || 8080);

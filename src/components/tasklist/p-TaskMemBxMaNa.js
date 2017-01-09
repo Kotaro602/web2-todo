@@ -110,9 +110,8 @@ export default class TaskMainBox extends Component {
 const styles = StyleSheet.create({
    taskMainBox:{
       display: 'inline-block',
-      width: '70%',
-      height: 25,
-      position: 'relative'
+      minWidth: '70%',
+      height: 25
    },
    taskName:{
       cursor: 'pointer',

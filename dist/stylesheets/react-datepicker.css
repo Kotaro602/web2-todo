@@ -155,7 +155,7 @@
 .react-datepicker__week-number {
   color: #ccc;
   display: inline-block;
-  width: 1.7rem;
+  width: 1.5rem;
   line-height: 1.7rem;
   text-align: center;
   margin: 0.166rem;
@@ -165,7 +165,7 @@
 .react-datepicker__day {
   color: #000;
   display: inline-block;
-  width: 1.7rem;
+  width: 1.5rem;
   line-height: 1.7rem;
   text-align: center;
   margin: 0.166rem;

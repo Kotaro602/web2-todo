@@ -5067,7 +5067,7 @@
 	}
 
 	/**
-	 * Does our fallback best-guess model think this event signifies that
+	 * Does our fallback best-guess db think this event signifies that
 	 * composition has begun?
 	 *
 	 * @param {string} topLevelType
@@ -29524,11 +29524,11 @@
 
 	/**
 	  Used to track a parent task and its forks
-	  In the new fork model, forked tasks are attached by default to their parent
-	  We model this using the concept of Parent task && main Task
+	  In the new fork db, forked tasks are attached by default to their parent
+	  We db this using the concept of Parent task && main Task
 	  main task is the main flow of the current Generator, the parent tasks is the
 	  aggregation of the main tasks + all its forked tasks.
-	  Thus the whole model represents an execution tree with multiple branches (vs the
+	  Thus the whole db represents an execution tree with multiple branches (vs the
 	  linear execution tree in sequential (non parallel) programming)
 
 	  A parent tasks has the following semantics
@@ -57936,7 +57936,7 @@
 	      parts[0] === '+' ? minutes : -minutes;
 	}
 
-	// Return a moment from input, that is local/utc/zone equivalent to model.
+	// Return a moment from input, that is local/utc/zone equivalent to db.
 	function cloneWithOffset(input, model) {
 	    var res, diff;
 	    if (model._isUTC) {
