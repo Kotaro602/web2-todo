@@ -7,7 +7,7 @@ export default function members(state=List([]), action) {
 
       //タスク一覧取得
       case taskActions.RECIEVE_TASKS:
-         return fromJS(action.data.members);
+         return action.data.members;
 
       default:
          return state;

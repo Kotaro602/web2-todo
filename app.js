@@ -32,6 +32,7 @@ app.get('/', index.index);
 app.get('/api/readTaskList', crudTask.readTaskList);
 app.post('/api/registerTask', crudTask.registerTask);
 app.post('/api/updateTask', crudTask.updateTask);
+app.post('/api/updateTaskList', crudTask.updateTaskList);
 app.post('/api/cleanTask', crudTask.cleanTask);
 app.post('/api/changeSortTask', crudTask.changeSortTask);
 

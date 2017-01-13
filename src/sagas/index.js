@@ -3,6 +3,7 @@ import { takeEvery} from "redux-saga";
 import { put, call, take, fork } from "redux-saga/effects";
 import * as actCreater from "../actions/a-index";
 import * as API from "./task-api.js";
+import {Task, mergeTasks} from '../model/m-Task';
 
 /** 通常タスク取得 */
 function* hundleReqTasks() {
@@ -17,8 +18,10 @@ function* hundleReqTasks() {
 function* hundleReqRedmineAll() {
    while (true) {
       const action = yield take(actCreater.REQ_REDMINE_ALL);
-      const data = yield call(API.fetchRedmineTaskList, action.oriTasks);
-      yield put(actCreater.recieveTasks(data));
+      const redmineTasks = yield call(API.fetchRedmineTaskList, action.oriTasks);
+      const mergeObj = mergeTasks(action.oriTasks, redmineTasks);
+      API.updateTaskList(mergeObj.reqTasks); //マージしたRedmineTask更新処理
+      yield put(actCreater.recieveTasks(mergeObj));
    }
 }
 

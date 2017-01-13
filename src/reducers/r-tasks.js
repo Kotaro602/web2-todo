@@ -8,7 +8,7 @@ export default function task(state=List([]), action) {
 
       //一覧取得
       case a.RECIEVE_TASKS:
-         return fromJS(createTaskListFromObj(action.data.tasks));
+         return action.data.tasks;
 
       //追加
       case a.ADD_TASK:

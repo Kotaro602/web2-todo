@@ -9,7 +9,7 @@ export default class TaskButton extends Component {
       const {state, member, reqAddTask} = this.props;
       const tasks = state.get('tasks');
       const userId = member.get('_id');
-      reqAddTask(createNewTask(userId, tasks));
+      reqAddTask(createNewTask(userId));
    }
 
    openLineModal() {

@@ -1,7 +1,7 @@
 /**
  * Created by ma on 2017/01/07.
  */
-import {Immutable, Record, List, toJS, fromJS} from 'immutable';
+import {Immutable, Record, List, Map, toJS, fromJS} from 'immutable';
 import moment from 'moment';
 
 const TaskRecord = Record({
@@ -24,22 +24,15 @@ const TaskRecord = Record({
 
 export default class Task extends TaskRecord {
 
+   //初期データ
    constructor() {
-      super({
-         redmineFlg: false,
-         tempDelFlg: false,
-         compDelFlg: false,
-         taskName: '',
-         dueDate: moment().add("days", 7).format("YYYY-MM-DD"),
-         priority: 0,
-         privateFlg: false,
-         lineFlg: false,
-         project: fromJS({id : 999, name: 'その他'})
-      })
+      super()
    }
 }
 
-//オブジェクトを元にタスク作成
+/********************************** Private Method ************************************/
+
+//DBデータを元にノーマルタスク作成
 function copyTaskFromObj(task){
 
    let nextTask = new Task();
@@ -81,45 +74,110 @@ function getId(redmineUserId){
    return redmineUserId + yyyy + mm + dd + hh + mi + ss + ms;
 }
 
-//同一ユーザタスクのs最大SortValueを取得する
-function getMaxValue(userId, tasks){
-
-   let maxSortVal = 100;
-   tasks.map((task) => {
-      let taskSortVal = task.get('sortValue');
-      if(taskSortVal !== undefined && task.get('redmineUserId') == userId && taskSortVal >=  maxSortVal)
-         maxSortVal = taskSortVal + Math.random() + 1;
-   })
-   return maxSortVal;
-}
-
 //オブジェクトを元にタスクリスト作成
-export function createTaskListFromObj(tasks){
+function createTaskListFromObj(tasks){
 
    let taskList = List([]);
    tasks.map(task => taskList = taskList.push(copyTaskFromObj(task)));
    return taskList;
 }
 
+//RedmineAPIを元にRedmineタスクを生成
+function copyTaskFromRedmine(task){
+
+   let nextTask = new Task();
+   nextTask = nextTask.set('_id', task.id);
+   nextTask = nextTask.set('redmineUserId',task.assigned_to.id);
+   nextTask = nextTask.set('redmineFlg', true);
+   nextTask = nextTask.set('taskName', task.subject);
+   nextTask = nextTask.set('dueDate', task.due_date);
+   nextTask = nextTask.set('project', Map({id: task.project.id, name: task.project.name}));
+   nextTask = nextTask.set('tempDelFlg', false);
+   nextTask = nextTask.set('compDelFlg', false);
+   //nextTask = nextTask.set('taskMemo', task.description);
+
+   return nextTask;
+}
+
+function mergeRedmineTask(preTask, task){
+
+   let nextTask = preTask;
+   nextTask = nextTask.set('redmineUserId',task.assigned_to.id);
+   nextTask = nextTask.set('taskName', task.subject);
+   nextTask = nextTask.set('dueDate', task.due_date);
+   nextTask = nextTask.set('project', Map({id: task.project.id, name: task.project.name}));
+
+   return nextTask;
+}
+
+//タスクIDを元にINDEXを取得する
+function findIndexById(taskList, id) {
+   return taskList.findIndex((task) => task.get('_id') == id);
+}
+
+/********************************** Public Method ************************************/
+
 //新規タスク作成
-export function createNewTask(userId, tasks){
+export function createNewTask(userId){
 
    let newTask = new Task();
    newTask = newTask.set('_id', getId(userId));
    newTask = newTask.set('redmineUserId', parseFloat(userId));
-   newTask = newTask.set('sortValue', getMaxValue(userId, tasks));
    return newTask;
 }
 
-//新規ボーダーラインを作成
-export function createNewLine(userId, lineName){
+//DBから取得したタスクとREDMINEから取得したタスクをマージする
+export function mergeTasks(dbMemberAndTask, redmineTasks){
 
-   let newLine = new Task();
-   newLine = newLine.set('_id', getId(userId));
-   newLine = newLine.set('redmineUserId', parseFloat(userId));
-   newLine = newLine.set('taskName', lineName);
-   newLine = newLine.set('lineFlg', true);
-   return newLine;
+   //DBTaskリストをTaskRecordに変換
+   let mergeTaskList = createTaskListFromObj(dbMemberAndTask.tasks);
+   let redmineIdList = List([]);
+   let reqRedmineTaskList = List([]);
+
+   //RedmineTaskをDBタスクに追加/マージする。
+   redmineTasks.map(members => {
+      members.issues.forEach(task => {
+
+         const index = findIndexById(mergeTaskList, task.id);
+         if(index >= 0){
+            const mergeTask = mergeRedmineTask(mergeTaskList.get(index), task);
+            mergeTaskList = mergeTaskList.set(index, mergeTask);
+            reqRedmineTaskList = reqRedmineTaskList.push(mergeTask);
+         }else{
+            const addTask = copyTaskFromRedmine(task);
+            mergeTaskList = mergeTaskList.push(addTask);
+            reqRedmineTaskList = reqRedmineTaskList.push(addTask);
+         }
+
+         //完了済みのRedmineタスクを知るために、RedmineのIDリストを取得する。
+         redmineIdList = redmineIdList.push(task.id);
+      })
+   })
+
+   //完了済みのRedmineタスクを調べる
+   mergeTaskList.map((task, taskIndex) => {
+
+      //Redmineタスクでなければスキップ
+      if(task.get('redmineFlg') === false) return;
+
+      //完了済みのタスクを更新する
+      const redmineIndex = redmineIdList.indexOf(task.get('_id'));
+      if(redmineIndex === -1){
+         const compTask = mergeTaskList.get(taskIndex).set('compDelFlg', true);
+         mergeTaskList = mergeTaskList.set(taskIndex, compTask);
+         reqRedmineTaskList = reqRedmineTaskList.push(compTask);
+      }
+   });
+
+   //DB情報とRedmine情報をマージしてreducerに渡す
+   const mergeObj = new Object();
+   mergeObj.members = fromJS(dbMemberAndTask.members);
+   mergeObj.tasks = mergeTaskList;
+   mergeObj.reqTasks = reqRedmineTaskList;
+
+   console.log(mergeObj.reqTasks.toJS());
+
+   return mergeObj;
 }
 
 /** タスクリストをフィルタリング&ソートする。

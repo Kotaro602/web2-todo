@@ -1,12 +1,13 @@
 import {List, toJS} from 'immutable';
-import {getRandamMath} from '../lib/utils';
-import {Task, createTaskListFromObj} from '../model/m-Task';
+import {Task, createTaskListFromObj, copyTaskFromRedmine} from '../model/m-Task';
+
+const ERR_MESSAGE = '通信に失敗しました。F5を押して処理をやり直してください。';
 
 export function fetchTaskList() {
 
    return fetch(`api/readTaskList`)
       .then(res => {
-         if(res.status != 200) alert('通信に失敗しました。F5を押して処理をやり直してください。')
+         if(res.status != 200) alert(ERR_MESSAGE);
          return res.json();
       })
       .then(json => json);
@@ -22,55 +23,12 @@ export function fetchRedmineTaskList(taskListEachMember) {
          `/testdata/issues_${member._id}.json`;
       return fetch(redmineUrl).then(res => res.json());
 
-   })).then(function(results) {
-
-      let maxSortVal = 100;
-      taskListEachMember.tasks.map(task => {
-         if(task.sortValue >=  maxSortVal){
-            maxSortVal = task.sortValue;
-         }
-      })
-
-      results.map((redmineMemTask, i) => {
-         redmineMemTask.issues.forEach((task, j) => {
-
-
-            let redmineTask = new Object();
-            redmineTask.redmineFlg = true;
-            redmineTask.redmineUserId = task.assigned_to.id;
-            redmineTask._id = task.id;
-            redmineTask.taskName = task.subject;
-            redmineTask.dueDate = task.due_date;
-            redmineTask.description = task.description;
-            redmineTask.tempDelFlg = false;
-            redmineTask.compDelFlg = false;
-            redmineTask.project = new Object();
-            redmineTask.project.id = task.project.id;
-            redmineTask.project.name = task.project.name;
-
-            //既にDBにタスクが登録済みならばリストから一旦削除して、redmineTaskをマージする。
-            taskListEachMember.tasks.map((tmpTask,i) => {
-               if (tmpTask._id == redmineTask._id) {
-                  redmineTask = Object.assign({}, tmpTask, redmineTask);
-                  taskListEachMember.tasks.splice(i, 1);
-               }
-            })
-
-            //SortValueが登録されていないならば、新規登録する。
-            if(redmineTask.sortValue === undefined) {
-               maxSortVal += getRandamMath();
-               redmineTask.sortValue = maxSortVal;
-            }
-
-            taskListEachMember.tasks.push(redmineTask);
-         })
-      })
-      return taskListEachMember;
-
-   }).catch(function(e)  {
-      console.log(e);
-      return taskListEachMember;
-   })
+   })).then(redmineTasks => redmineTasks)
+      .catch(e => {
+         console.log(e);
+         return null;
+      }
+   )
 }
 
 export function updateTask(task) {
@@ -79,7 +37,17 @@ export function updateTask(task) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(task.toJS())
    }).then(res => {
-      if(res.status != 200) alert('通信に失敗しました。F5を押して処理をやり直してください。')
+      if(res.status != 200) alert(ERR_MESSAGE);
+   }).catch(err => err);
+}
+
+export function updateTaskList(taskList) {
+   return fetch(`api/updateTaskList`,{
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(taskList.toJS())
+   }).then(res => {
+      if(res.status != 200) alert(ERR_MESSAGE);
    }).catch(err => err);
 }
 
@@ -89,7 +57,7 @@ export function addTask(task) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(task)
    }).then(res => {
-      if(res.status != 200) alert('通信に失敗しました。F5を押して処理をやり直してください。')
+      if(res.status != 200) alert(ERR_MESSAGE);
    }).catch(err => err);
 }
 
@@ -99,16 +67,6 @@ export function cleanTask(userId) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({userId: userId})
    }).then(res => {
-      if(res.status != 200) alert('通信に失敗しました。F5を押して処理をやり直してください。')
-   }).catch(err => err);
-}
-
-export function chgTaskSort(dragTask, hoverTask) {
-   return fetch(`api/changeSortTask`,{
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({dragTask: dragTask, hoverTask: hoverTask})
-   }).then(res => {
-      if(res.status != 200) alert('通信に失敗しました。F5を押して処理をやり直してください。')
+      if(res.status != 200)alert(ERR_MESSAGE)
    }).catch(err => err);
 }

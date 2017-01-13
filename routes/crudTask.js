@@ -52,6 +52,24 @@ exports.updateTask = function(req, res){
 };
 
 /**
+ * タスクの一括更新用のメソッド
+ **/
+exports.updateTaskList = function(req, res){
+
+   var updateTask;
+   req.body.forEach(task => {
+      updateTask = Object.assign(new TodoList(), task);
+      console.log(updateTask);
+
+      //タスク更新処理
+      TodoList.update({_id: updateTask._id}, updateTask, {upsert: true}, function (err) {
+         if (err) console.log({'error': 'An error has occurred - ' + err});
+      });
+   });
+   res.end();
+};
+
+/**
  * タスククリーニング用ロジック
  **/
 exports.cleanTask = function(req, res){
