@@ -123,6 +123,14 @@ export function createNewTask(userId){
    let newTask = new Task();
    newTask = newTask.set('_id', getId(userId));
    newTask = newTask.set('redmineUserId', parseFloat(userId));
+   newTask = newTask.set('redmineFlg', false);
+   newTask = newTask.set('taskName', '');
+   newTask = newTask.set('tempDelFlg', false);
+   newTask = newTask.set('compDelFlg', false);
+   newTask = newTask.set('dueDate', moment().add("days", 7).format("YYYY-MM-DD"));
+   newTask = newTask.set('priority', 0);
+   newTask = newTask.set('project',Map({id : 999, name: 'その他'}));
+
    return newTask;
 }
 

@@ -7,7 +7,7 @@ import Modal from 'react-modal';
 import TaskMemberList from './p-TaskMem';
 import TaskUser from './p-TaskUser';
 import TaskButton from './p-TaskButton';
-import TaskPro from './p-TaskPro';
+import TaskPro from '../header/p-Head';
 import TaskLineModal from './p-TaskLineModal';
 import TaskRed from './redmine/p-TaskRed'
 
@@ -76,7 +76,6 @@ export default class Task extends Component {
       /** レンダリング **/
       return (
          <div className={css(styles.taskAreaBox)}>
-            <TaskPro />
             <ScrollZone className={css(styles.taskMainArea)}>
             {state.get('members').map((member, key) => (
                <div key={key} >
@@ -112,7 +111,7 @@ const styles = StyleSheet.create({
       marginRight: 180,
       overflowX: 'hidden',
       overflowY: 'auto',
-      height: '95%',
+      height: '100%',
       '::-webkit-scrollbar':{
          overflow: 'hidden',
          width: 5,

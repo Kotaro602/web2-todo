@@ -138,11 +138,11 @@ export default class TaskMemSo extends React.Component {
 const styles = StyleSheet.create({
    taskListBox:{
       borderRadius: '5px',
-      width: '99%',
+      width: '100%',
       backgroundColor: 'white'
    },
    selectedTask:{
-      backgroundColor: 'rgb(216, 216, 216)'
+      backgroundColor: 'rgb(235, 249, 255)'
    },
    taskNoOpen:{
       padding: 1

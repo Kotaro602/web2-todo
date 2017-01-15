@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
       listStyle: 'none',
       marginTop: 10,
       marginLeft: 10,
-      marginRight: 25,
       padding: '0px'
    }
 })

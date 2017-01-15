@@ -11,11 +11,24 @@ export default class SideArea extends Component {
       return(
          <div>
             <div className={css(styles.titleBox)}>
-               <h1 className={css(styles.title)}>WEB2-todo</h1>
-               <h4 className={css(styles.version)}>version 0.1</h4>
+               <span className={css(styles.title)}>WEB2-todo</span>
+               <span className={css(styles.version)}>ver0.1</span>
             </div>
             <SideSearch {...this.props} />
-            <SidePublic {...this.props} />
+            <ul className={css(styles.sideUl)}>
+               <li className={css(styles.publicBox)}>
+                  <span className={css(styles.publicTitle)}>public</span>
+               </li>
+               <li className={css(styles.projectBox, styles.projectActive)}>
+                  <span className={css(styles.projectTitle)}>18Main</span>
+               </li>
+               <li className={css(styles.projectBox)}>
+                  <span className={css(styles.projectTitle)}>18Enhance</span>
+               </li>
+               <li className={css(styles.projectBox)}>
+                  <span className={css(styles.projectTitle)}>19Pre</span>
+               </li>
+            </ul>
          </div>
       );
    }
@@ -23,20 +36,51 @@ export default class SideArea extends Component {
 
 const styles = StyleSheet.create({
    titleBox:{
-      marginLeft: 15,
-      marginBottom: 30,
-      width: 100
+      paddingTop: 10,
+      width: '100%',
+      height: 35,
+      textAlign: 'center',
+      backgroundColor: '#42464c'
    },
    title: {
       font: '18px "Comic Sans MS", Helvetica, Arial, sans-serif',
-      color: 'white',
-      marginBottom: 0,
-      marginTop: 20
+      color: '#eaeaea',
+      margin: 0
    },
    version: {
-      color: 'white',
+      color: '#eaeaea',
       textAlign: 'right',
-      marginTop: 0,
-      paddingRight: 3
+      paddingLeft: 5
+   },
+   sideUl: {
+      padding: 0,
+      margin: 0
+   },
+   publicBox:{
+      position: 'relative',
+      width: '100%',
+      height: 35,
+      color: '#5c798f'
+   },
+   publicTitle:{
+      position: 'absolute',
+      fontSize: '16px',
+      top: 10,
+      left: 15
+   },
+   projectBox:{
+      position: 'relative',
+      width: '100%',
+      height: 35,
+      color: '#869fb1'
+   },
+   projectTitle:{
+      position: 'absolute',
+      top: 10,
+      left: 25
+   },
+   projectActive:{
+      backgroundColor: '#505761',
+      color: 'white !important'
    }
 });

@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import { StyleSheet, css } from 'aphrodite/no-important';
 import Task from '../components/tasklist/p-Task';
 import SideArea from '../components/sideArea/p-Side';
+import Head from '../components/header/p-Head';
 
 export default class Body extends Component {
 
@@ -13,6 +14,7 @@ export default class Body extends Component {
                <SideArea {...this.props}/>
             </div>
             <div className={css(styles.mainAreaBox)}>
+               <Head {...this.props}/>
                <Task {...this.props}/>
             </div>
          </div>
@@ -31,7 +33,7 @@ const styles = StyleSheet.create({
       width: 180,
       height: '100%',
       float: 'left',
-      background: '#1562c3'
+      background: 'rgb(66, 70, 76)'
    },
    mainAreaBox:{
       position: 'absolute',

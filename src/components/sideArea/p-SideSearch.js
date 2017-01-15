@@ -24,11 +24,13 @@ export default class SideSearch extends Component {
 const styles = StyleSheet.create({
    searchBox:{
       position: 'relative',
-      width: 120,
+      width: 150,
       margin: 'auto',
       backgroundColor: '#fff',
       border:'1px solid #aaa',
-      borderRadius: 4
+      borderRadius: 4,
+      marginTop: 15,
+      marginBottom: 15
    },
    searchInput:{
       width: 90,

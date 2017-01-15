@@ -25,12 +25,13 @@ function* hundleReqRedmineAll() {
    }
 }
 
+/** タスク更新実行 */
 function* ReqUpdateTask(action){
    API.updateTask(action.task); //非同期
    yield put(actCreater.updateTask(action.task));
 }
 
-/** タスク変更 */
+/** タスク更新ハンドラ */
 function* hundleReqUpdateTask() {
    yield takeEvery(actCreater.REQ_UPDATE_TASK, ReqUpdateTask);
 }
