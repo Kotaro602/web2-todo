@@ -172,7 +172,7 @@
 
 	  version: ReactVersion,
 
-	  // Deprecated hook for JSX spread, don't use this for anything.
+	  // Deprecated hook for JSX spread, don'a use this for anything.
 	  __spread: __spread
 	};
 
@@ -187,8 +187,8 @@
 	var process = module.exports = {};
 
 	// cached from whatever global is present so that test runners that stub it
-	// don't break things.  But we need to wrap it in a try catch in case it is
-	// wrapped in strict mode code which doesn't define any globals.  It's inside a
+	// don'a break things.  But we need to wrap it in a try catch in case it is
+	// wrapped in strict mode code which doesn'a define any globals.  It's inside a
 	// function because try/catches deoptimize in certain engines.
 
 	var cachedSetTimeout;
@@ -225,7 +225,7 @@
 	        //normal enviroments in sane situations
 	        return setTimeout(fun, 0);
 	    }
-	    // if setTimeout wasn't available but was latter defined
+	    // if setTimeout wasn'a available but was latter defined
 	    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
 	        cachedSetTimeout = setTimeout;
 	        return setTimeout(fun, 0);
@@ -235,7 +235,7 @@
 	        return cachedSetTimeout(fun, 0);
 	    } catch(e){
 	        try {
-	            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+	            // When we are in I.E. but the script has been evaled so I.E. doesn'a trust the global object when called normally
 	            return cachedSetTimeout.call(null, fun, 0);
 	        } catch(e){
 	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
@@ -250,7 +250,7 @@
 	        //normal enviroments in sane situations
 	        return clearTimeout(marker);
 	    }
-	    // if clearTimeout wasn't available but was latter defined
+	    // if clearTimeout wasn'a available but was latter defined
 	    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
 	        cachedClearTimeout = clearTimeout;
 	        return clearTimeout(marker);
@@ -260,7 +260,7 @@
 	        return cachedClearTimeout(marker);
 	    } catch (e){
 	        try {
-	            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+	            // When we are in I.E. but the script has been evaled so I.E. doesn'a  trust the global object when called normally
 	            return cachedClearTimeout.call(null, marker);
 	        } catch (e){
 	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
@@ -421,7 +421,7 @@
 
 			return true;
 		} catch (e) {
-			// We don't expect any of the above to throw, but better to be safe.
+			// We don'a expect any of the above to throw, but better to be safe.
 			return false;
 		}
 	}
@@ -814,7 +814,7 @@
 
 	  var error = new Error(message);
 	  error.name = 'Invariant Violation';
-	  error.framesToPop = 1; // we don't care about reactProdInvariant's own frame
+	  error.framesToPop = 1; // we don'a care about reactProdInvariant's own frame
 
 	  throw error;
 	}
@@ -874,7 +874,7 @@
 	      error.name = 'Invariant Violation';
 	    }
 
-	    error.framesToPop = 1; // we don't care about invariant's own frame
+	    error.framesToPop = 1; // we don'a care about invariant's own frame
 	    throw error;
 	  }
 	}
@@ -1484,7 +1484,7 @@
 	 */
 	function getComponentKey(component, index) {
 	  // Do some typechecking here since we call this blindly. We want to ensure
-	  // that we don't block potential future ES APIs.
+	  // that we don'a block potential future ES APIs.
 	  if (component && typeof component === 'object' && component.key != null) {
 	    // Explicit key
 	    return KeyEscapeUtils.escape(component.key);
@@ -1931,7 +1931,7 @@
 	  /**
 	   * Sets a subset of the state. This only exists because _pendingState is
 	   * internal. This provides a merging strategy that is not available to deep
-	   * properties which is confusing. TODO: Expose pendingState or don't use it
+	   * properties which is confusing. TODO: Expose pendingState or don'a use it
 	   * during the merge.
 	   *
 	   * @param {ReactClass} publicInstance The instance that should rerender.
@@ -2363,7 +2363,7 @@
 	  for (var propName in typeDef) {
 	    if (typeDef.hasOwnProperty(propName)) {
 	      // use a warning instead of an invariant so components
-	      // don't show up in prod but only in __DEV__
+	      // don'a show up in prod but only in __DEV__
 	      process.env.NODE_ENV !== 'production' ? warning(typeof typeDef[propName] === 'function', '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'React.PropTypes.', Constructor.displayName || 'ReactClass', ReactPropTypeLocationNames[location], propName) : void 0;
 	    }
 	  }
@@ -2480,7 +2480,7 @@
 	    }
 
 	    var isReserved = name in RESERVED_SPEC_KEYS;
-	    !!isReserved ? process.env.NODE_ENV !== 'production' ? invariant(false, 'ReactClass: You are attempting to define a reserved property, `%s`, that shouldn\'t be on the "statics" key. Define it as an instance property instead; it will still be accessible on the constructor.', name) : _prodInvariant('78', name) : void 0;
+	    !!isReserved ? process.env.NODE_ENV !== 'production' ? invariant(false, 'ReactClass: You are attempting to define a reserved property, `%s`, that shouldn\'a be on the "statics" key. Define it as an instance property instead; it will still be accessible on the constructor.', name) : _prodInvariant('78', name) : void 0;
 
 	    var isInherited = name in Constructor;
 	    !!isInherited ? process.env.NODE_ENV !== 'production' ? invariant(false, 'ReactClass: You are attempting to define `%s` on your component more than once. This conflict may be due to a mixin.', name) : _prodInvariant('79', name) : void 0;
@@ -2647,7 +2647,7 @@
 	   */
 	  createClass: function (spec) {
 	    // To keep our warnings more understandable, we'll use a little hack here to
-	    // ensure that Constructor.name !== 'Constructor'. This makes sure we don't
+	    // ensure that Constructor.name !== 'Constructor'. This makes sure we don'a
 	    // unnecessarily identify a class without displayName as 'Constructor'.
 	    var Constructor = identity(function (props, context, updater) {
 	      // This constructor gets overridden by mocks. The argument is used
@@ -2669,7 +2669,7 @@
 
 	      this.state = null;
 
-	      // ReactClasses doesn't have constructors. Instead, they use the
+	      // ReactClasses doesn'a have constructors. Instead, they use the
 	      // getInitialState and componentWillMount methods for initialization.
 
 	      var initialState = this.getInitialState ? this.getInitialState() : null;
@@ -3007,9 +3007,9 @@
 	}
 
 	/**
-	 * Warn if the element doesn't have an explicit key assigned to it.
+	 * Warn if the element doesn'a have an explicit key assigned to it.
 	 * This element is in an array. The array could grow and shrink or be
-	 * reordered. All children that haven't already been validated are required to
+	 * reordered. All children that haven'a already been validated are required to
 	 * have a "key" property assigned to it. Error statuses are cached so a warning
 	 * will only be shown once.
 	 *
@@ -3109,7 +3109,7 @@
 
 	  createElement: function (type, props, children) {
 	    var validType = typeof type === 'string' || typeof type === 'function';
-	    // We warn in this case but don't throw. We expect the element creation to
+	    // We warn in this case but don'a throw. We expect the element creation to
 	    // succeed and there will likely be errors in render.
 	    if (!validType) {
 	      process.env.NODE_ENV !== 'production' ? warning(false, 'React.createElement: type should not be null, undefined, boolean, or ' + 'number. It should be a string (for DOM elements) or a ReactClass ' + '(for composite components).%s', getDeclarationErrorAddendum()) : void 0;
@@ -3123,9 +3123,9 @@
 	      return element;
 	    }
 
-	    // Skip key warning if the type isn't valid since our key validation logic
-	    // doesn't expect a non-string/function type and can throw confusing errors.
-	    // We don't want exception behavior to differ between dev and prod.
+	    // Skip key warning if the type isn'a valid since our key validation logic
+	    // doesn'a expect a non-string/function type and can throw confusing errors.
+	    // We don'a want exception behavior to differ between dev and prod.
 	    // (Rendering will throw with a helpful message and as soon as the type is
 	    // fixed, the key warnings will appear.)
 	    if (validType) {
@@ -3361,7 +3361,7 @@
 	      !nextChild.isMounted ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Expected onMountComponent() to fire for the child before its parent includes it in onSetChildren().') : _prodInvariant('71') : void 0;
 	      if (nextChild.parentID == null) {
 	        nextChild.parentID = id;
-	        // TODO: This shouldn't be necessary but mounting a new root during in
+	        // TODO: This shouldn'a be necessary but mounting a new root during in
 	        // componentWillMount currently causes not-yet-mounted components to
 	        // be purged from our tree data so their parent id is missing.
 	      }
@@ -3543,9 +3543,9 @@
 
 	if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'test') {
 	  // Temporary hack.
-	  // Inline requires don't work well with Jest:
+	  // Inline requires don'a work well with Jest:
 	  // https://github.com/facebook/react/issues/7240
-	  // Remove the inline requires when we don't need them anymore:
+	  // Remove the inline requires when we don'a need them anymore:
 	  // https://github.com/facebook/react/pull/7178
 	  ReactComponentTreeHook = __webpack_require__(26);
 	}
@@ -3568,8 +3568,8 @@
 	  for (var typeSpecName in typeSpecs) {
 	    if (typeSpecs.hasOwnProperty(typeSpecName)) {
 	      var error;
-	      // Prop type validation may throw. In case they do, we don't want to
-	      // fail the render phase where it didn't fail before. So we log it.
+	      // Prop type validation may throw. In case they do, we don'a want to
+	      // fail the render phase where it didn'a fail before. So we log it.
 	      // After these have been cleaned up, we'll let them throw.
 	      try {
 	        // This is intentionally an invariant that gets caught. It's the same
@@ -3741,8 +3741,8 @@
 
 	/**
 	 * We use an Error-like object for backward compatibility as people may call
-	 * PropTypes directly and inspect their output. However we don't use real
-	 * Errors anymore. We don't inspect their stack anyway, and creating them
+	 * PropTypes directly and inspect their output. However we don'a use real
+	 * Errors anymore. We don'a inspect their stack anyway, and creating them
 	 * is prohibitively expensive if they are created too often, such as what
 	 * happens in oneOfType() for any type before the one that matched.
 	 */
@@ -4482,7 +4482,7 @@
 
 	  var error = new Error(message);
 	  error.name = 'Invariant Violation';
-	  error.framesToPop = 1; // we don't care about reactProdInvariant's own frame
+	  error.framesToPop = 1; // we don'a care about reactProdInvariant's own frame
 
 	  throw error;
 	}
@@ -4534,8 +4534,8 @@
 	   * attribute names,
 	   *
 	   * Properties: object mapping DOM property name to one of the
-	   * DOMPropertyInjection constants or null. If your attribute isn't in here,
-	   * it won't get written to the DOM.
+	   * DOMPropertyInjection constants or null. If your attribute isn'a in here,
+	   * it won'a get written to the DOM.
 	   *
 	   * DOMAttributeNames: object mapping React attribute name to the DOM
 	   * attribute name. Attribute names not specified use the **lowercase**
@@ -4751,7 +4751,7 @@
 	      error.name = 'Invariant Violation';
 	    }
 
-	    error.framesToPop = 1; // we don't care about invariant's own frame
+	    error.framesToPop = 1; // we don'a care about invariant's own frame
 	    throw error;
 	  }
 	}
@@ -4983,7 +4983,7 @@
 
 	// Webkit offers a very useful `textInput` event that can be used to
 	// directly represent `beforeInput`. The IE `textinput` event is not as
-	// useful, so we don't use it.
+	// useful, so we don'a use it.
 	var canUseTextInputEvent = ExecutionEnvironment.canUseDOM && 'TextEvent' in window && !documentMode && !isPresto();
 
 	// In IE9+, we have access to composition events, but the data supplied
@@ -5212,7 +5212,7 @@
 
 	      // If it's a spacebar character, assume that we have already handled
 	      // it at the keypress level and bail immediately. Android Chrome
-	      // doesn't give us keycodes, so we need to blacklist it.
+	      // doesn'a give us keycodes, so we need to blacklist it.
 	      if (chars === SPACEBAR_CHAR && hasSpaceKeypress) {
 	        return null;
 	      }
@@ -6180,7 +6180,7 @@
 
 	/**
 	 * Execution of a "direct" dispatch - there must be at most one dispatch
-	 * accumulated on the event or it is considered an error. It doesn't really make
+	 * accumulated on the event or it is considered an error. It doesn'a really make
 	 * sense for an event with multiple dispatches (bubbled) to keep track of the
 	 * return values at each dispatch execution, but it does tend to make sense when
 	 * dealing with "direct" dispatches.
@@ -6741,7 +6741,7 @@
 
 			return true;
 		} catch (e) {
-			// We don't expect any of the above to throw, but better to be safe.
+			// We don'a expect any of the above to throw, but better to be safe.
 			return false;
 		}
 	}
@@ -6932,7 +6932,7 @@
 	function getTextContentAccessor() {
 	  if (!contentKey && ExecutionEnvironment.canUseDOM) {
 	    // Prefer textContent to innerText because many browsers support both but
-	    // SVG <text> elements don't support innerText even when <div> does.
+	    // SVG <text> elements don'a support innerText even when <div> does.
 	    contentKey = 'textContent' in document.documentElement ? 'textContent' : 'innerText';
 	  }
 	  return contentKey;
@@ -7129,7 +7129,7 @@
 	  /**
 	   * We release all dispatched `SyntheticEvent`s after each event loop, adding
 	   * them back into the pool. This allows a way to hold onto a reference that
-	   * won't be added back into the pool.
+	   * won'a be added back into the pool.
 	   */
 	  persist: function () {
 	    this.isPersistent = emptyFunction.thatReturnsTrue;
@@ -7359,13 +7359,13 @@
 
 	  // If change and propertychange bubbled, we'd just bind to it like all the
 	  // other events and have it go through ReactBrowserEventEmitter. Since it
-	  // doesn't, we manually listen for the events and so we have to enqueue and
+	  // doesn'a, we manually listen for the events and so we have to enqueue and
 	  // process the abstract event manually.
 	  //
 	  // Batching is necessary here in order to ensure that all event handlers run
 	  // before the next rerender (including event handlers attached to ancestor
 	  // elements instead of directly on the input). Without this, controlled
-	  // components don't work properly in conjunction with event bubbling because
+	  // components don'a work properly in conjunction with event bubbling because
 	  // the component is rerendered and the value reverted before all the event
 	  // handlers can run. See https://github.com/facebook/react/issues/708.
 	  ReactUpdates.batchedUpdates(runEventInBatch, event);
@@ -7513,10 +7513,10 @@
 	    // propertychange handler and looking for events with propertyName
 	    // equal to 'value'
 	    // In IE9-11, propertychange fires for most input events but is buggy and
-	    // doesn't fire when text is deleted, but conveniently, selectionchange
+	    // doesn'a fire when text is deleted, but conveniently, selectionchange
 	    // appears to fire in all of the remaining cases so we catch those and
 	    // forward the event if the value has changed
-	    // In either case, we don't want to call the event handler if the value
+	    // In either case, we don'a want to call the event handler if the value
 	    // is changed from JS so we redefine a setter for `.value` that updates
 	    // our activeElementValue variable, allowing us to ignore those changes
 	    //
@@ -7532,10 +7532,10 @@
 	// For IE8 and IE9.
 	function getTargetInstForInputEventIE(topLevelType, targetInst) {
 	  if (topLevelType === 'topSelectionChange' || topLevelType === 'topKeyUp' || topLevelType === 'topKeyDown') {
-	    // On the selectionchange event, the target is just document which isn't
+	    // On the selectionchange event, the target is just document which isn'a
 	    // helpful for us so just check activeElement instead.
 	    //
-	    // 99% of the time, keydown and keyup aren't necessary. IE8 fails to fire
+	    // 99% of the time, keydown and keyup aren'a necessary. IE8 fails to fire
 	    // propertychange on the first input event after setting `value` from a
 	    // script and fires only keydown, keypress, keyup. Catching keyup usually
 	    // gets it and catching keydown lets us fire an event for the first
@@ -7756,7 +7756,7 @@
 	    var component = dirtyComponents[i];
 
 	    // If performUpdateIfNecessary happens to enqueue any new updates, we
-	    // shouldn't execute the callbacks until the next render happens, so
+	    // shouldn'a execute the callbacks until the next render happens, so
 	    // stash the callbacks first
 	    var callbacks = component._pendingCallbacks;
 	    component._pendingCallbacks = null;
@@ -7816,7 +7816,7 @@
 	  ensureInjected();
 
 	  // Various parts of our code (such as ReactCompositeComponent's
-	  // _renderValidatedComponent) assume that calls to render aren't nested;
+	  // _renderValidatedComponent) assume that calls to render aren'a nested;
 	  // verify that that's the case. (This is called by each top-level update
 	  // function, like setState, forceUpdate, etc.; creation and
 	  // destruction of top-level components is guarded in ReactMount.)
@@ -7837,7 +7837,7 @@
 	 * if no updates are currently being performed.
 	 */
 	function asap(callback, context) {
-	  !batchingStrategy.isBatchingUpdates ? process.env.NODE_ENV !== 'production' ? invariant(false, 'ReactUpdates.asap: Can\'t enqueue an asap callback in a context whereupdates are not being batched.') : _prodInvariant('125') : void 0;
+	  !batchingStrategy.isBatchingUpdates ? process.env.NODE_ENV !== 'production' ? invariant(false, 'ReactUpdates.asap: Can\'a enqueue an asap callback in a context whereupdates are not being batched.') : _prodInvariant('125') : void 0;
 	  asapCallbackQueue.enqueue(callback, context);
 	  asapEnqueued = true;
 	}
@@ -8275,7 +8275,7 @@
 	  }
 
 	  return prevRef !== nextRef ||
-	  // If owner changes but we have an unchanged function ref, don't update refs
+	  // If owner changes but we have an unchanged function ref, don'a update refs
 	  typeof nextRef === 'string' && nextOwner !== prevOwner;
 	};
 
@@ -8493,7 +8493,7 @@
 	      text: ReactComponentTreeHook.getText(id),
 	      updateCount: ReactComponentTreeHook.getUpdateCount(id),
 	      childIDs: ReactComponentTreeHook.getChildIDs(id),
-	      // Text nodes don't have owners but this is close enough.
+	      // Text nodes don'a have owners but this is close enough.
 	      ownerID: ownerID || parentID && ReactComponentTreeHook.getOwnerID(parentID) || 0,
 	      parentID: parentID
 	    };
@@ -8888,7 +8888,7 @@
 
 	/**
 	 * Detect if we can use `window.performance.now()` and gracefully fallback to
-	 * `Date.now()` if it doesn't exist. We need to support Firefox < 15 for now
+	 * `Date.now()` if it doesn'a exist. We need to support Firefox < 15 for now
 	 * because of Facebook's testing infrastructure.
 	 */
 	if (performance.now) {
@@ -9084,7 +9084,7 @@
 	            this.closeAll(0);
 	          } catch (err) {}
 	        } else {
-	          // Since `method` didn't throw, we don't want to silence the exception
+	          // Since `method` didn'a throw, we don'a want to silence the exception
 	          // here.
 	          this.closeAll(0);
 	        }
@@ -10019,7 +10019,7 @@
 	  var nodeAfterComment = openingComment.nextSibling;
 	  if (nodeAfterComment === closingComment) {
 	    // There are no text nodes between the opening and closing comments; insert
-	    // a new one if stringText isn't empty.
+	    // a new one if stringText isn'a empty.
 	    if (stringText) {
 	      insertChildAt(parentNode, document.createTextNode(stringText), nodeAfterComment);
 	    }
@@ -10205,8 +10205,8 @@
 	}
 
 	var insertTreeBefore = createMicrosoftUnsafeLocalFunction(function (parentNode, tree, referenceNode) {
-	  // DocumentFragments aren't actually part of the DOM after insertion so
-	  // appending children won't update the DOM. We need to ensure the fragment
+	  // DocumentFragments aren'a actually part of the DOM after insertion so
+	  // appending children won'a update the DOM. We need to ensure the fragment
 	  // is properly populated first, breaking out of our lazy approach for just
 	  // this level. Also, some <object> plugins (like Flash Player) will read
 	  // <param> nodes immediately upon insertion into the DOM, so <object>
@@ -10797,9 +10797,9 @@
 
 	  !(length === 0 || length - 1 in obj) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'toArray: Object should have keys for indices') : invariant(false) : void 0;
 
-	  !(typeof obj.callee !== 'function') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'toArray: Object can\'t be `arguments`. Use rest params ' + '(function(...args) {}) or Array.from() instead.') : invariant(false) : void 0;
+	  !(typeof obj.callee !== 'function') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'toArray: Object can\'a be `arguments`. Use rest params ' + '(function(...args) {}) or Array.from() instead.') : invariant(false) : void 0;
 
-	  // Old IE doesn't give collections access to hasOwnProperty. Assume inputs
+	  // Old IE doesn'a give collections access to hasOwnProperty. Assume inputs
 	  // without method will throw during the slice call and skip straight to the
 	  // fallback.
 	  if (obj.hasOwnProperty) {
@@ -11129,7 +11129,7 @@
 	    return '[function object]';
 	  }
 	  // Differs from JSON.stringify in that undefined because undefined and that
-	  // inf and nan don't become null
+	  // inf and nan don'a become null
 	  return String(obj);
 	}
 
@@ -11190,9 +11190,9 @@
 	    return;
 	  }
 	  if (process.env.NODE_ENV !== 'production') {
-	    // IE8 has no API for event capturing and the `onScroll` event doesn't
+	    // IE8 has no API for event capturing and the `onScroll` event doesn'a
 	    // bubble.
-	    process.env.NODE_ENV !== 'production' ? warning(registrationName !== 'onScroll' || isEventSupported('scroll', true), 'This browser doesn\'t support the `onScroll` event') : void 0;
+	    process.env.NODE_ENV !== 'production' ? warning(registrationName !== 'onScroll' || isEventSupported('scroll', true), 'This browser doesn\'a support the `onScroll` event') : void 0;
 	  }
 	  var containerInfo = inst._hostContainerInfo;
 	  var isDocumentFragment = containerInfo._node && containerInfo._node.nodeType === DOC_FRAGMENT_TYPE;
@@ -11692,7 +11692,7 @@
 	      // text/html ignores the first character in these tags if it's a newline
 	      // Prefer to break application/xml over text/html (for now) by adding
 	      // a newline specifically to get eaten by the parser. (Alternately for
-	      // textareas, replacing "^\n" with "\r\n" doesn't get eaten, and the first
+	      // textareas, replacing "^\n" with "\r\n" doesn'a get eaten, and the first
 	      // \r is normalized out by HTMLTextAreaElement#value.)
 	      // See: <http://www.w3.org/TR/html-polyglot/#newlines-in-textarea-and-pre>
 	      // See: <http://www.w3.org/TR/html5/syntax.html#element-restrictions>
@@ -11835,7 +11835,7 @@
 	      } else if (registrationNameModules.hasOwnProperty(propKey)) {
 	        if (lastProps[propKey]) {
 	          // Only call deleteListener if there was a listener previously or
-	          // else willDeleteListener gets called when there wasn't actually a
+	          // else willDeleteListener gets called when there wasn'a actually a
 	          // listener (e.g., onClick={null})
 	          deleteListener(this, propKey);
 	        }
@@ -11996,7 +11996,7 @@
 	      case 'head':
 	      case 'body':
 	        /**
-	         * Components like <html> <head> and <body> can't be removed or added
+	         * Components like <html> <head> and <body> can'a be removed or added
 	         * easily in a cross-browser way, however it's valuable to be able to
 	         * take advantage of React's reconciliation for styling and <title>
 	         * management. So we just document it and throw in dangerous cases.
@@ -12077,7 +12077,7 @@
 	 */
 
 	function focusNode(node) {
-	  // IE8 can throw "Can't move focus to the control because it is invisible,
+	  // IE8 can throw "Can'a move focus to the control because it is invisible,
 	  // not enabled, or of a type that does not accept the focus." for all kinds of
 	  // reasons that are too expensive and fragile to test.
 	  try {
@@ -12137,7 +12137,7 @@
 	  // 'msTransform' is correct, but the other prefixes should be capitalized
 	  var badVendoredStyleNamePattern = /^(?:webkit|moz|o)[A-Z]/;
 
-	  // style values shouldn't contain a semicolon
+	  // style values shouldn'a contain a semicolon
 	  var badStyleValueWithSemicolonPattern = /;\s*$/;
 
 	  var warnedStyleNames = {};
@@ -12168,7 +12168,7 @@
 	    }
 
 	    warnedStyleValues[value] = true;
-	    process.env.NODE_ENV !== 'production' ? warning(false, 'Style property values shouldn\'t contain a semicolon.%s ' + 'Try "%s: %s" instead.', checkRenderMessage(owner), name, value.replace(badStyleValueWithSemicolonPattern, '')) : void 0;
+	    process.env.NODE_ENV !== 'production' ? warning(false, 'Style property values shouldn\'a contain a semicolon.%s ' + 'Try "%s: %s" instead.', checkRenderMessage(owner), name, value.replace(badStyleValueWithSemicolonPattern, '')) : void 0;
 	  };
 
 	  var warnStyleValueIsNaN = function (name, value, owner) {
@@ -12284,7 +12284,7 @@
 	      } else {
 	        var expansion = hasShorthandPropertyBug && CSSProperty.shorthandPropertyExpansions[styleName];
 	        if (expansion) {
-	          // Shorthand property that IE8 won't like unsetting, so unset each
+	          // Shorthand property that IE8 won'a like unsetting, so unset each
 	          // component to placate it
 	          for (var individualStyleName in expansion) {
 	            style[individualStyleName] = '';
@@ -12386,7 +12386,7 @@
 
 	/**
 	 * Most style properties can be unset by doing .style[prop] = '' but IE8
-	 * doesn't like doing that with shorthand properties so for the properties that
+	 * doesn'a like doing that with shorthand properties so for the properties that
 	 * IE8 breaks on, which are listed here, we instead unset each of the
 	 * individual properties. See http://bugs.jquery.com/ticket/12385.
 	 * The 4-value 'clock' properties like margin, padding, border-width seem to
@@ -12569,7 +12569,7 @@
 	  // Note that we've removed escapeTextForBrowser() calls here since the
 	  // whole string will be escaped when the attribute is injected into
 	  // the markup. If you provide unsafe user data here they can inject
-	  // arbitrary CSS which may be problematic (I couldn't repro this):
+	  // arbitrary CSS which may be problematic (I couldn'a repro this):
 	  // https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet
 	  // http://www.thespanner.co.uk/2007/11/26/ultimate-xss-css-injection/
 	  // This is not an XSS hole but instead a potential CSS injection issue
@@ -12589,7 +12589,7 @@
 	  if (typeof value === 'string') {
 	    if (process.env.NODE_ENV !== 'production') {
 	      // Allow '0' to pass through without warning. 0 is already special and
-	      // doesn't require units, so we don't need to warn about it.
+	      // doesn'a require units, so we don'a need to warn about it.
 	      if (component && value !== '0') {
 	        var owner = component._currentElement._owner;
 	        var ownerName = owner ? owner.getName() : null;
@@ -13088,9 +13088,9 @@
 	var isMonitoringScrollValue = false;
 	var reactTopListenersCounter = 0;
 
-	// For events like 'submit' which don't consistently bubble (which we trap at a
+	// For events like 'submit' which don'a consistently bubble (which we trap at a
 	// lower node than `document`), binding at `document` would cause duplicate
-	// events so we don't include them here
+	// events so we don'a include them here
 	var topEventMapping = {
 	  topAbort: 'abort',
 	  topAnimationEnd: getVendorPrefixedEventName('animationend') || 'animationend',
@@ -13164,7 +13164,7 @@
 	var topListenersIDKey = '_reactListenersID' + String(Math.random()).slice(2);
 
 	function getListeningForDocument(mountAt) {
-	  // In IE8, `mountAt` is a host object and doesn't have `hasOwnProperty`
+	  // In IE8, `mountAt` is a host object and doesn'a have `hasOwnProperty`
 	  // directly.
 	  if (!Object.prototype.hasOwnProperty.call(mountAt, topListenersIDKey)) {
 	    mountAt[topListenersIDKey] = reactTopListenersCounter++;
@@ -13225,7 +13225,7 @@
 	   * mounting `onmousemove` events at some node that was not the document
 	   * element. The symptoms were that if your mouse is not moving over something
 	   * contained within that mount point (for example on the background) the
-	   * top-level listeners for `onmousemove` won't be called. However, if you
+	   * top-level listeners for `onmousemove` won'a be called. However, if you
 	   * register the `mousemove` on the document object, then it will of course
 	   * catch all `mousemove`s. This along with iOS quirks, justifies restricting
 	   * top-level listeners to the document object only, at least for these
@@ -13314,7 +13314,7 @@
 	   * application code can access them without triggering reflows.
 	   *
 	   * ViewportMetrics is only used by SyntheticMouse/TouchEvent and only when
-	   * pageX/pageY isn't supported (legacy browsers).
+	   * pageX/pageY isn'a supported (legacy browsers).
 	   *
 	   * NOTE: Scroll events do not bubble.
 	   *
@@ -13620,7 +13620,7 @@
 	      }
 	    }
 
-	    // TODO: Shouldn't this be getChecked(props)?
+	    // TODO: Shouldn'a this be getChecked(props)?
 	    var checked = props.checked;
 	    if (checked != null) {
 	      DOMPropertyOperations.setValueForProperty(ReactDOMComponentTree.getNodeFromInstance(inst), 'checked', checked || false);
@@ -13631,7 +13631,7 @@
 	    if (value != null) {
 
 	      // Cast `value` to a string to ensure the value is set correctly. While
-	      // browsers typically do this as necessary, jsdom doesn't.
+	      // browsers typically do this as necessary, jsdom doesn'a.
 	      var newValue = '' + value;
 
 	      // To avoid side effects (such as losing text selection), only set value if changed
@@ -13655,9 +13655,9 @@
 	    // available until after the component has mounted.
 	    var node = ReactDOMComponentTree.getNodeFromInstance(inst);
 
-	    // Detach value from defaultValue. We won't do anything if we're working on
+	    // Detach value from defaultValue. We won'a do anything if we're working on
 	    // submit or reset inputs as those values & defaultValues are linked. They
-	    // are not resetable nodes so this operation doesn't matter and actually
+	    // are not resetable nodes so this operation doesn'a matter and actually
 	    // removes browser-default values (eg "Submit Query") when no value is
 	    // provided.
 
@@ -13721,9 +13721,9 @@
 	    // If `rootNode.form` was non-null, then we could try `form.elements`,
 	    // but that sometimes behaves strangely in IE8. We could also try using
 	    // `form.getElementsByName`, but that will only return direct children
-	    // and won't include inputs that use the HTML5 `form=` attribute. Since
+	    // and won'a include inputs that use the HTML5 `form=` attribute. Since
 	    // the input might not even be in a form, let's just use the global
-	    // `querySelectorAll` to ensure we don't miss anything.
+	    // `querySelectorAll` to ensure we don'a miss anything.
 	    var group = queryRoot.querySelectorAll('input[name=' + JSON.stringify('' + name) + '][type="radio"]');
 
 	    for (var i = 0; i < group.length; i++) {
@@ -13733,7 +13733,7 @@
 	      }
 	      // This will throw if radio buttons rendered by different copies of React
 	      // and the same name are rendered into the same form (same as #1939).
-	      // That's probably okay; we don't support it just as we don't support
+	      // That's probably okay; we don'a support it just as we don'a support
 	      // mixing React radio buttons with non-React ones.
 	      var otherInstance = ReactDOMComponentTree.getInstanceFromNode(otherNode);
 	      !otherInstance ? process.env.NODE_ENV !== 'production' ? invariant(false, 'ReactDOMInput: Mixing React and non-React radio inputs with the same `name` is not supported.') : _prodInvariant('90') : void 0;
@@ -13785,16 +13785,16 @@
 	};
 
 	function _assertSingleLink(inputProps) {
-	  !(inputProps.checkedLink == null || inputProps.valueLink == null) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Cannot provide a checkedLink and a valueLink. If you want to use checkedLink, you probably don\'t want to use valueLink and vice versa.') : _prodInvariant('87') : void 0;
+	  !(inputProps.checkedLink == null || inputProps.valueLink == null) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Cannot provide a checkedLink and a valueLink. If you want to use checkedLink, you probably don\'a want to use valueLink and vice versa.') : _prodInvariant('87') : void 0;
 	}
 	function _assertValueLink(inputProps) {
 	  _assertSingleLink(inputProps);
-	  !(inputProps.value == null && inputProps.onChange == null) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Cannot provide a valueLink and a value or onChange event. If you want to use value or onChange, you probably don\'t want to use valueLink.') : _prodInvariant('88') : void 0;
+	  !(inputProps.value == null && inputProps.onChange == null) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Cannot provide a valueLink and a value or onChange event. If you want to use value or onChange, you probably don\'a want to use valueLink.') : _prodInvariant('88') : void 0;
 	}
 
 	function _assertCheckedLink(inputProps) {
 	  _assertSingleLink(inputProps);
-	  !(inputProps.checked == null && inputProps.onChange == null) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Cannot provide a checkedLink and a checked property or onChange event. If you want to use checked or onChange, you probably don\'t want to use checkedLink') : _prodInvariant('89') : void 0;
+	  !(inputProps.checked == null && inputProps.onChange == null) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Cannot provide a checkedLink and a checked property or onChange event. If you want to use checked or onChange, you probably don\'a want to use checkedLink') : _prodInvariant('89') : void 0;
 	}
 
 	var propTypes = {
@@ -13939,7 +13939,7 @@
 	function flattenChildren(children) {
 	  var content = '';
 
-	  // Flatten children and warn if they aren't strings or numbers;
+	  // Flatten children and warn if they aren'a strings or numbers;
 	  // invalid types are ignored.
 	  React.Children.forEach(children, function (child) {
 	    if (child == null) {
@@ -13981,7 +13981,7 @@
 	    }
 
 	    // If the value is null (e.g., no specified value or after initial mount)
-	    // or missing (e.g., for <datalist>), we don't change props.selected
+	    // or missing (e.g., for <datalist>), we don'a change props.selected
 	    var selected = null;
 	    if (selectValue != null) {
 	      var value;
@@ -14140,7 +14140,7 @@
 	      }
 	    }
 	  } else {
-	    // Do not set `select.value` as exact behavior isn't consistent across all
+	    // Do not set `select.value` as exact behavior isn'a consistent across all
 	    // browsers for all cases.
 	    selectedValue = '' + propValue;
 	    for (i = 0; i < options.length; i++) {
@@ -14207,7 +14207,7 @@
 	  postUpdateWrapper: function (inst) {
 	    var props = inst._currentElement.props;
 
-	    // After the initial mount, we control selected-ness manually so don't pass
+	    // After the initial mount, we control selected-ness manually so don'a pass
 	    // this value down
 	    inst._wrapperState.initialValue = undefined;
 
@@ -14367,7 +14367,7 @@
 	    var value = LinkedValueUtils.getValue(props);
 	    if (value != null) {
 	      // Cast `value` to a string to ensure the value is set correctly. While
-	      // browsers typically do this as necessary, jsdom doesn't.
+	      // browsers typically do this as necessary, jsdom doesn'a.
 	      var newValue = '' + value;
 
 	      // To avoid side effects (such as losing text selection), only set value if changed
@@ -14561,7 +14561,7 @@
 	  setChildrenForInstrumentation = function (children) {
 	    var debugID = getDebugID(this);
 	    // TODO: React Native empty components are also multichild.
-	    // This means they still get into this method but don't have _debugID.
+	    // This means they still get into this method but don'a have _debugID.
 	    if (debugID !== 0) {
 	      ReactInstrumentation.debugTool.onSetChildren(debugID, children ? Object.keys(children).map(function (key) {
 	        return children[key]._debugID;
@@ -14989,9 +14989,9 @@
 
 	if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'test') {
 	  // Temporary hack.
-	  // Inline requires don't work well with Jest:
+	  // Inline requires don'a work well with Jest:
 	  // https://github.com/facebook/react/issues/7240
-	  // Remove the inline requires when we don't need them anymore:
+	  // Remove the inline requires when we don'a need them anymore:
 	  // https://github.com/facebook/react/pull/7178
 	  ReactComponentTreeHook = __webpack_require__(26);
 	}
@@ -15055,7 +15055,7 @@
 	   */
 	  updateChildren: function (prevChildren, nextChildren, mountImages, removedNodes, transaction, hostParent, hostContainerInfo, context, selfDebugID // 0 in production and for roots
 	  ) {
-	    // We currently don't have a way to track moves here but if we use iterators
+	    // We currently don'a have a way to track moves here but if we use iterators
 	    // instead of for..in we can zip the iterators and check if an item has
 	    // moved.
 	    // TODO: If nothing has changed, return the prevChildren object so that we
@@ -15815,7 +15815,7 @@
 
 	  /**
 	   * Perform an update to a mounted component. The componentWillReceiveProps and
-	   * shouldComponentUpdate methods are called, then (assuming the update isn't
+	   * shouldComponentUpdate methods are called, then (assuming the update isn'a
 	   * skipped) the remaining update lifecycle methods are called and the DOM
 	   * representation is updated.
 	   *
@@ -16223,9 +16223,9 @@
 
 	if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'test') {
 	  // Temporary hack.
-	  // Inline requires don't work well with Jest:
+	  // Inline requires don'a work well with Jest:
 	  // https://github.com/facebook/react/issues/7240
-	  // Remove the inline requires when we don't need them anymore:
+	  // Remove the inline requires when we don'a need them anymore:
 	  // https://github.com/facebook/react/pull/7178
 	  ReactComponentTreeHook = __webpack_require__(26);
 	}
@@ -16248,8 +16248,8 @@
 	  for (var typeSpecName in typeSpecs) {
 	    if (typeSpecs.hasOwnProperty(typeSpecName)) {
 	      var error;
-	      // Prop type validation may throw. In case they do, we don't want to
-	      // fail the render phase where it didn't fail before. So we log it.
+	      // Prop type validation may throw. In case they do, we don'a want to
+	      // fail the render phase where it didn'a fail before. So we log it.
 	      // After these have been cleaned up, we'll let them throw.
 	      try {
 	        // This is intentionally an invariant that gets caught. It's the same
@@ -16714,7 +16714,7 @@
 	 */
 	function getComponentKey(component, index) {
 	  // Do some typechecking here since we call this blindly. We want to ensure
-	  // that we don't block potential future ES APIs.
+	  // that we don'a block potential future ES APIs.
 	  if (component && typeof component === 'object' && component.key != null) {
 	    // Explicit key
 	    return KeyEscapeUtils.escape(component.key);
@@ -16938,9 +16938,9 @@
 
 	if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'test') {
 	  // Temporary hack.
-	  // Inline requires don't work well with Jest:
+	  // Inline requires don'a work well with Jest:
 	  // https://github.com/facebook/react/issues/7240
-	  // Remove the inline requires when we don't need them anymore:
+	  // Remove the inline requires when we don'a need them anymore:
 	  // https://github.com/facebook/react/pull/7178
 	  ReactComponentTreeHook = __webpack_require__(26);
 	}
@@ -17210,7 +17210,7 @@
 	  /**
 	   * Sets a subset of the state. This only exists because _pendingState is
 	   * internal. This provides a merging strategy that is not available to deep
-	   * properties which is confusing. TODO: Expose pendingState or don't use it
+	   * properties which is confusing. TODO: Expose pendingState or don'a use it
 	   * during the merge.
 	   *
 	   * @param {ReactClass} publicInstance The instance that should rerender.
@@ -17282,7 +17282,7 @@
 	    if (process.env.NODE_ENV !== 'production') {
 	      var ctor = publicInstance.constructor;
 	      // Only warn when we have a callerName. Otherwise we should be silent.
-	      // We're probably calling from enqueueCallback. We don't want to warn
+	      // We're probably calling from enqueueCallback. We don'a want to warn
 	      // there because we already warned for the corresponding lifecycle method.
 	      process.env.NODE_ENV !== 'production' ? warning(!callerName, '%s(...): Can only update a mounted or mounting component. ' + 'This usually means you called %s() on an unmounted component. ' + 'This is a no-op. Please check the code for the %s component.', callerName, callerName, ctor && (ctor.displayName || ctor.name) || 'ReactClass') : void 0;
 	    }
@@ -17341,7 +17341,7 @@
 	    ReactUpdateQueue.validateCallback(callback, callerName);
 	    var internalInstance = getInternalInstanceReadyForUpdate(publicInstance);
 
-	    // Previously we would throw an error if we didn't have an internal
+	    // Previously we would throw an error if we didn'a have an internal
 	    // instance. Since we want to make it a no-op instead, we mirror the same
 	    // behavior we have in other enqueue* methods.
 	    // We also need to ignore callbacks in componentWillMount. See
@@ -17423,7 +17423,7 @@
 	  /**
 	   * Sets a subset of the state. This only exists because _pendingState is
 	   * internal. This provides a merging strategy that is not available to deep
-	   * properties which is confusing. TODO: Expose pendingState or don't use it
+	   * properties which is confusing. TODO: Expose pendingState or don'a use it
 	   * during the merge.
 	   *
 	   * @param {ReactClass} publicInstance The instance that should rerender.
@@ -17494,7 +17494,7 @@
 	  // Note: this does not catch all invalid nesting, nor does it try to (as it's
 	  // not clear what practical benefit doing so provides); instead, we warn only
 	  // for cases where the parser will give a parse tree differing from what React
-	  // intended. For example, <b><div></div></b> is invalid but we don't warn
+	  // intended. For example, <b><div></div></b> is invalid but we don'a warn
 	  // because it still parses correctly; we do warn for other cases like nested
 	  // <p> tags where the beginning of the second element implicitly closes the
 	  // first, causing a confusing mess.
@@ -17587,7 +17587,7 @@
 	        return tag === 'option' || tag === 'optgroup' || tag === '#text';
 	      case 'optgroup':
 	        return tag === 'option' || tag === '#text';
-	      // Strictly speaking, seeing an <option> doesn't mean we're in a <select>
+	      // Strictly speaking, seeing an <option> doesn'a mean we're in a <select>
 	      // but
 	      case 'option':
 	        return tag === '#text';
@@ -17657,7 +17657,7 @@
 	      case 'tr':
 	        // These tags are only valid with a few parents that have special child
 	        // parsing rules -- if we're down here, then none of those matched and
-	        // so we allow it only if we don't know what the parent is, as all other
+	        // so we allow it only if we don'a know what the parent is, as all other
 	        // cases are invalid.
 	        return parentTag == null;
 	    }
@@ -17819,7 +17819,7 @@
 	          tagDisplayName = 'Text nodes';
 	        } else {
 	          tagDisplayName = 'Whitespace text nodes';
-	          whitespaceInfo = ' Make sure you don\'t have any extra whitespace between tags on ' + 'each line of your source code.';
+	          whitespaceInfo = ' Make sure you don\'a have any extra whitespace between tags on ' + 'each line of your source code.';
 	        }
 	      } else {
 	        tagDisplayName = '<' + childTag + '>';
@@ -17897,7 +17897,7 @@
 	    } else {
 	      if (transaction.renderToStaticMarkup) {
 	        // Normally we'd insert a comment node, but since this is a situation
-	        // where React won't take over (static pages), we can simply return
+	        // where React won'a take over (static pages), we can simply return
 	        // nothing.
 	        return '';
 	      }
@@ -18161,7 +18161,7 @@
 
 	      if (transaction.renderToStaticMarkup) {
 	        // Normally we'd wrap this between comment nodes for the reasons stated
-	        // above, but since this is a situation where React won't take over
+	        // above, but since this is a situation where React won'a take over
 	        // (static pages), we can simply return the text as it is.
 	        return escapedText;
 	      }
@@ -18279,7 +18279,7 @@
 
 	  /**
 	   * Call the provided function in a context within which calls to `setState`
-	   * and friends are batched such that components aren't updated unnecessarily.
+	   * and friends are batched such that components aren'a updated unnecessarily.
 	   */
 	  batchedUpdates: function (callback, a, b, c, d, e) {
 	    var alreadyBatchingUpdates = ReactDefaultBatchingStrategy.isBatchingUpdates;
@@ -18837,7 +18837,7 @@
 
 	/**
 	 * @ReactInputSelection: React input selection module. Based on Selection.js,
-	 * but modified to be suitable for react and has a couple of bug fixes (doesn't
+	 * but modified to be suitable for react and has a couple of bug fixes (doesn'a
 	 * assume buttons have range selections allowed).
 	 * Input selection module for React.
 	 */
@@ -18970,7 +18970,7 @@
 	/**
 	 * Get the appropriate anchor and focus node/offset pairs for IE.
 	 *
-	 * The catch here is that IE's selection API doesn't provide information
+	 * The catch here is that IE's selection API doesn'a provide information
 	 * about whether the selection is forward or backward, so we have to
 	 * behave as though it's always forward.
 	 *
@@ -19110,7 +19110,7 @@
 	  var start = Math.min(offsets.start, length);
 	  var end = offsets.end === undefined ? start : Math.min(offsets.end, length);
 
-	  // IE 11 uses modern selection, but doesn't support the extend method.
+	  // IE 11 uses modern selection, but doesn'a support the extend method.
 	  // Flip backward selections, so we can set with a single range.
 	  if (!selection.extend && start > end) {
 	    var temp = end;
@@ -19767,7 +19767,7 @@
 	  // Ensure we have the right element, and that the user is not dragging a
 	  // selection (this matches native `select` event behavior). In HTML5, select
 	  // fires only on input and textarea thus if there's no focused element we
-	  // won't dispatch.
+	  // won'a dispatch.
 	  if (mouseDown || activeElement == null || activeElement !== getActiveElement()) {
 	    return null;
 	  }
@@ -19830,7 +19830,7 @@
 	        lastSelection = null;
 	        break;
 
-	      // Don't fire the event while the user is dragging. This matches the
+	      // Don'a fire the event while the user is dragging. This matches the
 	      // semantics of the native select event.
 	      case 'topMouseDown':
 	        mouseDown = true;
@@ -19841,10 +19841,10 @@
 	        return constructSelectEvent(nativeEvent, nativeEventTarget);
 
 	      // Chrome and IE fire non-standard event when selection is changed (and
-	      // sometimes when it hasn't). IE's event fires out of order with respect
+	      // sometimes when it hasn'a). IE's event fires out of order with respect
 	      // to key and input events on deletion, so we discard it.
 	      //
-	      // Firefox doesn't support selectionchange, so check selection status
+	      // Firefox doesn'a support selectionchange, so check selection status
 	      // after each key entry. The selection changes after keydown and before
 	      // keyup, but we check on keydown as well in the case of holding down a
 	      // key, when multiple keydown events are fired but only one keyup is.
@@ -20003,7 +20003,7 @@
 	      case 'topKeyPress':
 	        // Firefox creates a keypress event for function keys too. This removes
 	        // the unwanted keypress events. Enter is however both printable and
-	        // non-printable. One would expect Tab to be as well (but it isn't).
+	        // non-printable. One would expect Tab to be as well (but it isn'a).
 	        if (getEventCharCode(nativeEvent) === 0) {
 	          return null;
 	        }
@@ -20977,7 +20977,7 @@
 	   */
 	  _renderNewRootComponent: function (nextElement, container, shouldReuseMarkup, context) {
 	    // Various parts of our code (such as ReactCompositeComponent's
-	    // _renderValidatedComponent) assume that calls to render aren't nested;
+	    // _renderValidatedComponent) assume that calls to render aren'a nested;
 	    // verify that that's the case.
 	    process.env.NODE_ENV !== 'production' ? warning(ReactCurrentOwner.current == null, '_renderNewRootComponent(): Render methods should be a pure function ' + 'of props and state; triggering nested component updates from ' + 'render is not allowed. If necessary, trigger nested updates in ' + 'componentDidUpdate. Check the render method of %s.', ReactCurrentOwner.current && ReactCurrentOwner.current.getName() || 'ReactCompositeComponent') : void 0;
 
@@ -21105,9 +21105,9 @@
 	   */
 	  unmountComponentAtNode: function (container) {
 	    // Various parts of our code (such as ReactCompositeComponent's
-	    // _renderValidatedComponent) assume that calls to render aren't nested;
-	    // verify that that's the case. (Strictly speaking, unmounting won't cause a
-	    // render but we still don't expect to be in a render call here.)
+	    // _renderValidatedComponent) assume that calls to render aren'a nested;
+	    // verify that that's the case. (Strictly speaking, unmounting won'a cause a
+	    // render but we still don'a expect to be in a render call here.)
 	    process.env.NODE_ENV !== 'production' ? warning(ReactCurrentOwner.current == null, 'unmountComponentAtNode(): Render methods should be a pure function ' + 'of props and state; triggering nested component updates from render ' + 'is not allowed. If necessary, trigger nested updates in ' + 'componentDidUpdate. Check the render method of %s.', ReactCurrentOwner.current && ReactCurrentOwner.current.getName() || 'ReactCompositeComponent') : void 0;
 
 	    !isValidContainer(container) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'unmountComponentAtNode(...): Target container is not a DOM element.') : _prodInvariant('40') : void 0;
@@ -21118,7 +21118,7 @@
 
 	    var prevComponent = getTopLevelWrapperInContainer(container);
 	    if (!prevComponent) {
-	      // Check if the node being unmounted was rendered by React, but isn't a
+	      // Check if the node being unmounted was rendered by React, but isn'a a
 	      // root node.
 	      var containerHasNonRootReactChild = hasNonRootReactChild(container);
 
@@ -21182,7 +21182,7 @@
 	      }
 	    }
 
-	    !(container.nodeType !== DOC_NODE_TYPE) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'You\'re trying to render a component to the document but you didn\'t use server rendering. We can\'t do this without using server rendering due to cross-browser quirks. See ReactDOMServer.renderToString() for server rendering.') : _prodInvariant('43') : void 0;
+	    !(container.nodeType !== DOC_NODE_TYPE) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'You\'re trying to render a component to the document but you didn\'a use server rendering. We can\'a do this without using server rendering due to cross-browser quirks. See ReactDOMServer.renderToString() for server rendering.') : _prodInvariant('43') : void 0;
 
 	    if (transaction.useCreateElement) {
 	      while (container.lastChild) {
@@ -21818,7 +21818,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -21969,7 +21969,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -22981,7 +22981,7 @@
 
 	    var type = '@@redux/PROBE_UNKNOWN_ACTION_' + Math.random().toString(36).substring(7).split('').join('.');
 	    if (typeof reducer(undefined, { type: type }) === 'undefined') {
-	      throw new Error('Reducer "' + key + '" returned undefined when probed with a random type. ' + ('Don\'t try to handle ' + _createStore.ActionTypes.INIT + ' or other actions in "redux/*" ') + 'namespace. They are considered private. Instead, you must return the ' + 'current state for any unknown actions, unless it is undefined, ' + 'in which case you must return the initial state, regardless of the ' + 'action type. The initial state may not be undefined.');
+	      throw new Error('Reducer "' + key + '" returned undefined when probed with a random type. ' + ('Don\'a try to handle ' + _createStore.ActionTypes.INIT + ' or other actions in "redux/*" ') + 'namespace. They are considered private. Instead, you must return the ' + 'current state for any unknown actions, unless it is undefined, ' + 'in which case you must return the initial state, regardless of the ' + 'action type. The initial state may not be undefined.');
 	    }
 	  });
 	}
@@ -23432,7 +23432,7 @@
 	var isGetOwnPropertySymbolsAvailable = typeof Object.getOwnPropertySymbols === 'function';
 
 	module.exports = function hoistNonReactStatics(targetComponent, sourceComponent, customStatics) {
-	    if (typeof sourceComponent !== 'string') { // don't hoist over string (html) components
+	    if (typeof sourceComponent !== 'string') { // don'a hoist over string (html) components
 	        var keys = Object.getOwnPropertyNames(sourceComponent);
 
 	        /* istanbul ignore else */
@@ -23504,7 +23504,7 @@
 	      error.name = 'Invariant Violation';
 	    }
 
-	    error.framesToPop = 1; // we don't care about invariant's own frame
+	    error.framesToPop = 1; // we don'a care about invariant's own frame
 	    throw error;
 	  }
 	};
@@ -24709,7 +24709,7 @@
 	      });
 	    } else if (obj.propertyIsEnumerable !== undefined &&
 	               obj.propertyIsEnumerable === obj.constructor.prototype.propertyIsEnumerable) {
-	      // Since we can't define a non-enumerable property on the object
+	      // Since we can'a define a non-enumerable property on the object
 	      // we'll hijack one of the less-used non-enumerable properties to
 	      // save our hash on it. Since this is a function it will not show up in
 	      // `JSON.stringify` which is what we want.
@@ -24718,8 +24718,8 @@
 	      };
 	      obj.propertyIsEnumerable[UID_HASH_KEY] = hash;
 	    } else if (obj.nodeType !== undefined) {
-	      // At this point we couldn't get the IE `uniqueID` to use as a hash
-	      // and we couldn't use a non-enumerable property to exploit the
+	      // At this point we couldn'a get the IE `uniqueID` to use as a hash
+	      // and we couldn'a use a non-enumerable property to exploit the
 	      // dontEnum bug so we simply add the `UID_HASH_KEY` on the node
 	      // itself.
 	      obj[UID_HASH_KEY] = hash;
@@ -26489,7 +26489,7 @@
 
 	    FromEntriesSequence.prototype.__iterate = function(fn, reverse) {var this$0 = this;
 	      return this._iter.__iterate(function(entry ) {
-	        // Check if entry exists first so array access doesn't throw for holes
+	        // Check if entry exists first so array access doesn'a throw for holes
 	        // in the parent iteration.
 	        if (entry) {
 	          validateEntry(entry);
@@ -26512,7 +26512,7 @@
 	            return step;
 	          }
 	          var entry = step.value;
-	          // Check if entry exists first so array access doesn't throw for holes
+	          // Check if entry exists first so array access doesn'a throw for holes
 	          // in the parent iteration.
 	          if (entry) {
 	            validateEntry(entry);
@@ -26789,7 +26789,7 @@
 	      if (sliceSize !== 0 && reverse) {
 	        return this.cacheResult().__iterator(type, reverse);
 	      }
-	      // Don't bother instantiating parent iterator if taking 0.
+	      // Don'a bother instantiating parent iterator if taking 0.
 	      var iterator = sliceSize !== 0 && iterable.__iterator(type, reverse);
 	      var skipped = 0;
 	      var iterations = 0;
@@ -28669,7 +28669,7 @@
 
 	    var type = '@@redux/PROBE_UNKNOWN_ACTION_' + Math.random().toString(36).substring(7).split('').join('.');
 	    if (typeof reducer(undefined, { type: type }) === 'undefined') {
-	      throw new Error('Reducer "' + key + '" returned undefined when probed with a random type. ' + ('Don\'t try to handle ' + ActionTypes.INIT + ' or other actions in "redux/*" ') + 'namespace. They are considered private. Instead, you must return the ' + 'current state for any unknown actions, unless it is undefined, ' + 'in which case you must return the initial state, regardless of the ' + 'action type. The initial state may not be undefined.');
+	      throw new Error('Reducer "' + key + '" returned undefined when probed with a random type. ' + ('Don\'a try to handle ' + ActionTypes.INIT + ' or other actions in "redux/*" ') + 'namespace. They are considered private. Instead, you must return the ' + 'current state for any unknown actions, unless it is undefined, ' + 'in which case you must return the initial state, regardless of the ' + 'action type. The initial state may not be undefined.');
 	    }
 	  });
 	}
@@ -29823,8 +29823,8 @@
 
 	    /**
 	      completion callback and cancel callback are mutually exclusive
-	      We can't cancel an already completed effect
-	      And We can't complete an already cancelled effectId
+	      We can'a cancel an already completed effect
+	      And We can'a complete an already cancelled effectId
 	    **/
 	    var effectSettled = void 0;
 
@@ -32686,7 +32686,7 @@
 	  , ObjectProto    = Object[PROTOTYPE]
 	  , USE_NATIVE     = typeof $Symbol == 'function'
 	  , QObject        = global.QObject;
-	// Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
+	// Don'a use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
 	var setter = !QObject || !QObject[PROTOTYPE] || !QObject[PROTOTYPE].findChild;
 
 	// fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
@@ -33051,7 +33051,7 @@
 
 	// 7.1.1 ToPrimitive(input [, PreferredType])
 	var isObject = __webpack_require__(253);
-	// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+	// instead of the ES6 spec version, we didn'a implement @@toPrimitive case
 	// and the second argument - flag - preferred type is a string
 	module.exports = function(it, S){
 	  if(!isObject(it))return it;
@@ -33059,7 +33059,7 @@
 	  if(S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
 	  if(typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it)))return val;
 	  if(!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
-	  throw TypeError("Can't convert object to primitive value");
+	  throw TypeError("Can'a convert object to primitive value");
 	};
 
 /***/ },
@@ -33181,7 +33181,7 @@
 	  // return primitive with prefix
 	  if(!isObject(it))return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
 	  if(!has(it, META)){
-	    // can't set metadata to uncaught frozen object
+	    // can'a set metadata to uncaught frozen object
 	    if(!isExtensible(it))return 'F';
 	    // not necessary to add metadata
 	    if(!create)return 'E';
@@ -33192,7 +33192,7 @@
 	};
 	var getWeak = function(it, create){
 	  if(!has(it, META)){
-	    // can't set metadata to uncaught frozen object
+	    // can'a set metadata to uncaught frozen object
 	    if(!isExtensible(it))return true;
 	    // not necessary to add metadata
 	    if(!create)return false;
@@ -33321,7 +33321,7 @@
 	    , result = []
 	    , key;
 	  for(key in O)if(key != IE_PROTO)has(O, key) && result.push(key);
-	  // Don't enum bug & hidden keys
+	  // Don'a enum bug & hidden keys
 	  while(names.length > i)if(has(O, key = names[i++])){
 	    ~arrayIndexOf(result, key) || result.push(key);
 	  }
@@ -33365,7 +33365,7 @@
 
 	// 7.2.1 RequireObjectCoercible(argument)
 	module.exports = function(it){
-	  if(it == undefined)throw TypeError("Can't call method on  " + it);
+	  if(it == undefined)throw TypeError("Can'a call method on  " + it);
 	  return it;
 	};
 
@@ -33443,7 +33443,7 @@
 /* 281 */
 /***/ function(module, exports) {
 
-	// IE 8- don't enum bug keys
+	// IE 8- don'a enum bug keys
 	module.exports = (
 	  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
 	).split(',');
@@ -33894,13 +33894,13 @@
 /* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// Works with __proto__ only. Old v8 can't work with null proto objects.
+	// Works with __proto__ only. Old v8 can'a work with null proto objects.
 	/* eslint-disable no-proto */
 	var isObject = __webpack_require__(253)
 	  , anObject = __webpack_require__(252);
 	var check = function(O, proto){
 	  anObject(O);
-	  if(!isObject(proto) && proto !== null)throw TypeError(proto + ": can't set as prototype!");
+	  if(!isObject(proto) && proto !== null)throw TypeError(proto + ": can'a set as prototype!");
 	};
 	module.exports = {
 	  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
@@ -34384,7 +34384,7 @@
 	  var str = String(defined(this))
 	    , res = ''
 	    , n   = toInteger(count);
-	  if(n < 0 || n == Infinity)throw RangeError("Count can't be negative");
+	  if(n < 0 || n == Infinity)throw RangeError("Count can'a be negative");
 	  for(;n > 0; (n >>>= 1) && (str += str))if(n & 1)res += str;
 	  return res;
 	};
@@ -35087,7 +35087,7 @@
 	  , defined  = __webpack_require__(275);
 
 	module.exports = function(that, searchString, NAME){
-	  if(isRegExp(searchString))throw TypeError('String#' + NAME + " doesn't accept regex!");
+	  if(isRegExp(searchString))throw TypeError('String#' + NAME + " doesn'a accept regex!");
 	  return String(defined(that));
 	};
 
@@ -35487,7 +35487,7 @@
 	      , iterFn  = getIterFn(O)
 	      , length, result, step, iterator;
 	    if(mapping)mapfn = ctx(mapfn, aLen > 2 ? arguments[2] : undefined, 2);
-	    // if object isn't iterable or it's array with default iterator - use simple case
+	    // if object isn'a iterable or it's array with default iterator - use simple case
 	    if(iterFn != undefined && !(C == Array && isArrayIter(iterFn))){
 	      for(iterator = iterFn.call(O), result = new C; !(step = iterator.next()).done; index++){
 	        createProperty(result, index, mapping ? call(iterator, mapfn, [step.value, index], true) : step.value);
@@ -35594,7 +35594,7 @@
 	var $export        = __webpack_require__(248)
 	  , createProperty = __webpack_require__(403);
 
-	// WebKit Array.of isn't generic
+	// WebKit Array.of isn'a generic
 	$export($export.S + $export.F * __webpack_require__(247)(function(){
 	  function F(){}
 	  return !(Array.of.call(F) instanceof F);
@@ -36062,7 +36062,7 @@
 	  , $find   = __webpack_require__(412)(5)
 	  , KEY     = 'find'
 	  , forced  = true;
-	// Shouldn't skip holes
+	// Shouldn'a skip holes
 	if(KEY in [])Array(1)[KEY](function(){ forced = false; });
 	$export($export.P + $export.F * forced, 'Array', {
 	  find: function find(callbackfn/*, that = undefined */){
@@ -36081,7 +36081,7 @@
 	  , $find   = __webpack_require__(412)(6)
 	  , KEY     = 'findIndex'
 	  , forced  = true;
-	// Shouldn't skip holes
+	// Shouldn'a skip holes
 	if(KEY in [])Array(1)[KEY](function(){ forced = false; });
 	$export($export.P + $export.F * forced, 'Array', {
 	  findIndex: function findIndex(callbackfn/*, that = undefined */){
@@ -36385,14 +36385,14 @@
 	      // Make `global` and avoid `lastIndex` issues by working with a copy
 	      var separatorCopy = new RegExp(separator.source, flags + 'g');
 	      var separator2, match, lastIndex, lastLength, i;
-	      // Doesn't need flags gy, but they don't hurt
+	      // Doesn'a need flags gy, but they don'a hurt
 	      if(!NPCG)separator2 = new RegExp('^' + separatorCopy.source + '$(?!\\s)', flags);
 	      while(match = separatorCopy.exec(string)){
 	        // `separatorCopy.lastIndex` is not reliable cross-browser
 	        lastIndex = match.index + match[0][LENGTH];
 	        if(lastIndex > lastLastIndex){
 	          output.push(string.slice(lastLastIndex, match.index));
-	          // Fix browsers whose `exec` methods don't consistently return `undefined` for NPCG
+	          // Fix browsers whose `exec` methods don'a consistently return `undefined` for NPCG
 	          if(!NPCG && match[LENGTH] > 1)match[0].replace(separator2, function(){
 	            for(i = 1; i < arguments[LENGTH] - 2; i++)if(arguments[i] === undefined)match[i] = undefined;
 	          });
@@ -36525,7 +36525,7 @@
 	        reject(e);
 	      }
 	    };
-	    while(chain.length > i)run(chain[i++]); // variable length - can't use forEach
+	    while(chain.length > i)run(chain[i++]); // variable length - can'a use forEach
 	    promise._c = [];
 	    promise._n = false;
 	    if(isReject && !promise._h)onUnhandled(promise);
@@ -36588,7 +36588,7 @@
 	  promise._d = true;
 	  promise = promise._w || promise; // unwrap
 	  try {
-	    if(promise === value)throw TypeError("Promise can't be resolved itself");
+	    if(promise === value)throw TypeError("Promise can'a be resolved itself");
 	    if(then = isThenable(value)){
 	      microtask(function(){
 	        var wrapper = {_w: promise, _d: false}; // wrap
@@ -37161,7 +37161,7 @@
 	      , HASNT_CHAINING       = instance[ADDER](IS_WEAK ? {} : -0, 1) != instance
 	      // V8 ~  Chromium 40- weak-collections throws on primitives, but should return false
 	      , THROWS_ON_PRIMITIVES = fails(function(){ instance.has(1); })
-	      // most early implementations doesn't supports iterables, most modern - not close it correctly
+	      // most early implementations doesn'a supports iterables, most modern - not close it correctly
 	      , ACCEPT_ITERABLES     = $iterDetect(function(iter){ new C(iter); }) // eslint-disable-line no-new
 	      // for early implementations -0 and +0 not the same
 	      , BUGGY_ZERO = !IS_WEAK && fails(function(){
@@ -38998,7 +38998,7 @@
 	  , from    = __webpack_require__(508);
 	module.exports = function(NAME){
 	  return function toJSON(){
-	    if(classof(this) != NAME)throw TypeError(NAME + "#toJSON isn't generic");
+	    if(classof(this) != NAME)throw TypeError(NAME + "#toJSON isn'a generic");
 	    return from(this);
 	  };
 	};
@@ -39689,7 +39689,7 @@
 	      // make the exports object identical to regeneratorRuntime.
 	      module.exports = runtime;
 	    }
-	    // Don't bother evaluating the rest of this file if the runtime was
+	    // Don'a bother evaluating the rest of this file if the runtime was
 	    // already defined globally.
 	    return;
 	  }
@@ -39719,7 +39719,7 @@
 	  // already have an existing method we want to call, so there's no need
 	  // to create a new function object. We can even get away with assuming
 	  // the method takes exactly one argument, since that happens to be true
-	  // in every case, so we don't have to touch the arguments object. The
+	  // in every case, so we don'a have to touch the arguments object. The
 	  // only additional allocation required is the completion record, which
 	  // has a stable shape and so hopefully should be cheap to allocate.
 	  function tryCatch(fn, obj, arg) {
@@ -39748,7 +39748,7 @@
 	  function GeneratorFunctionPrototype() {}
 
 	  // This is a polyfill for %IteratorPrototype% for environments that
-	  // don't natively support it.
+	  // don'a natively support it.
 	  var IteratorPrototype = {};
 	  IteratorPrototype[iteratorSymbol] = function () {
 	    return this;
@@ -40030,7 +40030,7 @@
 
 	          if (record.arg === ContinueSentinel) {
 	            if (context.delegate && method === "next") {
-	              // Deliberately forget the last sent value so that we don't
+	              // Deliberately forget the last sent value so that we don'a
 	              // accidentally pass it on to the delegate.
 	              arg = undefined;
 	            }
@@ -40560,7 +40560,7 @@
 	      'injectTapEventPlugin(): Can only be called once per application lifecycle.\n\n\
 	It is recommended to call injectTapEventPlugin() just before you call \
 	ReactDOM.render(). If you are using an external library which calls injectTapEventPlugin() \
-	itself, please contact the maintainer as it shouldn\'t be called in library code and \
+	itself, please contact the maintainer as it shouldn\'a be called in library code and \
 	should be injected by the application.'
 	    )
 	  }
@@ -40621,7 +40621,7 @@
 	      error.name = 'Invariant Violation';
 	    }
 
-	    error.framesToPop = 1; // we don't care about invariant's own frame
+	    error.framesToPop = 1; // we don'a care about invariant's own frame
 	    throw error;
 	  }
 	}
@@ -41031,7 +41031,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -41123,7 +41123,7 @@
 
 	var _exports3 = _interopRequireDefault(_exports2);
 
-	var useImportant = false; // Don't add !important to style definitions
+	var useImportant = false; // Don'a add !important to style definitions
 	exports['default'] = (0, _exports3['default'])(useImportant, _generate.defaultSelectorHandlers);
 	module.exports = exports['default'];
 
@@ -41328,7 +41328,7 @@
 	/**
 	 * Generate a CSS ruleset with the selector and containing the declarations.
 	 *
-	 * This function assumes that the given declarations don't contain any special
+	 * This function assumes that the given declarations don'a contain any special
 	 * children (such as media queries, pseudo-selectors, or descendant styles).
 	 *
 	 * Note that this method does not deal with nesting used for e.g.
@@ -42291,7 +42291,7 @@
 	            var val = _ref2[1];
 
 	            return [key, {
-	                // TODO(emily): Make a 'production' mode which doesn't prepend
+	                // TODO(emily): Make a 'production' mode which doesn'a prepend
 	                // the class name here, to make the generated CSS smaller.
 	                _name: key + '_' + (0, _util.hashObject)(val),
 	                _definition: val
@@ -42431,7 +42431,7 @@
 
 	var _util = __webpack_require__(569);
 
-	// The current <style> tag we are inserting into, or null if we haven't
+	// The current <style> tag we are inserting into, or null if we haven'a
 	// inserted anything yet. We could find this each time using
 	// `document.querySelector("style[data-aphrodite"])`, but holding onto it is
 	// faster.
@@ -42447,7 +42447,7 @@
 	        // Try to find a style tag with the `data-aphrodite` attribute first.
 	        styleTag = document.querySelector("style[data-aphrodite]");
 
-	        // If that doesn't work, generate a new style tag.
+	        // If that doesn'a work, generate a new style tag.
 	        if (styleTag == null) {
 	            // Taken from
 	            // http://stackoverflow.com/questions/524696/how-to-create-a-style-tag-with-javascript
@@ -42502,7 +42502,7 @@
 	    //      top: 20,
 	    //    }
 	    //  }
-	    // TODO(emily): `stringHandlers` doesn't let us rename the key, so I have
+	    // TODO(emily): `stringHandlers` doesn'a let us rename the key, so I have
 	    // to use `animationName` here. Improve that so we can call this
 	    // `animation` instead of `animationName`.
 	    animationName: function animationName(val, selectorHandlers) {
@@ -42511,8 +42511,8 @@
 	                return animationName(v, selectorHandlers);
 	            }).join(",");
 	        } else if (typeof val === "object") {
-	            // Generate a unique name based on the hash of the object. We can't
-	            // just use the hash because the name can't start with a number.
+	            // Generate a unique name based on the hash of the object. We can'a
+	            // just use the hash because the name can'a start with a number.
 	            // TODO(emily): this probably makes debugging hard, allow a custom
 	            // name?
 	            var _name = 'keyframe_' + (0, _util.hashObject)(val);
@@ -42638,7 +42638,7 @@
 	        return def;
 	    });
 
-	    // Break if there aren't any valid styles.
+	    // Break if there aren'a any valid styles.
 	    if (validDefinitions.length === 0) {
 	        return "";
 	    }
@@ -42784,7 +42784,7 @@
 	        queue[currentIndex].call();
 	        // Prevent leaking memory for long chains of recursive calls to `asap`.
 	        // If we call `asap` within tasks scheduled by `asap`, the queue will
-	        // grow, but to avoid an O(n) walk for every task we execute, we don't
+	        // grow, but to avoid an O(n) walk for every task we execute, we don'a
 	        // shift tasks off the queue after they have been executed.
 	        // Instead, we periodically shift 1024 tasks off the queue.
 	        if (index > capacity) {
@@ -42886,7 +42886,7 @@
 
 	// Safari 6.0.5 (at least) intermittently fails to create message ports on a
 	// page's first load. Thankfully, this version of Safari supports
-	// MutationObservers, so we don't need to fall back in that case.
+	// MutationObservers, so we don'a need to fall back in that case.
 
 	// function makeRequestCallFromMessageChannel(callback) {
 	//     var channel = new MessageChannel();
@@ -43009,7 +43009,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -43197,7 +43197,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -43335,7 +43335,7 @@
 	        this.attached = false;
 	      }
 
-	      // we don't care about the body's dragover events until this
+	      // we don'a care about the body's dragover events until this
 	      // component gets dragged over for the first time
 
 
@@ -43363,7 +43363,7 @@
 	            return;
 	          }
 
-	          // there's a bug in safari where it seems like we can't get
+	          // there's a bug in safari where it seems like we can'a get
 	          // dragover events from a container that also emits a scroll
 	          // event that same frame. So we double the speed and only adjust
 	          // the scroll position at 30fps
@@ -44039,7 +44039,7 @@
 	var isGetOwnPropertySymbolsAvailable = typeof Object.getOwnPropertySymbols === 'function';
 
 	module.exports = function hoistNonReactStatics(targetComponent, sourceComponent, customStatics) {
-	    if (typeof sourceComponent !== 'string') { // don't hoist over string (html) components
+	    if (typeof sourceComponent !== 'string') { // don'a hoist over string (html) components
 	        var keys = Object.getOwnPropertyNames(sourceComponent);
 
 	        /* istanbul ignore else */
@@ -44125,7 +44125,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -44350,7 +44350,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -44435,7 +44435,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -44540,7 +44540,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -45126,7 +45126,7 @@
 
 	  var draggedItemType = monitor.getItemType();
 
-	  // Remove those targetIds that don't match the targetType.  This
+	  // Remove those targetIds that don'a match the targetType.  This
 	  // fixes shallow isOver which would only be non-shallow because of
 	  // non-matching targets.
 	  for (var i = targetIds.length - 1; i >= 0; i--) {
@@ -45302,7 +45302,7 @@
 	      error.name = 'Invariant Violation';
 	    }
 
-	    error.framesToPop = 1; // we don't care about invariant's own frame
+	    error.framesToPop = 1; // we don'a care about invariant's own frame
 	    throw error;
 	  }
 	};
@@ -46790,7 +46790,7 @@
 	    setToString = __webpack_require__(652);
 
 	/**
-	 * The base implementation of `_.rest` which doesn't validate or coerce arguments.
+	 * The base implementation of `_.rest` which doesn'a validate or coerce arguments.
 	 *
 	 * @private
 	 * @param {Function} func The function to apply a rest parameter to.
@@ -48329,7 +48329,7 @@
 	        queue[currentIndex].call();
 	        // Prevent leaking memory for long chains of recursive calls to `asap`.
 	        // If we call `asap` within tasks scheduled by `asap`, the queue will
-	        // grow, but to avoid an O(n) walk for every task we execute, we don't
+	        // grow, but to avoid an O(n) walk for every task we execute, we don'a
 	        // shift tasks off the queue after they have been executed.
 	        // Instead, we periodically shift 1024 tasks off the queue.
 	        if (index > capacity) {
@@ -48431,7 +48431,7 @@
 
 	// Safari 6.0.5 (at least) intermittently fails to create message ports on a
 	// page's first load. Thankfully, this version of Safari supports
-	// MutationObservers, so we don't need to fall back in that case.
+	// MutationObservers, so we don'a need to fall back in that case.
 
 	// function makeRequestCallFromMessageChannel(callback) {
 	//     var channel = new MessageChannel();
@@ -49895,7 +49895,7 @@
 
 	function throwIfCompositeComponentElement(element) {
 	  // Custom components can no longer be wrapped directly in React DnD 2.0
-	  // so that we don't need to depend on findDOMNode() from react-dom.
+	  // so that we don'a need to depend on findDOMNode() from react-dom.
 	  if (typeof element.type === 'string') {
 	    return;
 	  }
@@ -49918,7 +49918,7 @@
 	    }
 
 	    // If passed a ReactElement, clone it and attach this function as a ref.
-	    // This helps us achieve a neat API where user doesn't even know that refs
+	    // This helps us achieve a neat API where user doesn'a even know that refs
 	    // are being used under the hood.
 	    var element = elementOrNode;
 	    throwIfCompositeComponentElement(element);
@@ -50690,7 +50690,7 @@
 
 	    // Receiving a mouse event in the middle of a dragging operation
 	    // means it has ended and the drag source node disappeared from DOM,
-	    // so the browser didn't dispatch the dragend event.
+	    // so the browser didn'a dispatch the dragend event.
 	    window.addEventListener('mousemove', this.endDragIfSourceWasRemovedFromDOM, true);
 	  };
 
@@ -50739,7 +50739,7 @@
 
 	    var clientOffset = _OffsetUtils.getEventClientOffset(e);
 
-	    // Don't publish the source just yet (see why below)
+	    // Don'a publish the source just yet (see why below)
 	    this.actions.beginDrag(dragStartSourceIds, {
 	      publishSource: false,
 	      getSourceClientOffset: this.getSourceClientOffset,
@@ -50770,10 +50770,10 @@
 	      }
 
 	      try {
-	        // Firefox won't drag without setting data
+	        // Firefox won'a drag without setting data
 	        dataTransfer.setData('application/json', {});
 	      } catch (err) {}
-	      // IE doesn't support MIME types in setData
+	      // IE doesn'a support MIME types in setData
 
 	      // Store drag source node so we can check whether
 	      // it is removed from DOM and trigger endDrag manually.
@@ -50859,12 +50859,12 @@
 	    this.dragEnterTargetIds = [];
 
 	    if (!this.monitor.isDragging()) {
-	      // This is probably a native item type we don't understand.
+	      // This is probably a native item type we don'a understand.
 	      return;
 	    }
 
 	    if (!_BrowserDetector.isFirefox()) {
-	      // Don't emit hover in `dragenter` on Firefox due to an edge case.
+	      // Don'a emit hover in `dragenter` on Firefox due to an edge case.
 	      // If the target changes position as the result of `dragenter`, Firefox
 	      // will still happily dispatch `dragover` despite target being no longer
 	      // there. The easy solution is to only fire `hover` in `dragover` on FF.
@@ -50900,7 +50900,7 @@
 	    this.dragOverTargetIds = [];
 
 	    if (!this.monitor.isDragging()) {
-	      // This is probably a native item type we don't understand.
+	      // This is probably a native item type we don'a understand.
 	      // Prevent default "drop and blow away the whole document" action.
 	      e.preventDefault();
 	      e.dataTransfer.dropEffect = 'none';
@@ -50920,7 +50920,7 @@
 	      e.preventDefault();
 	      e.dataTransfer.dropEffect = this.getCurrentDropEffect();
 	    } else if (this.isDraggingNativeItem()) {
-	      // Don't show a nice cursor but still prevent default
+	      // Don'a show a nice cursor but still prevent default
 	      // "drop and blow away the whole document" action.
 	      e.preventDefault();
 	      e.dataTransfer.dropEffect = 'none';
@@ -51646,7 +51646,7 @@
 	    setToString = __webpack_require__(736);
 
 	/**
-	 * The base implementation of `_.rest` which doesn't validate or coerce arguments.
+	 * The base implementation of `_.rest` which doesn'a validate or coerce arguments.
 	 *
 	 * @private
 	 * @param {Function} func The function to apply a rest parameter to.
@@ -52498,7 +52498,7 @@
 	var hasOwnProperty = objectProto.hasOwnProperty;
 
 	/**
-	 * The base implementation of `_.keysIn` which doesn't treat sparse arrays as dense.
+	 * The base implementation of `_.keysIn` which doesn'a treat sparse arrays as dense.
 	 *
 	 * @private
 	 * @param {Object} object The object to query.
@@ -54397,7 +54397,7 @@
 	      this.item = Object.defineProperties({}, _defineProperty({}, exposeProperty, {
 	        get: function get() {
 	          console.warn( // eslint-disable-line no-console
-	          'Browser doesn\'t allow reading "' + exposeProperty + '" until the drop event.');
+	          'Browser doesn\'a allow reading "' + exposeProperty + '" until the drop event.');
 	          return null;
 	        },
 	        configurable: true,
@@ -54522,7 +54522,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -54732,7 +54732,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -54889,7 +54889,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -55202,7 +55202,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -55319,7 +55319,7 @@
 	}
 
 	function isObject(input) {
-	    // IE8 will treat undefined and null as object if it wasn't for
+	    // IE8 will treat undefined and null as object if it wasn'a for
 	    // input != null
 	    return input != null && Object.prototype.toString.call(input) === '[object Object]';
 	}
@@ -55668,7 +55668,7 @@
 	        if (hasOwnProp(parentConfig, prop) &&
 	                !hasOwnProp(childConfig, prop) &&
 	                isObject(parentConfig[prop])) {
-	            // make sure changes to properties don't modify parent config
+	            // make sure changes to properties don'a modify parent config
 	            res[prop] = extend({}, res[prop]);
 	        }
 	    }
@@ -56125,7 +56125,7 @@
 
 	addParseToken(['MMM', 'MMMM'], function (input, array, config, token) {
 	    var month = config._locale.monthsParse(input, token, config._strict);
-	    // if we didn't find a month name, mark the date as invalid.
+	    // if we didn'a find a month name, mark the date as invalid.
 	    if (month != null) {
 	        array[MONTH] = month;
 	    } else {
@@ -56212,7 +56212,7 @@
 	    // Sorting makes sure if one month (or abbr) is a prefix of another
 	    // see sorting in computeMonthsParse
 	    for (i = 0; i < 12; i++) {
-	        // make the regex if we don't have it already
+	        // make the regex if we don'a have it already
 	        mom = createUTC([2000, i]);
 	        if (strict && !this._longMonthsParse[i]) {
 	            this._longMonthsParse[i] = new RegExp('^' + this.months(mom, '').replace('.', '') + '$', 'i');
@@ -56322,7 +56322,7 @@
 	    var shortPieces = [], longPieces = [], mixedPieces = [],
 	        i, mom;
 	    for (i = 0; i < 12; i++) {
-	        // make the regex if we don't have it already
+	        // make the regex if we don'a have it already
 	        mom = createUTC([2000, i]);
 	        shortPieces.push(this.monthsShort(mom, ''));
 	        longPieces.push(this.months(mom, ''));
@@ -56415,7 +56415,7 @@
 	}
 
 	function createDate (y, m, d, h, M, s, ms) {
-	    //can't just apply() to create a date:
+	    //can'a just apply() to create a date:
 	    //http://stackoverflow.com/questions/181348/instantiating-a-javascript-object-by-calling-prototype-constructor-apply
 	    var date = new Date(y, m, d, h, M, s, ms);
 
@@ -56604,7 +56604,7 @@
 
 	addWeekParseToken(['dd', 'ddd', 'dddd'], function (input, week, config, token) {
 	    var weekday = config._locale.weekdaysParse(input, token, config._strict);
-	    // if we didn't get a weekday name, mark the date as invalid
+	    // if we didn'a get a weekday name, mark the date as invalid
 	    if (weekday != null) {
 	        week.d = weekday;
 	    } else {
@@ -56742,7 +56742,7 @@
 	    }
 
 	    for (i = 0; i < 7; i++) {
-	        // make the regex if we don't have it already
+	        // make the regex if we don'a have it already
 
 	        mom = createUTC([2000, 1]).day(i);
 	        if (strict && !this._fullWeekdaysParse[i]) {
@@ -56876,7 +56876,7 @@
 	    var minPieces = [], shortPieces = [], longPieces = [], mixedPieces = [],
 	        i, mom, minp, shortp, longp;
 	    for (i = 0; i < 7; i++) {
-	        // make the regex if we don't have it already
+	        // make the regex if we don'a have it already
 	        mom = createUTC([2000, 1]).day(i);
 	        minp = this.weekdaysMin(mom, '');
 	        shortp = this.weekdaysShort(mom, '');
@@ -57170,7 +57170,7 @@
 
 	        // backwards compat for now: also set the locale
 	        // make sure we set the locale AFTER all child locales have been
-	        // created, so we won't end up with the child locale set.
+	        // created, so we won'a end up with the child locale set.
 	        getSetGlobalLocale(name);
 
 
@@ -57438,7 +57438,7 @@
 	    // * if no year, month, day of month are given, default to today
 	    // * if day of month is given, default month and year
 	    // * if month is given, default only year
-	    // * if year is given, don't default anything
+	    // * if year is given, don'a default anything
 	    for (i = 0; i < 3 && config._a[i] == null; ++i) {
 	        config._a[i] = input[i] = currentDate[i];
 	    }
@@ -57561,7 +57561,7 @@
 	            string = string.slice(string.indexOf(parsedInput) + parsedInput.length);
 	            totalParsedInputLength += parsedInput.length;
 	        }
-	        // don't parse if it's not a known token
+	        // don'a parse if it's not a known token
 	        if (formatTokenFunctions[token]) {
 	            if (parsedInput) {
 	                getParsingFlags(config).empty = false;
@@ -57967,7 +57967,7 @@
 
 	// keepLocalTime = true means only change the timezone, without
 	// affecting the local hour. So 5:31:26 +0300 --[utcOffset(2, true)]-->
-	// 5:31:26 +0200 It is possible that 5:31:26 doesn't exist with offset
+	// 5:31:26 +0200 It is possible that 5:31:26 doesn'a exist with offset
 	// +0200, so we adjust the time as needed, to be valid.
 	//
 	// Keeping the time actually adds/subtracts (one hour)
@@ -63546,7 +63546,7 @@
 
 
 	var months = [
-	    'Am Faoilleach', 'An Gearran', 'Am Màrt', 'An Giblean', 'An Cèitean', 'An t-Ògmhios', 'An t-Iuchar', 'An Lùnastal', 'An t-Sultain', 'An Dàmhair', 'An t-Samhain', 'An Dùbhlachd'
+	    'Am Faoilleach', 'An Gearran', 'Am Màrt', 'An Giblean', 'An Cèitean', 'An a-Ògmhios', 'An a-Iuchar', 'An Lùnastal', 'An a-Sultain', 'An Dàmhair', 'An a-Samhain', 'An Dùbhlachd'
 	];
 
 	var monthsShort = ['Faoi', 'Gear', 'Màrt', 'Gibl', 'Cèit', 'Ògmh', 'Iuch', 'Lùn', 'Sult', 'Dàmh', 'Samh', 'Dùbh'];
@@ -70222,7 +70222,7 @@
 	      // inside and should be ignored. We could handle this with
 	      // a layered approach, too, but that requires going back to
 	      // thinking in terms of Dom node nesting, running counter
-	      // to React's 'you shouldn't care about the DOM' philosophy.
+	      // to React's 'you shouldn'a care about the DOM' philosophy.
 	      while(current.parentNode) {
 	        found = isNodeFound(current, componentNode, ignoreClass);
 	        if(found) return;
@@ -70316,7 +70316,7 @@
 	          handlers[pos] = fn;
 
 	          // If there is a truthy disableOnClickOutside property for this
-	          // component, don't immediately start listening for outside events.
+	          // component, don'a immediately start listening for outside events.
 	          if (!this.props.disableOnClickOutside) {
 	            this.enableOnClickOutside();
 	          }
@@ -70341,7 +70341,7 @@
 	          this.__outsideClickHandler = false;
 	          var pos = registeredComponents.indexOf(this);
 	          if( pos>-1) {
-	            // clean up so we don't leak memory
+	            // clean up so we don'a leak memory
 	            if (handlers[pos]) { handlers.splice(pos, 1); }
 	            registeredComponents.splice(pos, 1);
 	          }
@@ -70466,7 +70466,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -70579,7 +70579,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -70696,7 +70696,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -71400,7 +71400,7 @@
 	  accumulatedTime: 0,
 	  // it's possible that currentStyle's value is stale: if props is immediately
 	  // changed from 0 to 400 to spring(0) again, the async currentStyle is still
-	  // at 0 (didn't have time to tick and interpolate even once). If we naively
+	  // at 0 (didn'a have time to tick and interpolate even once). If we naively
 	  // compare currentStyle with destVal it'll be 0 === 0 (no animation, stop).
 	  // In reality currentStyle should be 400
 	  unreadPropStyle: null,
@@ -71455,7 +71455,7 @@
 	          _this.props.onRest();
 	        }
 
-	        // no need to cancel animationID here; shouldn't have any in flight
+	        // no need to cancel animationID here; shouldn'a have any in flight
 	        _this.animationID = null;
 	        _this.wasAnimating = false;
 	        _this.accumulatedTime = 0;
@@ -71474,7 +71474,7 @@
 	      }
 
 	      if (_this.accumulatedTime === 0) {
-	        // no need to cancel animationID here; shouldn't have any in flight
+	        // no need to cancel animationID here; shouldn'a have any in flight
 	        _this.animationID = null;
 	        _this.startAnimationIfNecessary();
 	        return;
@@ -71545,7 +71545,7 @@
 
 	  componentWillReceiveProps: function componentWillReceiveProps(props) {
 	    if (this.unreadPropStyle != null) {
-	      // previous props haven't had the chance to be set yet; set them here
+	      // previous props haven'a had the chance to be set yet; set them here
 	      this.clearUnreadPropStyle(this.unreadPropStyle);
 	    }
 
@@ -71813,7 +71813,7 @@
 
 	    var styleValue = typeof style[key] === 'number' ? style[key] : style[key].val;
 	    // stepper will have already taken care of rounding precision errors, so
-	    // won't have such thing as 0.9999 !=== 1
+	    // won'a have such thing as 0.9999 !=== 1
 	    if (currentStyle[key] !== styleValue) {
 	      return false;
 	    }
@@ -71907,7 +71907,7 @@
 	  accumulatedTime: 0,
 	  // it's possible that currentStyle's value is stale: if props is immediately
 	  // changed from 0 to 400 to spring(0) again, the async currentStyle is still
-	  // at 0 (didn't have time to tick and interpolate even once). If we naively
+	  // at 0 (didn'a have time to tick and interpolate even once). If we naively
 	  // compare currentStyle with destVal it'll be 0 === 0 (no animation, stop).
 	  // In reality currentStyle should be 400
 	  unreadPropStyles: null,
@@ -71964,7 +71964,7 @@
 
 	      // check if we need to animate in the first place
 	      if (shouldStopAnimationAll(_this.state.currentStyles, destStyles, _this.state.currentVelocities)) {
-	        // no need to cancel animationID here; shouldn't have any in flight
+	        // no need to cancel animationID here; shouldn'a have any in flight
 	        _this.animationID = null;
 	        _this.accumulatedTime = 0;
 	        return;
@@ -71980,7 +71980,7 @@
 	      }
 
 	      if (_this.accumulatedTime === 0) {
-	        // no need to cancel animationID here; shouldn't have any in flight
+	        // no need to cancel animationID here; shouldn'a have any in flight
 	        _this.animationID = null;
 	        _this.startAnimationIfNecessary();
 	        return;
@@ -72064,7 +72064,7 @@
 
 	  componentWillReceiveProps: function componentWillReceiveProps(props) {
 	    if (this.unreadPropStyles != null) {
-	      // previous props haven't had the chance to be set yet; set them here
+	      // previous props haven'a had the chance to be set yet; set them here
 	      this.clearUnreadPropStyle(this.unreadPropStyles);
 	    }
 
@@ -72140,12 +72140,12 @@
 	// the children function & (potential) styles function asks as param an
 	// Array<TransitionPlainStyle>, where each TransitionPlainStyle is of the format
 	// {key: string, data?: any, style: PlainStyle}. However, the way we keep
-	// internal states doesn't contain such a data structure (check the state and
+	// internal states doesn'a contain such a data structure (check the state and
 	// TransitionMotionState). So when children function and others ask for such
 	// data we need to generate them on the fly by combining mergedPropsStyles and
 	// currentStyles/lastIdealStyles
 	function rehydrateStyles(mergedPropsStyles, unreadPropStyles, plainStyles) {
-	  // Copy the value to a `const` so that Flow understands that the const won't
+	  // Copy the value to a `const` so that Flow understands that the const won'a
 	  // change and will be non-nullable in the callback below.
 	  var cUnreadPropStyles = unreadPropStyles;
 	  if (cUnreadPropStyles == null) {
@@ -72208,7 +72208,7 @@
 	//    maybe remove a
 	//    certainly add c, value of c is willEnter(c)
 	// loop over merged and construct new current
-	// dest doesn't change, that's owner's
+	// dest doesn'a change, that's owner's
 	function mergeAndSync(willEnter, willLeave, didLeave, oldMergedPropsStyles, destStyles, oldCurrentStyles, oldCurrentVelocities, oldLastIdealStyles, oldLastIdealVelocities) {
 	  var newMergedPropsStyles = _mergeDiff2['default'](oldMergedPropsStyles, destStyles, function (oldIndex, oldMergedPropsStyle) {
 	    var leavingStyle = willLeave(oldMergedPropsStyle);
@@ -72300,7 +72300,7 @@
 
 	    var destStyles = typeof styles === 'function' ? styles(defaultStyles) : styles;
 
-	    // this is special. for the first time around, we don't have a comparison
+	    // this is special. for the first time around, we don'a have a comparison
 	    // between last (no last) and current merged props. we'll compute last so:
 	    // say default is {a, b} and styles (dest style) is {b, c}, we'll
 	    // fabricate last as {a, b}
@@ -72330,7 +72330,7 @@
 	    });
 
 	    var _mergeAndSync = mergeAndSync(
-	    // Because this is an old-style React.createClass component, Flow doesn't
+	    // Because this is an old-style React.createClass component, Flow doesn'a
 	    // understand that the willEnter and willLeave props have default values
 	    // and will always be present.
 	    willEnter, willLeave, didLeave, oldMergedPropsStyles, destStyles, oldCurrentStyles, oldCurrentVelocities, oldCurrentStyles, // oldLastIdealStyles really
@@ -72358,7 +72358,7 @@
 	  accumulatedTime: 0,
 	  // it's possible that currentStyle's value is stale: if props is immediately
 	  // changed from 0 to 400 to spring(0) again, the async currentStyle is still
-	  // at 0 (didn't have time to tick and interpolate even once). If we naively
+	  // at 0 (didn'a have time to tick and interpolate even once). If we naively
 	  // compare currentStyle with destVal it'll be 0 === 0 (no animation, stop).
 	  // In reality currentStyle should be 400
 	  unreadPropStyles: null,
@@ -72406,7 +72406,7 @@
 	      }
 	    }
 
-	    // unlike the other 2 components, we can't detect staleness and optionally
+	    // unlike the other 2 components, we can'a detect staleness and optionally
 	    // opt out of setState here. each style object's data might contain new
 	    // stuff we're not/cannot compare
 	    this.setState({
@@ -72432,7 +72432,7 @@
 
 	      // check if we need to animate in the first place
 	      if (shouldStopAnimationAll(_this.state.currentStyles, destStyles, _this.state.currentVelocities, _this.state.mergedPropsStyles)) {
-	        // no need to cancel animationID here; shouldn't have any in flight
+	        // no need to cancel animationID here; shouldn'a have any in flight
 	        _this.animationID = null;
 	        _this.accumulatedTime = 0;
 	        return;
@@ -72448,7 +72448,7 @@
 	      }
 
 	      if (_this.accumulatedTime === 0) {
-	        // no need to cancel animationID here; shouldn't have any in flight
+	        // no need to cancel animationID here; shouldn'a have any in flight
 	        _this.animationID = null;
 	        _this.startAnimationIfNecessary();
 	        return;
@@ -72536,7 +72536,7 @@
 
 	  componentWillReceiveProps: function componentWillReceiveProps(props) {
 	    if (this.unreadPropStyles) {
-	      // previous props haven't had the chance to be set yet; set them here
+	      // previous props haven'a had the chance to be set yet; set them here
 	      this.clearUnreadPropStyle(this.unreadPropStyles);
 	    }
 
@@ -72600,8 +72600,8 @@
 	// ambiguous ordering we deterministically choose to place the next render's
 	// item after the previous'; so c after a
 
-	// this is called a topological sorting. Except the existing algorithms don't
-	// work well with js bc of the amount of allocation, and isn't optimized for our
+	// this is called a topological sorting. Except the existing algorithms don'a
+	// work well with js bc of the amount of allocation, and isn'a optimized for our
 	// current use-case bc the runtime is linear in terms of edges (see wiki for
 	// meaning), which is huge when two lists have many common elements
 	'use strict';
@@ -72631,7 +72631,7 @@
 	  }
 	  for (var i = 0; i < prev.length; i++) {
 	    if (!Object.prototype.hasOwnProperty.call(nextKeyIndex, prev[i].key)) {
-	      // this is called my TM's `mergeAndSync`, which calls willLeave. We don't
+	      // this is called my TM's `mergeAndSync`, which calls willLeave. We don'a
 	      // merge in keys that the user desires to kill
 	      var fill = onRemove(i, prev[i]);
 	      if (fill != null) {
@@ -72918,7 +72918,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -73054,7 +73054,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -73168,7 +73168,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -73270,7 +73270,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -73360,7 +73360,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
@@ -73464,7 +73464,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn'a been initialised - super() hasn'a been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 

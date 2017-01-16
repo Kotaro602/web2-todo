@@ -3,8 +3,12 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 import Collapse from 'react-collapse';
 import HeadPro from './p-HeadPro';
 import HeadDisp from './p-HeadDisp';
+import HeadIcon from './p-HeadIcon';
+import {shouldComponentUpdate} from 'react-addons-pure-render-mixin'
 
 export default class Head extends Component {
+
+   shouldComponentUpdate = shouldComponentUpdate;
 
    render() {
 
@@ -16,6 +20,7 @@ export default class Head extends Component {
          <div className={css(styles.projectTitleBox)}>
             <HeadPro {...this.props}/>
             <HeadDisp {...this.props}/>
+            <HeadIcon {...this.props}/>
          </div>
       );
       }

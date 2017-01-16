@@ -4,14 +4,6 @@ import {createNewTask} from '../../model/m-Task';
 
 export default class TaskButton extends Component {
 
-   /** ActionCreater呼び出し **/
-   addTask(e) {
-      const {state, member, reqAddTask} = this.props;
-      const tasks = state.get('tasks');
-      const userId = member.get('_id');
-      reqAddTask(createNewTask(userId));
-   }
-
    openLineModal() {
       const {addLineModal, member} = this.props;
       addLineModal(member.get('_id'));
@@ -27,7 +19,6 @@ export default class TaskButton extends Component {
       /** レンダリング **/
       return (
          <div className={css(styles.taskFooterBox)}>
-            <button onClick={::this.addTask} className={css(styles.buttonCommon, styles.addTaskButton)}>＋ ADD</button>
             <button onClick={::this.actCleanTask} className={css(styles.buttonCommon, styles.cleaningTask)}>－ CLEAN</button>
          </div>
       );

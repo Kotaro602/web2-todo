@@ -1,26 +1,38 @@
 import React from 'react';
-import TaskMemBxMaIc from './p-TaskMemBxMaIc';
-import TaskName from './p-TaskMemBxMaNa';
-import TaskMemBxMaPr from './p-TaskMemBxMaPr';
-import TaskMemBxMaEs from './p-TaskMemBxMaEs';
+import TaskMemSo from './p-TaskMemBx';
+import {Map} from 'immutable';
 import { StyleSheet, css } from 'aphrodite/no-important';
-import DatePicker  from 'react-datepicker';
-import * as Immutable from 'immutable';
-import moment from 'moment';
+import {createNewTask} from '../../model/m-Task';
 
 export default class TaskMemBo extends React.Component {
+
+   /** ActionCreater呼び出し **/
+   addTask() {
+      const {taskList, member, reqAddTask} = this.props;
+      const userId = member.get('_id');
+      const project = Map({
+         id : taskList.getIn([ 0, 'project', 'id']),
+         name: taskList.getIn([ 0, 'project', 'name'])
+      });
+
+      reqAddTask(createNewTask(userId, project));
+   }
 
    render(){
 
       /** prop取得 **/
-      const {task} = this.props;
+      const {taskList} = this.props;
 
       /** レンダリング **/
       return(
          <div className={css(styles.borderBox)}>
             <div className={css(styles.borderLine)}>
-               <span className={css(styles.borderSpan)}>{task.getIn(['project', 'name'])}</span>
+               <span className={css(styles.borderSpan)}>{taskList.getIn([ 0, 'project', 'name'])}</span>
             </div>
+            {taskList.map((task, i) => (
+               <TaskMemSo task={task} key={i} {...this.props}/>
+            ))}
+            <div className={css(styles.addTaskArea)} onClick={::this.addTask}></div>
          </div>
       );
    }
@@ -29,8 +41,7 @@ export default class TaskMemBo extends React.Component {
 const styles = StyleSheet.create({
    borderBox: {
       position: 'relative',
-      marginTop: 25,
-      marginBottom: 20,
+      marginTop: 20,
       marginLeft: 5,
       marginRight: 5,
       paddingBottom: 1,
@@ -38,7 +49,7 @@ const styles = StyleSheet.create({
    },
    borderLine:{
       position: 'absolute',
-      top: '50%',
+      top: -18,
       zIndex: 1,
       display: 'block',
       width: '100%',
@@ -55,5 +66,9 @@ const styles = StyleSheet.create({
       padding: '0 10px',
       backgroundColor: '#fff',
       textAlign: 'left'
+   },
+   addTaskArea:{
+      padding: 10,
+      cursor: 'pointer'
    }
 });

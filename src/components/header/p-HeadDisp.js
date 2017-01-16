@@ -19,6 +19,9 @@ export default class HeadDisp extends Component {
                <span className={css(styles.selectName)}>bord</span>
             </div>
             <div className={css(styles.selectBox)}>
+               <span className={css(styles.selectName)}>Report</span>
+            </div>
+            <div className={css(styles.selectBox)}>
                <span className={css(styles.selectName)}>history</span>
             </div>
          </div>

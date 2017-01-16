@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
       display: 'inline-block',
       width: '100%',
       padding: '3px 0px',
-      marginBottom: 2,
+      marginBottom: 18,
       marginLeft:5,
       borderBottom: '1px solid rgba(170, 170, 170, 0.55)',
       font: '20px Tahoma',

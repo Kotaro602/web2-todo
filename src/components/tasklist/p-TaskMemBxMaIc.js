@@ -55,7 +55,6 @@ const styles = StyleSheet.create({
    taskCheckBox:{
       display: 'inline-block',
       width: 28,
-      float: 'left',
       marginTop: 4
    },
    redmineIcon: {

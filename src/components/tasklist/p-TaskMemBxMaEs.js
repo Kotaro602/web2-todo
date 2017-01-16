@@ -6,14 +6,14 @@ export default class TaskMemBxMaEs extends React.Component {
 
    componentWillReceiveProps(nextProps){
       if(nextProps.task.get('estimate') !== this.props.task.get('estimate')){
-         if(nextProps.task.get('estimate') === undefined) this.refs.estimate.value = "";
+         if(nextProps.task.get('estimate') === undefined) this.refs.estimate.value = undefined;
          else this.refs.estimate.value = nextProps.task.get('estimate');
       }
    }
 
    chgEstimateHour(){
       const {task, reqUpdateTask} = this.props;
-      const estimateHour = this.refs.estimate.value;
+      const estimateHour = parseFloat(this.refs.estimate.value);
 
       if((estimateHour == '') || task.get('estimate') == estimateHour) return;
       reqUpdateTask(task.set('estimate', estimateHour));
@@ -23,17 +23,18 @@ export default class TaskMemBxMaEs extends React.Component {
 
       /** prop取得 **/
       const {task} = this.props;
+      const estimate = task.get('estimate') === undefined ? undefined : task.get('estimate').toFixed(1);
 
       /** レンダリング **/
       return(
          <div className={css(styles.estimateBox)}>
             <input type="number"
                list="estimateDateInput"
-               step="0.5" min="0"
+               step="0.5" min="0.0"
                className={css(styles.estimateInput)}
                placeholder="-"
                ref='estimate'
-               defaultValue={task.get('estimate')}
+               defaultValue={estimate}
                onChange={::this.chgEstimateHour}/>
             <datalist id="estimateDateInput">
                <option value="0.5"></option>

@@ -118,7 +118,7 @@ function findIndexById(taskList, id) {
 /********************************** Public Method ************************************/
 
 //新規タスク作成
-export function createNewTask(userId){
+export function createNewTask(userId, project){
 
    let newTask = new Task();
    newTask = newTask.set('_id', getId(userId));
@@ -129,7 +129,7 @@ export function createNewTask(userId){
    newTask = newTask.set('compDelFlg', false);
    newTask = newTask.set('dueDate', moment().add("days", 7).format("YYYY-MM-DD"));
    newTask = newTask.set('priority', 0);
-   newTask = newTask.set('project',Map({id : 999, name: 'その他'}));
+   newTask = newTask.set('project', project);
 
    return newTask;
 }
@@ -183,8 +183,6 @@ export function mergeTasks(dbMemberAndTask, redmineTasks){
    mergeObj.tasks = mergeTaskList;
    mergeObj.reqTasks = reqRedmineTaskList;
 
-   console.log(mergeObj.reqTasks.toJS());
-
    return mergeObj;
 }
 
@@ -196,12 +194,40 @@ export function mergeTasks(dbMemberAndTask, redmineTasks){
 export function sortAndFilterTask(taskList, userId){
 
    taskList = taskList.filter(t => t.get('redmineUserId') == userId && !t.get('compDelFlg'));
-   taskList= taskList.sort((a, b) => {
+
+   taskList = taskList.sort((a, b) => {
       if(b.get('project').get('id') !== a.get('project').get('id')){
-         return a.get('project').get('id') - b.get('project').get('id');
-      }else{
+         return b.get('project').get('id') - a.get('project').get('id');
+
+      }else if(b.get('priority') !== a.get('priority')) {
+         return b.get('priority') - a.get('priority');
+
+      }else if(a.get('dueDate') != b.get('dueDate')){
          return a.get('dueDate') < b.get('dueDate') ? -1 : 1;
+
+      }else{
+         return a.get('_id') - b.get('_id');
       }
    });
+
    return taskList;
+}
+
+export function sumEachProject(taskList){
+
+   let taskProjectList = List([]);
+   let tmpTaskList = List([]);
+
+   //プロジェクトごとにListに分割する。
+   taskList.map((task, i) => {
+
+      //前のタスクと同じならば詰め替える。
+      if(i != 0 && taskList.getIn([i - 1, 'project', 'id']) != task.getIn(['project', 'id'])){
+         taskProjectList = taskProjectList.push(tmpTaskList);
+         tmpTaskList = List([]);
+      }
+      tmpTaskList = tmpTaskList.push(task);
+   })
+
+   return taskProjectList.push(tmpTaskList);
 }
