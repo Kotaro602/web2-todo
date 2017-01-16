@@ -143,39 +143,41 @@ export function mergeTasks(dbMemberAndTask, redmineTasks){
    let reqRedmineTaskList = List([]);
 
    //RedmineTaskをDBタスクに追加/マージする。
-   redmineTasks.map(members => {
-      members.issues.forEach(task => {
+   if(redmineTasks != null) {
+      redmineTasks.map(members => {
+         members.issues.forEach(task => {
 
-         const index = findIndexById(mergeTaskList, task.id);
-         if(index >= 0){
-            const mergeTask = mergeRedmineTask(mergeTaskList.get(index), task);
-            mergeTaskList = mergeTaskList.set(index, mergeTask);
-            reqRedmineTaskList = reqRedmineTaskList.push(mergeTask);
-         }else{
-            const addTask = copyTaskFromRedmine(task);
-            mergeTaskList = mergeTaskList.push(addTask);
-            reqRedmineTaskList = reqRedmineTaskList.push(addTask);
-         }
+            const index = findIndexById(mergeTaskList, task.id);
+            if (index >= 0) {
+               const mergeTask = mergeRedmineTask(mergeTaskList.get(index), task);
+               mergeTaskList = mergeTaskList.set(index, mergeTask);
+               reqRedmineTaskList = reqRedmineTaskList.push(mergeTask);
+            } else {
+               const addTask = copyTaskFromRedmine(task);
+               mergeTaskList = mergeTaskList.push(addTask);
+               reqRedmineTaskList = reqRedmineTaskList.push(addTask);
+            }
 
-         //完了済みのRedmineタスクを知るために、RedmineのIDリストを取得する。
-         redmineIdList = redmineIdList.push(task.id);
+            //完了済みのRedmineタスクを知るために、RedmineのIDリストを取得する。
+            redmineIdList = redmineIdList.push(task.id);
+         })
       })
-   })
 
-   //完了済みのRedmineタスクを調べる
-   mergeTaskList.map((task, taskIndex) => {
+      //完了済みのRedmineタスクを調べる
+      mergeTaskList.map((task, taskIndex) => {
 
-      //Redmineタスクでなければスキップ
-      if(task.get('redmineFlg') === false) return;
+         //Redmineタスクでなければスキップ
+         if (task.get('redmineFlg') === false) return;
 
-      //完了済みのタスクを更新する
-      const redmineIndex = redmineIdList.indexOf(task.get('_id'));
-      if(redmineIndex === -1){
-         const compTask = mergeTaskList.get(taskIndex).set('compDelFlg', true);
-         mergeTaskList = mergeTaskList.set(taskIndex, compTask);
-         reqRedmineTaskList = reqRedmineTaskList.push(compTask);
-      }
-   });
+         //完了済みのタスクを更新する
+         const redmineIndex = redmineIdList.indexOf(task.get('_id'));
+         if (redmineIndex === -1) {
+            const compTask = mergeTaskList.get(taskIndex).set('compDelFlg', true);
+            mergeTaskList = mergeTaskList.set(taskIndex, compTask);
+            reqRedmineTaskList = reqRedmineTaskList.push(compTask);
+         }
+      });
+   }
 
    //DB情報とRedmine情報をマージしてreducerに渡す
    const mergeObj = new Object();
