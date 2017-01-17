@@ -31,8 +31,6 @@ export default class TaskMemBxMaDa extends React.Component {
       const dueDate = moment(task.get('dueDate'));
       const remainDays = dueDate.diff(moment(), 'days');
 
-      console.log(remainDays);
-
       const inputStyle = css(
          styles.datepickerInput,
          remainDays < 3 && styles.limitWarning,

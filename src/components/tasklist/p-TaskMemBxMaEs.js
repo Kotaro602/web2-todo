@@ -7,7 +7,7 @@ export default class TaskMemBxMaEs extends React.Component {
    componentWillReceiveProps(nextProps){
       if(nextProps.task.get('estimate') !== this.props.task.get('estimate')){
          if(nextProps.task.get('estimate') === undefined) this.refs.estimate.value = undefined;
-         else this.refs.estimate.value = nextProps.task.get('estimate');
+         else this.refs.estimate.value = nextProps.task.get('estimate').toFixed(1);
       }
    }
 

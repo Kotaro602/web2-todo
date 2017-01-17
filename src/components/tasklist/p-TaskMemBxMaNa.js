@@ -6,18 +6,6 @@ import {shouldComponentUpdate} from 'react-addons-pure-render-mixin'
 
 export default class TaskMainBox extends Component {
 
-   //オープンしたタスクにフォーカスをあてる
-   componentDidUpdate(prevProps){
-      //最初にタスクがオープンした時のみフォーカスをあてる
-      const prevOpenTaskId = prevProps.state.get('conf').get('openTaskId');
-      const nowOpenTaskId = this.props.state.get('conf').get('openTaskId');
-      const taskNameInputDom = document.getElementById('taskNameToFocus');
-
-      console.log('ee')
-
-      if(taskNameInputDom && prevOpenTaskId != nowOpenTaskId) taskNameInputDom.focus();
-   }
-
    //defaultValueを更新する。
    componentWillReceiveProps(nextProps){
       if(nextProps.task.get('taskName') !== this.props.task.get('taskName')){
@@ -59,6 +47,8 @@ export default class TaskMainBox extends Component {
 
       /** prop取得 **/
       const {state, task} = this.props;
+
+      console.log(task.get('taskName'))
 
       /** レンダリング前処理 **/
       const redmineFlg = task.get('redmineFlg');

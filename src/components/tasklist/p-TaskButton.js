@@ -1,12 +1,15 @@
 import React, { Component} from 'react';
+import {Map} from 'immutable';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import {createNewTask} from '../../model/m-Task';
 
 export default class TaskButton extends Component {
 
-   openLineModal() {
-      const {addLineModal, member} = this.props;
-      addLineModal(member.get('_id'));
+   addTask() {
+      const {member, reqAddTask} = this.props;
+      const userId = member.get('_id');
+      const project = Map({ id : 0, name: 'その他'});
+      reqAddTask(createNewTask(userId, project));
    }
 
    actCleanTask() {
@@ -19,6 +22,7 @@ export default class TaskButton extends Component {
       /** レンダリング **/
       return (
          <div className={css(styles.taskFooterBox)}>
+            <button onClick={::this.addTask} className={css(styles.buttonCommon, styles.addTaskButton)}>＋ ADD</button>
             <button onClick={::this.actCleanTask} className={css(styles.buttonCommon, styles.cleaningTask)}>－ CLEAN</button>
          </div>
       );

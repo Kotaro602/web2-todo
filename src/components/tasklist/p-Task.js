@@ -15,6 +15,18 @@ const ScrollZone = withScrolling('div');
 
 export default class Task extends Component {
 
+   //オープンしたタスクにフォーカスをあてる
+   componentDidUpdate(prevProps){
+      //最初にタスクがオープンした時のみフォーカスをあてる
+      const prevOpenTaskId = prevProps.state.get('conf').get('openTaskId');
+      const nowOpenTaskId = this.props.state.get('conf').get('openTaskId');
+      const taskNameInputDom = document.getElementById('taskNameToFocus');
+
+      console.log('ee')
+
+      if(taskNameInputDom && prevOpenTaskId != nowOpenTaskId) taskNameInputDom.focus();
+   }
+
    componentDidMount() {
       //オープン中のタスクをクローズ
       const closeOpenTask = (evt) => {
