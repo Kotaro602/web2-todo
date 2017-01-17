@@ -13,6 +13,8 @@ export default class TaskMainBox extends Component {
       const nowOpenTaskId = this.props.state.get('conf').get('openTaskId');
       const taskNameInputDom = document.getElementById('taskNameToFocus');
 
+      console.log('ee')
+
       if(taskNameInputDom && prevOpenTaskId != nowOpenTaskId) taskNameInputDom.focus();
    }
 
@@ -26,11 +28,11 @@ export default class TaskMainBox extends Component {
    //タスク名称変更
    chgTaskName() {
       const {task, reqUpdateTask} = this.props;
-      const taskNameVal = this.refs.taskName.value;
+      let taskNameVal = this.refs.taskName.value;
 
+      if(taskNameVal == '') taskNameVal = 'unnamed task';
       if(task.get('taskName') == taskNameVal) return;
-      const nextTaskName = taskNameVal != '' ? taskNameVal: '<タスク名を入力してください>';
-      reqUpdateTask(task.set('taskName', nextTaskName));
+      reqUpdateTask(task.set('taskName', taskNameVal));
    }
 
    //タスクを選択する

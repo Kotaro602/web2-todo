@@ -29,6 +29,15 @@ export default class TaskMemBxMaDa extends React.Component {
 
       /** レンダリング前処理 **/
       const dueDate = moment(task.get('dueDate'));
+      const remainDays = dueDate.diff(moment(), 'days');
+
+      console.log(remainDays);
+
+      const inputStyle = css(
+         styles.datepickerInput,
+         remainDays < 3 && styles.limitWarning,
+         remainDays < 0 && styles.limitOver,
+      )
 
       /** レンダリング **/
       return(
@@ -39,8 +48,8 @@ export default class TaskMemBxMaDa extends React.Component {
                dateFormat="MM/DD"
                placeholderText="03/01"
                minDate={moment()}
-               className={css(styles.datepickerInput)}
-               popoverTargetOffset="12px -30px"/>
+               className={inputStyle}
+               popoverTargetOffset="8px -140px"/>
          </div>
       );
    }
@@ -58,5 +67,12 @@ const styles = StyleSheet.create({
       border: 0,
       width: '100%',
       cursor: 'pointer'
+   },
+   limitWarning:{
+      color:'#e68100'
+   },
+   limitOver:{
+      color: 'red !important',
+      fontWeight: 'bold'
    }
 });

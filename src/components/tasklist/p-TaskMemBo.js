@@ -32,7 +32,7 @@ export default class TaskMemBo extends React.Component {
             {taskList.map((task, i) => (
                <TaskMemSo task={task} key={i} {...this.props}/>
             ))}
-            <div className={css(styles.addTaskArea)} onClick={::this.addTask}></div>
+            <div className={css(styles.addTaskArea)} onDoubleClick={::this.addTask}></div>
          </div>
       );
    }
