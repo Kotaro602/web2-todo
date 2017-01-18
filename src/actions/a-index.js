@@ -3,11 +3,13 @@
 export const RECIEVE_TASKS = 'RECIEVE_TASKS';
 export const ADD_TASK   = 'ADD_TASK';
 export const UPDATE_TASK = 'UPDATE_TASK';
+export const UPDATE_NEW_FLG_TASK = 'UPDATE_NEW_FLG_TASK';
 export const CLEAN_TASK = 'CLEAN_TASK';
 export const CHG_SORT_NO = 'CHG_SORT_NO';
 export function recieveTasks(data){return {type: RECIEVE_TASKS, data}};
 export function addTask(task){return {type: ADD_TASK, task}};
 export function updateTask(task){return {type: UPDATE_TASK, task}};
+export function updateNewFlgTask(task){return {type: UPDATE_NEW_FLG_TASK, task}};
 export function cleanTask(userId){return{type: CLEAN_TASK, userId}};
 export function chgSortNo(dragTask, hoverTask) {return {type: CHG_SORT_NO, dragTask, hoverTask}};
 
@@ -32,9 +34,11 @@ export const REQ_UPDATE_TASK = 'REQ_UPDATE_TASK';
 export const REQ_ADD_TASK = 'REQ_ADD_TASK';
 export const REQ_CLEAN_TASK = 'REQ_CLEAN_TASK';
 export const REQ_CHG_SORT_TASK = 'REQ_CHG_SORT_TASK';
+export const REQ_UPD_NEW_FLG = 'REQ_UPD_NEW_FLG';
 export function reqTasks(){return {type: REQ_TASKS}};
 export function reqRedmineAll(oriTasks){return {type: REQ_REDMINE_ALL, oriTasks}};
 export function reqUpdateTask(task){return {type: REQ_UPDATE_TASK, task}};
+export function reqUpdNewFlg(task){return {type: REQ_UPD_NEW_FLG, task}};
 export function reqAddTask(task){return {type: REQ_ADD_TASK, task}};
 export function reqCleanTask(userId){return {type: REQ_CLEAN_TASK, userId}};
 export function reqChgSortList(dragTask, hoverTask){return {type: REQ_CHG_SORT_TASK, dragTask, hoverTask}};

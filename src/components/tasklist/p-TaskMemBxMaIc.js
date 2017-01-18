@@ -8,6 +8,14 @@ export default class TaskMemBxMaIc extends Component {
 
    shouldComponentUpdate = shouldComponentUpdate;
 
+   openRedmineUrl(){
+      const {task} = this.props;
+      if(!task.get('redmineFlg')) return;
+
+      const url = 'https://172.17.14.133:8085/redmine/issues/' + task.get('_id');
+      window.open(url);
+   }
+
    //タスク一時完了
    chgTempCompFlg() {
       const {task, reqUpdateTask} = this.props;
@@ -22,7 +30,7 @@ export default class TaskMemBxMaIc extends Component {
 
       //既に開いているボタンならば閉じる
       const nextOpenId = preOpenId == task.get('_id') ? undefined : task.get('_id');
-      openRedmineModal(nextOpenId);
+      //openRedmineModal(nextOpenId);
    }
 
    render(){
@@ -43,7 +51,7 @@ export default class TaskMemBxMaIc extends Component {
 
       /** レンダリング **/
       return(
-         <div className={css(styles.taskCheckBox)}>
+         <div className={css(styles.taskCheckBox)} onDoubleClick={::this.openRedmineUrl}>
             <input type="checkbox" className={css(styles.taskCompCheckBox)}/>
             {chkBoxDOM}
          </div>
@@ -69,7 +77,8 @@ const styles = StyleSheet.create({
       verticalAlign: 'middle',
       textAlign: 'center',
       color: '#fafafa',
-      fontSize: '14px'
+      fontSize: '14px',
+      WebkitUserSelect: 'none'
    },
    taskCompCheckBox: {
       display: 'none'

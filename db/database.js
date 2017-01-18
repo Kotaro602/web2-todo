@@ -36,7 +36,9 @@ var todoListSchema = new mongoose.Schema({
    privateFlg: {type: Boolean ,default: false},
    sortValue: Number,
    redmineFlg: {type: Boolean ,default: false},
-   project: {id: Number, name: String}
+   project: {id: Number, name: String},
+   newFlg: {type: Boolean ,default: false},
+   redmineUpdDate: String
 });
 
 // modelへ登録

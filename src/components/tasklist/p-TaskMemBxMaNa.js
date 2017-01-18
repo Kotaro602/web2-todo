@@ -23,16 +23,6 @@ export default class TaskMainBox extends Component {
       reqUpdateTask(task.set('taskName', taskNameVal));
    }
 
-   //タスクを選択する
-   selectTask() {
-      const {state, task, selectTask} = this.props;
-
-      //既に選択されている or 開いているならばスキップする。
-      if(state.get('conf').get('selectTaskId') == task.get('_id')) return;
-      if(state.get('conf').get('openTaskId') == task.get('_id')) return;
-      selectTask(task.get('_id'))
-   }
-
    //タスクを開く
    openTask() {
       const {state, task, openTask} = this.props;
@@ -48,8 +38,6 @@ export default class TaskMainBox extends Component {
       /** prop取得 **/
       const {state, task} = this.props;
 
-      console.log(task.get('taskName'))
-
       /** レンダリング前処理 **/
       const redmineFlg = task.get('redmineFlg');
       const openFlg = task.get('_id') == state.get('conf').get('openTaskId');
@@ -63,7 +51,6 @@ export default class TaskMainBox extends Component {
       if(redmineFlg && !openFlg){ //REDMINEタスク 非オープン
          taskNameDOM = <input type="text"
                               className={css(styles.nameInput, styles.pointer)}
-                              onClick={::this.selectTask}
                               defaultValue={task.get('taskName')}
                               ref='taskName'
                               readOnly/>
@@ -77,7 +64,6 @@ export default class TaskMainBox extends Component {
 
       }else if(!redmineFlg && !openFlg){ //ノーマルタスク 非オープン
          taskNameDOM = <span className={taskSpanStyle}
-                             onClick={::this.selectTask}
                              ref='taskName'
                              data-closeId={task.get('_id')}>{task.get('taskName')}</span>
 

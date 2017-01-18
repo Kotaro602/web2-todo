@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import Collapse from 'react-collapse';
 
-export default class TaskRed extends Component {
+export default class RedmineArea extends Component {
 
    render() {
 
@@ -33,12 +33,12 @@ export default class TaskRed extends Component {
 const styles = StyleSheet.create({
    redmineBox: {
       position: 'absolute',
-      top: 80,
-      left: 330,
-      width: 450,
-      height: 550,
-      backgroundColor: 'rgb(245, 230, 229)',
-      border: '1.5px solid #f90000',
+      top: 0,
+      right: 0,
+      width: 800,
+      height: '100%',
+      backgroundColor: '#ffffe6',
+      border: '1.5px solid #a7a6a6',
       borderRadius: 4,
       zIndex: 10
    }

@@ -19,7 +19,9 @@ const TaskRecord = Record({
    createUserId: undefined,
    sortValue: undefined,
    lineFlg: undefined,
-   project: undefined
+   project: undefined,
+   newFlg: undefined,
+   redmineUpdDate: undefined
 });
 
 export default class Task extends TaskRecord {
@@ -49,6 +51,8 @@ function copyTaskFromObj(task){
    nextTask = nextTask.set('sortValue', task.sortValue);
    nextTask = nextTask.set('lineFlg', task.lineFlg);
    nextTask = nextTask.set('project', fromJS(task.project));
+   nextTask = nextTask.set('redmineUpdDate', task.redmineUpdDate);
+   nextTask = nextTask.set('newFlg', task.newFlg);
 
    return nextTask;
 }
@@ -94,6 +98,8 @@ function copyTaskFromRedmine(task){
    nextTask = nextTask.set('project', Map({id: task.project.id, name: task.project.name}));
    nextTask = nextTask.set('tempDelFlg', false);
    nextTask = nextTask.set('compDelFlg', false);
+   nextTask = nextTask.set('redmineUpdDate', task.updated_on);
+   nextTask = nextTask.set('newFlg', true); //初回は必ずfalseにする。
    //nextTask = nextTask.set('taskMemo', task.description);
 
    return nextTask;
@@ -106,6 +112,10 @@ function mergeRedmineTask(preTask, task){
    nextTask = nextTask.set('taskName', task.subject);
    nextTask = nextTask.set('dueDate', task.due_date);
    nextTask = nextTask.set('project', Map({id: task.project.id, name: task.project.name}));
+   nextTask = nextTask.set('redmineUpdDate', task.updated_on);
+
+   const newFlg = preTask.get('newFlg') || preTask.get('redmineUpdDate') != task.updated_on;
+   nextTask = nextTask.set('newFlg', newFlg);
 
    return nextTask;
 }

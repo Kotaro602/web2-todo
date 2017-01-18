@@ -9,7 +9,7 @@ import TaskUser from './p-TaskUser';
 import TaskButton from './p-TaskButton';
 import TaskPro from '../header/p-Head';
 import TaskLineModal from './p-TaskLineModal';
-import TaskRed from './redmine/p-TaskRed'
+import RedmineArea from './redmine/p-RedmineArea'
 
 const ScrollZone = withScrolling('div');
 
@@ -21,8 +21,6 @@ export default class Task extends Component {
       const prevOpenTaskId = prevProps.state.get('conf').get('openTaskId');
       const nowOpenTaskId = this.props.state.get('conf').get('openTaskId');
       const taskNameInputDom = document.getElementById('taskNameToFocus');
-
-      console.log('ee')
 
       if(taskNameInputDom && prevOpenTaskId != nowOpenTaskId) taskNameInputDom.focus();
    }
@@ -71,8 +69,8 @@ export default class Task extends Component {
       document.addEventListener('click', closeRedmineModal);
 
       //タスクリスト定期的に取得する
-      this.props.reqTasks();
-      setInterval(this.props.reqTasks, 1150000);
+      this.props.reqTasks(true);
+      setInterval(this.props.reqTasks, 3000000);
    }
 
    closeLineModal(){
@@ -98,16 +96,16 @@ export default class Task extends Component {
             ))}
             </ScrollZone>
             <TogglePattern isOpenFlg={state.get('conf').get('openRedmineId') != undefined}>
-               <TaskRed isOpenFlg={true} {...this.props}/>
+               <RedmineArea isOpenFlg={true} {...this.props}/>
             </TogglePattern>
-            <Modal isOpen={showLineModal}
-                   contentLabel="onRequestClose Example"
-                   onRequestClose={::this.closeLineModal}
-                   shouldCloseOnOverlayClick={true}
-                   overlayClassName={css(styles.addLinePopupOverLay)}
-                   className={css(styles.addLinePopup)}>
-               <TaskLineModal {...this.props}/>
-            </Modal>
+            {/*<Modal isOpen={showLineModal}*/}
+                   {/*contentLabel="onRequestClose Example"*/}
+                   {/*onRequestClose={::this.closeLineModal}*/}
+                   {/*shouldCloseOnOverlayClick={true}*/}
+                   {/*overlayClassName={css(styles.addLinePopupOverLay)}*/}
+                   {/*className={css(styles.addLinePopup)}>*/}
+               {/*<TaskLineModal {...this.props}/>*/}
+            {/*</Modal>*/}
          </div>
       );
    }

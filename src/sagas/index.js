@@ -36,6 +36,15 @@ function* hundleReqUpdateTask() {
    yield takeEvery(actCreater.REQ_UPDATE_TASK, ReqUpdateTask);
 }
 
+/** タスクnewFlgを更新 */
+function* hundleReqUpdNewFlg() {
+   while (true) {
+      const action = yield take(actCreater.REQ_UPD_NEW_FLG);
+      API.updateTask(action.task); //非同期
+      yield put(actCreater.updateNewFlgTask(action.task));
+   }
+}
+
 /** タスク追加 */
 function* hundleReqAddTask() {
    while (true) {
@@ -67,6 +76,7 @@ export default function* rootSaga() {
    yield fork(hundleReqTasks);
    yield fork(hundleReqRedmineAll);
    yield fork(hundleReqUpdateTask);
+   yield fork(hundleReqUpdNewFlg);
    yield fork(hundleReqAddTask);
    yield fork(hundleReqCleanTask);
    yield fork(hundleReqChgTaskSort);

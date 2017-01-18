@@ -84,5 +84,7 @@
     "webpack-dev-server": "^1.16.2",
     "webpack-hot-middleware": "^2.14.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "koyomi": "^0.5.1"
+  }
 }

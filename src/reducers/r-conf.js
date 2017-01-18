@@ -12,8 +12,8 @@ export default function conf(state=Map([]), action) {
       case a.SELECT_TASK:
          return state.set('selectTaskId', action.taskId);
 
-      // case a.UPDATE_TASK:
-      //    return state.set('selectTaskId', action.task.get('_id'));
+      case a.UPDATE_NEW_FLG_TASK:
+         return state.set('selectTaskId', action.task.get('_id'));
 
       case a.OPEN_TASK:
          return state.set('openTaskId', action.taskId);

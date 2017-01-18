@@ -16,6 +16,8 @@ export default function task(state=List([]), action) {
 
       //タスク更新
       case a.UPDATE_TASK:
+      case a.UPDATE_NEW_FLG_TASK:
+         return state.set(findIndexById(action.task.get('_id')), action.task);
          return state.set(findIndexById(action.task.get('_id')), action.task);
 
       //完了

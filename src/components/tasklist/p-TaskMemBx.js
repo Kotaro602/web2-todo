@@ -109,6 +109,17 @@ export default class TaskMemSo extends React.Component {
       return !taskSameFlg || taskSelectChgFlg || taskOpenChgFlg;
    }
 
+   //タスクを選択する
+   selectTask() {
+      const {state, task, selectTask, reqUpdNewFlg} = this.props;
+
+      //既に選択されている or 開いているならばスキップする。
+      if(state.get('conf').get('selectTaskId') == task.get('_id')) return;
+      if(state.get('conf').get('openTaskId') == task.get('_id')) return;
+      if(task.get('newFlg')) reqUpdNewFlg(task.set('newFlg', false));
+      else selectTask(task.get('_id'))
+   }
+
    render(){
 
       /** prop取得 **/
@@ -118,6 +129,7 @@ export default class TaskMemSo extends React.Component {
 
       const taskBoxClass = css(
          styles.taskListBox,
+         task.get('newFlg') && styles.newTask,
          selectedFlg && styles.selectedTask,
          openTaskFlg ? styles.taskOpen : styles.taskNoOpen,
          isDraggingTaskId == task.get('_id') && styles.taskDraggingLi
@@ -125,7 +137,10 @@ export default class TaskMemSo extends React.Component {
 
       /** レンダリング **/
       return(
-         <li id={task.get('_id')} className={taskBoxClass} data-test={task.get('sortValue')}>
+         <li id={task.get('_id')}
+             className={taskBoxClass}
+             onClick={::this.selectTask}
+             data-test={task.get('sortValue')} >
             <TaskMainBox {...this.props}/>
             <ToggleAndPattern isTaskOpen={openTaskFlg}>
                <TaskSubBox isTaskOpen={true} {...this.props}/>
@@ -141,15 +156,18 @@ const styles = StyleSheet.create({
       width: '100%',
       backgroundColor: 'white'
    },
+   newTask:{
+      backgroundColor: '#FFFDE7'
+   },
    selectedTask:{
-      backgroundColor: 'rgb(235, 249, 255)'
+      backgroundColor: 'rgb(235, 249, 255) !important'
    },
    taskNoOpen:{
       padding: 1
    },
    taskOpen:{
       padding: 0,
-      backgroundColor: 'rgb(235, 249, 255)',
+      backgroundColor: 'rgb(235, 249, 255) !important',
       border: 'solid 1px #aaa'
    },
    taskDraggingLi: {
