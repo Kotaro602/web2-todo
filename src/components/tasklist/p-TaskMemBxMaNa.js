@@ -13,14 +13,40 @@ export default class TaskMainBox extends Component {
       }
    }
 
+   // componentDidUpdate(prevProps){
+   //    //最初にタスクがオープンした時のみフォーカスをあてる
+   //    const prevOpenTaskId = prevProps.state.get('conf').get('openTaskId');
+   //    const nowOpenTaskId = this.props.state.get('conf').get('openTaskId');
+   //    const taskNameInputDom = document.getElementById('taskNameToFocus');
+   //
+   //    console.log(taskNameInputDom);
+   //
+   //    if(taskNameInputDom !== null) taskNameInputDom.select();
+   // }
+
    //タスク名称変更
    chgTaskName() {
       const {task, reqUpdateTask} = this.props;
       let taskNameVal = this.refs.taskName.value;
-
       if(taskNameVal == '') taskNameVal = 'unnamed task';
+
+      //カーソルを移動した場合
       if(task.get('taskName') == taskNameVal) return;
-      reqUpdateTask(task.set('taskName', taskNameVal));
+      reqUpdateTask(task.set('taskName', taskNameVal), false);
+   }
+
+   //Enterキーを押した場合は、タスク名称を変更しクローズする。
+   chgAndCloseTaskName(event){
+
+      if(event.which == 13) {
+
+         const {task, openTask, reqUpdateTask} = this.props;
+         let taskNameVal = this.refs.taskName.value;
+         if(taskNameVal == '') taskNameVal = 'unnamed task';
+
+         if(task.get('taskName') == taskNameVal) openTask(undefined);
+         else reqUpdateTask(task.set('taskName', taskNameVal), true);
+      }
    }
 
    //タスクを開く
@@ -43,7 +69,7 @@ export default class TaskMainBox extends Component {
       const openFlg = task.get('_id') == state.get('conf').get('openTaskId');
 
       const taskSpanStyle = css(
-         styles.nameSpan, styles.pointer,
+         styles.nameInput, styles.pointer,
          task.get('tempDelFlg') && styles.taskNameChecked,
       )
 
@@ -63,9 +89,11 @@ export default class TaskMainBox extends Component {
                               readOnly/>
 
       }else if(!redmineFlg && !openFlg){ //ノーマルタスク 非オープン
-         taskNameDOM = <span className={taskSpanStyle}
-                             ref='taskName'
-                             data-closeId={task.get('_id')}>{task.get('taskName')}</span>
+         taskNameDOM = <input type="text"
+                              className={taskSpanStyle}
+                              defaultValue={task.get('taskName')}
+                              ref='taskName'
+                              readOnly/>
 
       }else{ //ノーマルタスク オープン
          taskNameDOM = <input type="text"
@@ -73,7 +101,8 @@ export default class TaskMainBox extends Component {
                               defaultValue={task.get('taskName')}
                               ref='taskName'
                               id="taskNameToFocus"
-                              onBlur={::this.chgTaskName}/>
+                              onBlur={::this.chgTaskName}
+                              onKeyDown={::this.chgAndCloseTaskName}/>
       }
 
       /** レンダリング **/
@@ -109,15 +138,6 @@ const styles = StyleSheet.create({
       border: '0px',
       height: 18,
       lineHeight: '16px',
-      WebkitUserSelect: 'none'
-   },
-   nameSpan:{
-      display: 'inline-block',
-      width: '100%',
-      height: '100%',
-      outline: '0',
-      border: '0px',
-      paddingTop: 2,
       WebkitUserSelect: 'none'
    }
 });

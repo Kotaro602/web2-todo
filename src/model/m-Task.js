@@ -21,7 +21,12 @@ const TaskRecord = Record({
    lineFlg: undefined,
    project: undefined,
    newFlg: undefined,
-   redmineUpdDate: undefined
+   redmineUpdDate: undefined,
+   startDate: undefined,
+   description: undefined,
+   tracker: undefined,
+   status: undefined,
+   journals: undefined
 });
 
 export default class Task extends TaskRecord {
@@ -86,7 +91,12 @@ function createTaskListFromObj(tasks){
    return taskList;
 }
 
-//RedmineAPIを元にRedmineタスクを生成
+/**
+ * Redmineタスクの新規作成
+ *
+ * @param task
+ * @returns {Task}
+ */
 function copyTaskFromRedmine(task){
 
    let nextTask = new Task();
@@ -100,11 +110,17 @@ function copyTaskFromRedmine(task){
    nextTask = nextTask.set('compDelFlg', false);
    nextTask = nextTask.set('redmineUpdDate', task.updated_on);
    nextTask = nextTask.set('newFlg', true); //初回は必ずfalseにする。
-   //nextTask = nextTask.set('taskMemo', task.description);
 
    return nextTask;
 }
 
+/**
+ * DBから取得したデータにRedmineタスクをマージする
+ *
+ * @param preTask
+ * @param task
+ * @returns {*}
+ */
 function mergeRedmineTask(preTask, task){
 
    let nextTask = preTask;
@@ -198,6 +214,28 @@ export function mergeTasks(dbMemberAndTask, redmineTasks){
    return mergeObj;
 }
 
+/**
+ * Redmineモーダルの詳細情報を取得しマージする。
+ *
+ * @param preTask
+ * @param issue
+ * @returns {*}
+ */
+export function mergeDetailTask(preTask, issue){
+
+   console.log(issue);
+
+   let nextTask = preTask;
+   nextTask = nextTask.set('startDate', issue.start_date);
+   nextTask = nextTask.set('description', issue.description);
+   nextTask = nextTask.set('tracker', Map({id: issue.tracker.id, name: issue.tracker.name}));
+   nextTask = nextTask.set('status', Map({id: issue.status.id, name: issue.status.name}));
+
+   const journals = List([]);
+
+   return nextTask;
+}
+
 /** タスクリストをフィルタリング&ソートする。
  * フィルタリング条件：同一ユーザ＆タスク未完了
  * 第一ソートキー：プロジェクトID
@@ -225,6 +263,12 @@ export function sortAndFilterTask(taskList, userId){
    return taskList;
 }
 
+/**
+ * Redmineのプロジェクトごとにタスクを分割する
+ *
+ * @param taskList
+ * @returns {List<*|List<any>|List<any>>}
+ */
 export function sumEachProject(taskList){
 
    let taskProjectList = List([]);

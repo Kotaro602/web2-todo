@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
    dueDateBox:{
       display: 'inline-block',
       height: 25,
-      width: 40,
+      width: 50,
       margin: '0px 15px'
    },
    datepickerInput:{

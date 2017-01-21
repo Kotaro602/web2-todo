@@ -1,5 +1,6 @@
 import {List, toJS} from 'immutable';
 import {Task, createTaskListFromObj, copyTaskFromRedmine} from '../model/m-Task';
+import {REDMINE_URL} from '../const';
 
 const ERR_MESSAGE = '通信に失敗しました。F5を押して処理をやり直してください。';
 
@@ -19,7 +20,7 @@ export function fetchRedmineTaskList(taskListEachMember) {
    //RedmineURLを取得
    return Promise.all(taskListEachMember.members.map(member => {
       const redmineUrl = process.env.NODE_ENV === `production` ?
-         `https://172.17.14.133:8085/redmine/issues.json?limit=100&key=${member.redmineKey}&assigned_to_id=${member._id}`:
+         `${REDMINE_URL}/issues.json?limit=100&key=${member.redmineKey}&assigned_to_id=${member._id}`:
          `/testdata/issues_${member._id}.json`;
       return fetch(redmineUrl).then(res => res.json());
 
@@ -29,6 +30,21 @@ export function fetchRedmineTaskList(taskListEachMember) {
          return null;
       }
    )
+}
+
+export function fetchRedmineTaskDetail(redmineId){
+
+   //RedmineIdを取得
+   const redmineUrl = process.env.NODE_ENV === `development` ?
+      `${REDMINE_URL}/issues/${redmineId}.json?include=attachments,journals`:
+      `/testdata/detail_${redmineId}.json`;
+
+   return fetch(redmineUrl)
+      .then(res => {
+         if(res.status != 200) alert(ERR_MESSAGE);
+         return res.json();
+      })
+      .catch(err => err);
 }
 
 export function updateTask(task) {

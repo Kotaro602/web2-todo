@@ -25,21 +25,21 @@ export default class TaskMemBxMaIc extends Component {
 
    //Redmineモーダルを開く
    openRedmineModal() {
+
       const {state, task, openRedmineModal} = this.props;
       const preOpenId = state.get('conf').get('openRedmineId');
 
       //既に開いているボタンならば閉じる
       const nextOpenId = preOpenId == task.get('_id') ? undefined : task.get('_id');
-      //openRedmineModal(nextOpenId);
+      openRedmineModal(nextOpenId);
    }
 
    render(){
 
       /** prop取得 **/
-      const {state, task} = this.props;
+      const {task} = this.props;
 
       /** レンダリング前処理 **/
-      //チェックボックスアイコン
       let chkBoxDOM;
       if(task.get('redmineFlg')){
          chkBoxDOM = <span className={css(styles.redmineIcon)} onClick={::this.openRedmineModal}>R</span>;
@@ -51,7 +51,7 @@ export default class TaskMemBxMaIc extends Component {
 
       /** レンダリング **/
       return(
-         <div className={css(styles.taskCheckBox)} onDoubleClick={::this.openRedmineUrl}>
+         <div className={css(styles.taskCheckBox)}>
             <input type="checkbox" className={css(styles.taskCompCheckBox)}/>
             {chkBoxDOM}
          </div>

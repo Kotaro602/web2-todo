@@ -3,7 +3,7 @@ import { takeEvery} from "redux-saga";
 import { put, call, take, fork } from "redux-saga/effects";
 import * as actCreater from "../actions/a-index";
 import * as API from "./task-api.js";
-import {Task, mergeTasks} from '../model/m-Task';
+import {mergeTasks, mergeDetailTask} from '../model/m-Task';
 
 /** 通常タスク取得 */
 function* hundleReqTasks() {
@@ -14,7 +14,7 @@ function* hundleReqTasks() {
    }
 }
 
-/** Redmineタスク取得 */
+/** Redmine一覧タスク取得 */
 function* hundleReqRedmineAll() {
    while (true) {
       const action = yield take(actCreater.REQ_REDMINE_ALL);
@@ -25,10 +25,21 @@ function* hundleReqRedmineAll() {
    }
 }
 
+/** Redmine詳細タスクを取得 */
+function* hundleReqRedmineDetail() {
+   while (true) {
+      const action = yield take(actCreater.REQ_REDMINE_DETAIL);
+      const data = yield call(API.fetchRedmineTaskDetail, action.task.get('_id'));
+      const mergeTask = mergeDetailTask(action.task, data.issue);
+      yield put(actCreater.updateTask(mergeTask));
+   }
+}
+
 /** タスク更新実行 */
 function* ReqUpdateTask(action){
    API.updateTask(action.task); //非同期
-   yield put(actCreater.updateTask(action.task));
+   if(action.closeFlg) yield put(actCreater.updateAndCloseTask(action.task));
+   else yield put(actCreater.updateTask(action.task));
 }
 
 /** タスク更新ハンドラ */
@@ -63,21 +74,13 @@ function* hundleReqCleanTask() {
    }
 }
 
-/** ソート順更新 */
-function* hundleReqChgTaskSort() {
-   while (true) {
-      const action = yield take(actCreater.REQ_CHG_SORT_TASK);
-      API.chgTaskSort(action.dragTask, action.hoverTask);//非同期
-   }
-}
-
 /** ルート **/
 export default function* rootSaga() {
    yield fork(hundleReqTasks);
    yield fork(hundleReqRedmineAll);
+   yield fork(hundleReqRedmineDetail);
    yield fork(hundleReqUpdateTask);
    yield fork(hundleReqUpdNewFlg);
    yield fork(hundleReqAddTask);
    yield fork(hundleReqCleanTask);
-   yield fork(hundleReqChgTaskSort);
 }

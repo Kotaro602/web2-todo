@@ -17,12 +17,9 @@ export default class Task extends Component {
 
    //オープンしたタスクにフォーカスをあてる
    componentDidUpdate(prevProps){
-      //最初にタスクがオープンした時のみフォーカスをあてる
-      const prevOpenTaskId = prevProps.state.get('conf').get('openTaskId');
-      const nowOpenTaskId = this.props.state.get('conf').get('openTaskId');
-      const taskNameInputDom = document.getElementById('taskNameToFocus');
 
-      if(taskNameInputDom && prevOpenTaskId != nowOpenTaskId) taskNameInputDom.focus();
+      const taskNameInputDom = document.getElementById('taskNameToFocus');
+      if(taskNameInputDom) taskNameInputDom.select();
    }
 
    componentDidMount() {
@@ -34,6 +31,7 @@ export default class Task extends Component {
          if(openTaskDOM == null) return;
          if(openTaskDOM.contains(evt.target)) return;
          if(event.target.className.match('addTaskArea')) return;
+         if(event.target.className.match('redmineIcon')) return;
          if(this.props.state.get('conf').get('openTaskId') == evt.target.getAttribute('data-closeId')) return;
 
          this.props.openTask(undefined);
@@ -47,6 +45,7 @@ export default class Task extends Component {
          if(selectTaskDOM == null) return;
          if(selectTaskDOM.contains(evt.target)) return;
          if(event.target.className.match('addTaskButton')) return;
+         if(event.target.className.match('redmineIcon')) return;
          if(this.props.state.get('conf').get('selectTaskId') == evt.target.getAttribute('data-closeId')) return;
 
          this.props.selectTask(undefined);
@@ -73,9 +72,9 @@ export default class Task extends Component {
       setInterval(this.props.reqTasks, 3000000);
    }
 
-   closeLineModal(){
-      this.props.addLineModal(undefined);
-   }
+   // closeLineModal(){
+   //    this.props.addLineModal(undefined);
+   // }
 
    render() {
 
