@@ -23,6 +23,9 @@ export default class Task extends Component {
    }
 
    componentDidMount() {
+
+      const {openTask, selectTask, openRedmineModal, reqTasks} = this.props;
+
       //オープン中のタスクをクローズ
       const closeOpenTask = (evt) => {
          const openTaskDOM = document.getElementById(this.props.state.get('conf').get('openTaskId'));
@@ -34,7 +37,7 @@ export default class Task extends Component {
          if(event.target.className.match('redmineIcon')) return;
          if(this.props.state.get('conf').get('openTaskId') == evt.target.getAttribute('data-closeId')) return;
 
-         this.props.openTask(undefined);
+         openTask(undefined);
       }
 
       //選択中のタスクをクローズ
@@ -48,7 +51,7 @@ export default class Task extends Component {
          if(event.target.className.match('redmineIcon')) return;
          if(this.props.state.get('conf').get('selectTaskId') == evt.target.getAttribute('data-closeId')) return;
 
-         this.props.selectTask(undefined);
+         selectTask(undefined);
       }
 
       //オープン中のレッドマインモーダルをクローズ
@@ -59,7 +62,7 @@ export default class Task extends Component {
          if(openRedmineDOM.contains(evt.target)) return;
          if(event.target.className.match('redmineIcon')) return;
 
-         this.props.openRedmineModal(undefined);
+         openRedmineModal(undefined);
       }
 
       //イベントハンドラに追加
@@ -68,7 +71,7 @@ export default class Task extends Component {
       document.addEventListener('click', closeRedmineModal);
 
       //タスクリスト定期的に取得する
-      this.props.reqTasks(true);
+      reqTasks(true);
       setInterval(this.props.reqTasks, 3000000);
    }
 
