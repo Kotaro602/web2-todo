@@ -223,8 +223,6 @@ export function mergeTasks(dbMemberAndTask, redmineTasks){
  */
 export function mergeDetailTask(preTask, issue){
 
-   console.log(issue);
-
    let nextTask = preTask;
    nextTask = nextTask.set('startDate', issue.start_date);
    nextTask = nextTask.set('description', issue.description);
@@ -234,14 +232,17 @@ export function mergeDetailTask(preTask, issue){
    const journals = List([]);
    issue.journals.forEach(journal => {
 
-      const journal = Map({
-         //id:
-
-
-      })
-
-
+      journals.push(
+         Map({
+            id: journal.id,
+            notes: journal.notes,
+            createOn: journal.created_on,
+            user: fromJS(journal.user)
+         })
+      );
    });
+
+   nextTask = nextTask.set('journals', journals);
 
    return nextTask;
 }
