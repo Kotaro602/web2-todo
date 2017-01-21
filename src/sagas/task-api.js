@@ -36,7 +36,7 @@ export function fetchRedmineTaskDetail(redmineId){
 
    //RedmineIdを取得
    const redmineUrl = process.env.NODE_ENV === `production` ?
-      `${REDMINE_URL}/issues/${redmineId}.json?include=attachments,journals`:
+      `${REDMINE_URL}/issues/${redmineId}.json?include=attachments,journals&key=${member.redmineKey}`:
       `/testdata/detail_${redmineId}.json`;
 
    return fetch(redmineUrl)

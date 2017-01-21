@@ -234,7 +234,11 @@ export function mergeDetailTask(preTask, issue){
    const journals = List([]);
    issue.journals.forEach(journal => {
 
+      const journal = Map({
+         //id:
 
+
+      })
 
 
    });
