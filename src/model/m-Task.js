@@ -232,6 +232,12 @@ export function mergeDetailTask(preTask, issue){
    nextTask = nextTask.set('status', Map({id: issue.status.id, name: issue.status.name}));
 
    const journals = List([]);
+   issue.journals.forEach(journal => {
+
+
+
+
+   });
 
    return nextTask;
 }

@@ -35,7 +35,7 @@ export function fetchRedmineTaskList(taskListEachMember) {
 export function fetchRedmineTaskDetail(redmineId){
 
    //RedmineIdを取得
-   const redmineUrl = process.env.NODE_ENV === `development` ?
+   const redmineUrl = process.env.NODE_ENV === `production` ?
       `${REDMINE_URL}/issues/${redmineId}.json?include=attachments,journals`:
       `/testdata/detail_${redmineId}.json`;
 
