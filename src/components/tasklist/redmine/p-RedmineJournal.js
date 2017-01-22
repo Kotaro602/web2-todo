@@ -52,7 +52,8 @@ export default class RedmineJournal extends Component {
 
 const styles = StyleSheet.create({
    journalArea:{
-      margin: 10
+      margin: 10,
+      marginBottom: 40
    },
    journal:{
       marginTop: 5

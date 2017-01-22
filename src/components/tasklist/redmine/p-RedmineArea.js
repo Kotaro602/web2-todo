@@ -24,7 +24,7 @@ export default class RedmineArea extends Component {
       const openRedmineId = state.get('conf').get('openRedmineId');
       const task = state.get('tasks').filter(t => t.get('_id') == openRedmineId).get(0);
 
-      if(task.get('newFlg')) reqRedmineDetail(task);
+      if(task.get('newFlg') || task.get('journals') === undefined) reqRedmineDetail(task);
    }
 
    render() {

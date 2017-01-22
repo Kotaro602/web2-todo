@@ -20,7 +20,10 @@ export default class RedmineHeader extends Component {
       /** レンダリング **/
       return (
          <div className={css(styles.mainArea)}>
-            <span className={css(styles.taskName)}>{task.get('taskName')}</span>
+            <div className={css(styles.taskName)}>{task.get('taskName')}</div>
+            <br/>
+            <div className={css(styles.date)}>開始日：{task.get('startDate')}</div>
+            <div className={css(styles.date)}>締切日：{task.get('dueDate')}</div>
             <hr className={css(styles.descHr)}/>
             <div>説明</div>
             <Textarea
@@ -50,6 +53,9 @@ const styles = StyleSheet.create({
       border: '1px solid #d2d0d0'
    },
    taskName:{
+   },
+   date:{
+     fontSize: 13
    },
    descHr:{
       border: '1px solid rgb(204,204,204)'
