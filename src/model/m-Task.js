@@ -110,6 +110,10 @@ function copyTaskFromRedmine(task){
    nextTask = nextTask.set('compDelFlg', false);
    nextTask = nextTask.set('redmineUpdDate', task.updated_on);
    nextTask = nextTask.set('newFlg', true); //初回は必ずfalseにする。
+   nextTask = nextTask.set('startDate', task.start_date);
+   nextTask = nextTask.set('description', task.description);
+   nextTask = nextTask.set('tracker', Map({id: task.tracker.id, name: task.tracker.name}));
+   nextTask = nextTask.set('status', Map({id: task.status.id, name: task.status.name}));
 
    return nextTask;
 }
@@ -129,6 +133,10 @@ function mergeRedmineTask(preTask, task){
    nextTask = nextTask.set('dueDate', task.due_date);
    nextTask = nextTask.set('project', Map({id: task.project.id, name: task.project.name}));
    nextTask = nextTask.set('redmineUpdDate', task.updated_on);
+   nextTask = nextTask.set('startDate', task.start_date);
+   nextTask = nextTask.set('description', task.description);
+   nextTask = nextTask.set('tracker', Map({id: task.tracker.id, name: task.tracker.name}));
+   nextTask = nextTask.set('status', Map({id: task.status.id, name: task.status.name}));
 
    const newFlg = preTask.get('newFlg') || preTask.get('redmineUpdDate') != task.updated_on;
    nextTask = nextTask.set('newFlg', newFlg);
@@ -229,10 +237,10 @@ export function mergeDetailTask(preTask, issue){
    nextTask = nextTask.set('tracker', Map({id: issue.tracker.id, name: issue.tracker.name}));
    nextTask = nextTask.set('status', Map({id: issue.status.id, name: issue.status.name}));
 
-   const journals = List([]);
+   let journals = List([]);
    issue.journals.forEach(journal => {
 
-      journals.push(
+      journals = journals.push(
          Map({
             id: journal.id,
             notes: journal.notes,
@@ -241,7 +249,6 @@ export function mergeDetailTask(preTask, issue){
          })
       );
    });
-
    nextTask = nextTask.set('journals', journals);
 
    return nextTask;

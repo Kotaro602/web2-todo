@@ -8,14 +8,6 @@ export default class TaskMemBxMaIc extends Component {
 
    shouldComponentUpdate = shouldComponentUpdate;
 
-   openRedmineUrl(){
-      const {task} = this.props;
-      if(!task.get('redmineFlg')) return;
-
-      const url = 'https://172.17.14.133:8085/redmine/issues/' + task.get('_id');
-      window.open(url);
-   }
-
    //タスク一時完了
    chgTempCompFlg() {
       const {task, reqUpdateTask} = this.props;

@@ -71,19 +71,14 @@ export default class Task extends Component {
       document.addEventListener('click', closeRedmineModal);
 
       //タスクリスト定期的に取得する
-      reqTasks(true);
-      setInterval(this.props.reqTasks, 3000000);
+      reqTasks();
+      setInterval(reqTasks, 3000000);
    }
-
-   // closeLineModal(){
-   //    this.props.addLineModal(undefined);
-   // }
 
    render() {
 
       /** prop取得 **/
       const {state} = this.props;
-      const showLineModal = state.get('conf').get('lineModalUserId') !== undefined;
 
       /** レンダリング **/
       return (
