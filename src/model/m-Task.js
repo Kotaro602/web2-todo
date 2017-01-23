@@ -244,7 +244,7 @@ export function mergeDetailTask(preTask, issue){
          Map({
             id: journal.id,
             notes: journal.notes,
-            createOn: journal.created_on,
+            createOn: moment(journal.created_on).format('MM/DD HH:mm'),
             user: fromJS(journal.user)
          })
       );

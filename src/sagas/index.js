@@ -1,6 +1,7 @@
 import 'babel-polyfill';
 import { takeEvery} from "redux-saga";
 import { put, call, take, fork } from "redux-saga/effects";
+import {Immutable, Record, List, Map, toJS, fromJS} from 'immutable';
 import * as actCreater from "../actions/a-index";
 import * as API from "./task-api.js";
 import {mergeTasks, mergeDetailTask} from '../model/m-Task';
@@ -14,13 +15,13 @@ function* hundleReqTasks() {
    }
 }
 
-/** Redmine一覧タスク取得 */
+/** Redmineユーザごとの一覧タスク取得 */
 function* hundleReqRedmineAll() {
    while (true) {
       const action = yield take(actCreater.REQ_REDMINE_ALL);
       const redmineTasks = yield call(API.fetchRedmineTaskList, action.oriTasks);
       const mergeObj = mergeTasks(action.oriTasks, redmineTasks);
-      API.updateTaskList(mergeObj.reqTasks); //マージしたRedmineTask更新処理
+      API.updateTaskList(mergeObj.reqTasks); //マージしたRedmineTaskをDBに更新（非同期）
       yield put(actCreater.recieveTasks(mergeObj));
    }
 }

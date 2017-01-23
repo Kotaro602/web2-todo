@@ -36,9 +36,11 @@ export const REQ_UPDATE_TASK = 'REQ_UPDATE_TASK';
 export const REQ_ADD_TASK = 'REQ_ADD_TASK';
 export const REQ_CLEAN_TASK = 'REQ_CLEAN_TASK';
 export const REQ_UPD_NEW_FLG = 'REQ_UPD_NEW_FLG';
+export const REQ_REDMINE_DETAIL_LIS = 'REQ_REDMINE_DETAIL_LIS';
 export function reqTasks(){return {type: REQ_TASKS}};
 export function reqRedmineAll(oriTasks){return {type: REQ_REDMINE_ALL, oriTasks}};
-export function reqRedmineDetail(task){return {type: REQ_REDMINE_DETAIL, task}}
+export function reqRedmineDetail(task){return {type: REQ_REDMINE_DETAIL, task}};
+export function reqRedmineDetailList(taskList){return {type: REQ_REDMINE_DETAIL_LIST, taskList}};
 export function reqUpdateTask(task, closeFlg){return {type: REQ_UPDATE_TASK, task, closeFlg}};
 export function reqUpdNewFlg(task){return {type: REQ_UPD_NEW_FLG, task}};
 export function reqAddTask(task){return {type: REQ_ADD_TASK, task}};

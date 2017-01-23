@@ -32,12 +32,14 @@ export default class RedmineJournal extends Component {
       /** レンダリング **/
       return (
          <div className={css(styles.journalArea)}>
-            {}
             <div>履歴</div>
-            {task.get('journals').map(journal => {
+            {task.get('journals').map((journal, i) => {
                return (
                   <div className={css(styles.journal)} key={journal.get('id')}>
-                     <h7 className={css(styles.name)}>{journal.getIn(['user', 'name'])}</h7>
+                     <a className={css(styles.name)}>
+                        <span>#{i} {journal.getIn(['user', 'name'])}</span>
+                        <span className={css(styles.createOn)}>{journal.get('createOn')}</span>
+                     </a>
                      <Textarea
                         className={css(styles.notes)}
                         defaultValue={journal.get('notes')}
@@ -60,9 +62,16 @@ const styles = StyleSheet.create({
 
    },
    name:{
-      color: 'blue'
+      color: 'blue',
+      fontSize: 13
+   },
+   createOn:{
+      marginLeft: 10,
+     fontSize: 12
    },
    notes:{
+      marginTop: 5,
+      marginBottom: 10,
       width: '100%',
       outline: '0',
       border: '0px',

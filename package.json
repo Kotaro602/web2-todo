@@ -65,6 +65,7 @@
     "react-motion": "^0.4.7",
     "react-pure-render": "^1.0.2",
     "react-redux": "^4.4.5",
+    "react-rnd": "^4.2.0",
     "react-tap-event-plugin": "^2.0.1",
     "react-textarea-autosize": "^4.0.5",
     "react-toggle-pattern": "^1.4.0",
