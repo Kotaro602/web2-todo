@@ -4,7 +4,7 @@ import { put, call, take, fork } from "redux-saga/effects";
 import {Immutable, Record, List, Map, toJS, fromJS} from 'immutable';
 import * as actCreater from "../actions/a-index";
 import * as API from "./task-api.js";
-import {mergeTasks, mergeDetailTask} from '../model/m-Task';
+import {mergeTasks, mergeDetailTask, mergeDetailTaskList} from '../model/m-Task';
 
 /** 通常タスク取得 */
 function* hundleReqTasks() {
@@ -22,17 +22,17 @@ function* hundleReqRedmineAll() {
       const redmineTasks = yield call(API.fetchRedmineTaskList, action.oriTasks);
       const mergeObj = mergeTasks(action.oriTasks, redmineTasks);
       API.updateTaskList(mergeObj.reqTasks); //マージしたRedmineTaskをDBに更新（非同期）
-      yield put(actCreater.recieveTasks(mergeObj));
+      yield put(actCreater.reqRedmineIssueList(mergeObj));
    }
 }
 
-/** Redmine詳細タスクを取得 */
-function* hundleReqRedmineDetail() {
+/** Redmine詳細情報を全て取得 */
+function* hundleReqRedmineDetailList() {
    while (true) {
-      const action = yield take(actCreater.REQ_REDMINE_DETAIL);
-      const data = yield call(API.fetchRedmineTaskDetail, action.task.get('_id'));
-      const mergeTask = mergeDetailTask(action.task, data.issue);
-      yield put(actCreater.updateTask(mergeTask));
+      const action = yield take(actCreater.REQ_REDMINE_ISSUE_LIST);
+      const issueList = yield call(API.fetchRedmineTaskDetailList, action.mergeObj);
+      action.mergeObj.tasks = mergeDetailTaskList(action.mergeObj, issueList);
+      yield put(actCreater.recieveTasks(action.mergeObj));
    }
 }
 
@@ -79,7 +79,7 @@ function* hundleReqCleanTask() {
 export default function* rootSaga() {
    yield fork(hundleReqTasks);
    yield fork(hundleReqRedmineAll);
-   yield fork(hundleReqRedmineDetail);
+   yield fork(hundleReqRedmineDetailList);
    yield fork(hundleReqUpdateTask);
    yield fork(hundleReqUpdNewFlg);
    yield fork(hundleReqAddTask);

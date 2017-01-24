@@ -7,7 +7,7 @@ export default function members(state=List([]), action) {
 
       //タスク一覧取得
       case taskActions.RECIEVE_TASKS:
-         return action.data.members;
+         return action.mergeObj.members;
 
       default:
          return state;

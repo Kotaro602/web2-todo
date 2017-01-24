@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import {REDMINE_URL} from './../../../const';
 import Textarea from 'react-textarea-autosize';
+import moment from 'moment';
 import Collapse from 'react-collapse';
 
 export default class RedmineJournal extends Component {
@@ -14,20 +15,8 @@ export default class RedmineJournal extends Component {
 
    render() {
 
-
-      // journals.push(
-      //    Map({
-      //       id: journal.id,
-      //       notes: journal.notes,
-      //       createOn: journal.created_on,
-      //       user: fromJS(journal.user)
-      //    })
-      // );
-
       /** prop取得 **/
       const {task} = this.props;
-
-      console.log(task.get('journals'));
 
       /** レンダリング **/
       return (
@@ -37,8 +26,12 @@ export default class RedmineJournal extends Component {
                return (
                   <div className={css(styles.journal)} key={journal.get('id')}>
                      <a className={css(styles.name)}>
-                        <span>#{i} {journal.getIn(['user', 'name'])}</span>
-                        <span className={css(styles.createOn)}>{journal.get('createOn')}</span>
+                        <span>
+                           #{i} {journal.getIn(['user', 'name'])}
+                        </span>
+                        <span className={css(styles.createOn)}>
+                           {journal.get('createOn')}
+                        </span>
                      </a>
                      <Textarea
                         className={css(styles.notes)}

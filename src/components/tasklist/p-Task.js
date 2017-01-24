@@ -72,7 +72,7 @@ export default class Task extends Component {
 
       //タスクリスト定期的に取得する
       reqTasks();
-      setInterval(reqTasks, 3000000);
+      setInterval(reqTasks, 120000);
    }
 
    render() {

@@ -4,6 +4,9 @@ import {REDMINE_URL} from '../const';
 
 const ERR_MESSAGE = '通信に失敗しました。F5を押して処理をやり直してください。';
 
+/**
+ * DBから一覧情報を取得
+ */
 export function fetchTaskList() {
 
    return fetch(`api/readTaskList`)
@@ -14,7 +17,12 @@ export function fetchTaskList() {
       .then(json => json);
 };
 
-//redux-saga使っているのにPromiseで制御ってどうなんだろう…。
+/**
+ * Redmineからユーザごとのタスク一覧リストを取得
+ *
+ * @param taskListEachMember
+ * @returns {Promise|Promise.<T>}
+ */
 export function fetchRedmineTaskList(taskListEachMember) {
 
    //RedmineURLを取得
@@ -32,19 +40,30 @@ export function fetchRedmineTaskList(taskListEachMember) {
    )
 }
 
-export function fetchRedmineTaskDetail(redmineId){
+/**
+ * Redmineからタスク詳細情報を全て取得
+ *
+ * @param taskListEachMember
+ * @returns {Promise|Promise.<T>}
+ */
+export function fetchRedmineTaskDetailList(mergeObj) {
 
-   //RedmineIdを取得
-   const redmineUrl = process.env.NODE_ENV === `production` ?
-      `${REDMINE_URL}/issues/${redmineId}.json?include=attachments,journals&key=4a4606aff3f4db05dd5f391cbbaf026e7cf588c6`:
-      `/testdata/detail_${redmineId}.json`;
+   //同時にRedmineにリクエストを投げる
+   return Promise.all(mergeObj.tasks.map(task => {
+      if(task.get('redmineFlg')){
 
-   return fetch(redmineUrl)
-      .then(res => {
-         if(res.status != 200) alert(ERR_MESSAGE);
-         return res.json();
-      })
-      .catch(err => err);
+         const redmineUrl = process.env.NODE_ENV === `production` ?
+            `${REDMINE_URL}/issues/${task.get('_id')}.json?include=attachments,journals&key=4a4606aff3f4db05dd5f391cbbaf026e7cf588c6`:
+            `/testdata/detail_${task.get('_id')}.json`;
+         return fetch(redmineUrl).then(res => res.json());
+      }
+
+   })).then(redmineTasks => redmineTasks)
+      .catch(e => {
+            console.log(e);
+            return null;
+         }
+      )
 }
 
 export function updateTask(task) {

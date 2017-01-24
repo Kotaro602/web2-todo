@@ -8,7 +8,7 @@ export default function task(state=List([]), action) {
 
       //一覧取得
       case a.RECIEVE_TASKS:
-         return action.data.tasks;
+         return action.mergeObj.tasks;
 
       //追加
       case a.ADD_TASK:

@@ -7,25 +7,24 @@ import RedmineJournal from'./p-RedmineJournal';
 
 export default class RedmineArea extends Component {
 
-   componentDidMount(){
-      const {state, reqRedmineDetail} = this.props;
-      const openRedmineId = state.get('conf').get('openRedmineId');
-      const task = state.get('tasks').filter(t => t.get('_id') == openRedmineId).get(0);
-
-      console.log('componentDidMount');
-
-      //TODO 起動時に全部取得するようにしたら、ここはnewFlgをみるようにする
-      reqRedmineDetail(task);
-   }
-
-   componentWillReceiveProps(nextProps){
-
-      const {state, reqRedmineDetail} = nextProps;
-      const openRedmineId = state.get('conf').get('openRedmineId');
-      const task = state.get('tasks').filter(t => t.get('_id') == openRedmineId).get(0);
-
-      if(task.get('newFlg') || task.get('journals') === undefined) reqRedmineDetail(task);
-   }
+   // componentDidMount(){
+   //    const {state, reqRedmineDetail} = this.props;
+   //    const openRedmineId = state.get('conf').get('openRedmineId');
+   //    const task = state.get('tasks').filter(t => t.get('_id') == openRedmineId).get(0);
+   //
+   //    console.log('componentDidMount');
+   //
+   //    reqRedmineDetail(task);
+   // }
+   //
+   // componentWillReceiveProps(nextProps){
+   //
+   //    const {state, reqRedmineDetail} = nextProps;
+   //    const openRedmineId = state.get('conf').get('openRedmineId');
+   //    const task = state.get('tasks').filter(t => t.get('_id') == openRedmineId).get(0);
+   //
+   //    if(task.get('newFlg') || task.get('journals') === undefined) reqRedmineDetail(task);
+   // }
 
    render() {
 

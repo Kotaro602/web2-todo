@@ -26,6 +26,7 @@ const TaskRecord = Record({
    description: undefined,
    tracker: undefined,
    status: undefined,
+   updateJournalsFlg: undefined,
    journals: undefined
 });
 
@@ -58,6 +59,7 @@ function copyTaskFromObj(task){
    nextTask = nextTask.set('project', fromJS(task.project));
    nextTask = nextTask.set('redmineUpdDate', task.redmineUpdDate);
    nextTask = nextTask.set('newFlg', task.newFlg);
+   nextTask = nextTask.set('updateJournalsFlg', false);
 
    return nextTask;
 }
@@ -114,6 +116,7 @@ function copyTaskFromRedmine(task){
    nextTask = nextTask.set('description', task.description);
    nextTask = nextTask.set('tracker', Map({id: task.tracker.id, name: task.tracker.name}));
    nextTask = nextTask.set('status', Map({id: task.status.id, name: task.status.name}));
+   nextTask = nextTask.set('updateJournalsFlg', true);
 
    return nextTask;
 }
@@ -137,9 +140,9 @@ function mergeRedmineTask(preTask, task){
    nextTask = nextTask.set('description', task.description);
    nextTask = nextTask.set('tracker', Map({id: task.tracker.id, name: task.tracker.name}));
    nextTask = nextTask.set('status', Map({id: task.status.id, name: task.status.name}));
+   nextTask = nextTask.set('updateJournalsFlg', preTask.get('redmineUpdDate') != task.updated_on);
+   nextTask = nextTask.set('newFlg', preTask.get('newFlg') || preTask.get('redmineUpdDate') != task.updated_on);
 
-   const newFlg = preTask.get('newFlg') || preTask.get('redmineUpdDate') != task.updated_on;
-   nextTask = nextTask.set('newFlg', newFlg);
 
    return nextTask;
 }
@@ -147,6 +150,31 @@ function mergeRedmineTask(preTask, task){
 //タスクIDを元にINDEXを取得する
 function findIndexById(taskList, id) {
    return taskList.findIndex((task) => task.get('_id') == id);
+}
+
+/**
+ *
+ * @param oriJournals
+ * @returns {*|List<T>|List<any>}
+ */
+function formatJournals(oriJournals){
+
+   let journalList = List([]);
+   oriJournals.map(journal => {
+
+      if(journal.notes == '') return;
+
+      journalList = journalList.push(
+         Map({
+            id: journal.id,
+            notes: journal.notes,
+            createOn: moment(journal.created_on).format('MM/DD HH:mm'),
+            user: fromJS(journal.user)
+         })
+      );
+   });
+
+   return journalList;
 }
 
 /********************************** Public Method ************************************/
@@ -223,6 +251,26 @@ export function mergeTasks(dbMemberAndTask, redmineTasks){
 }
 
 /**
+ * Redmineの詳細情報を全てマージする。
+ *
+ * @param mergeObj
+ * @param issueList
+ */
+export function mergeDetailTaskList(mergeObj, issueList){
+
+   let mergeList = mergeObj.tasks;
+   issueList.map((data) =>{
+
+      if(data === undefined) return;
+
+      const index = findIndexById(mergeList, data.issue.id);
+      mergeList = mergeList.setIn([index, 'journals'], formatJournals(data.issue.journals));
+   });
+
+   return mergeList;
+}
+
+/**
  * Redmineモーダルの詳細情報を取得しマージする。
  *
  * @param preTask
@@ -244,7 +292,7 @@ export function mergeDetailTask(preTask, issue){
          Map({
             id: journal.id,
             notes: journal.notes,
-            createOn: moment(journal.created_on).format('MM/DD HH:mm'),
+            createOn: moment(journal.created_on).format('MMDD HH:mm'),
             user: fromJS(journal.user)
          })
       );
@@ -285,7 +333,7 @@ export function sortAndFilterTask(taskList, userId){
  * Redmineのプロジェクトごとにタスクを分割する
  *
  * @param taskList
- * @returns {List<*|List<any>|List<any>>}
+ * @returns {Immutable.List<*>}
  */
 export function sumEachProject(taskList){
 
