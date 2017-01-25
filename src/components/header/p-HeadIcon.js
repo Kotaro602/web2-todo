@@ -4,15 +4,22 @@ import Collapse from 'react-collapse';
 
 export default class HeadIcon extends Component {
 
-   render() {
+   actCleanTask() {
+      const {reqCleanTask} = this.props;
+      reqCleanTask(549);
+   }
 
-      /** prop取得 **/
-      const {member , isOpened} = this.props;
+   render() {
 
       /** レンダリング **/
       return (
-         <div className={css(styles.iconArea)}>
-            <img src="/images/refresh-icon.png" className={css(styles.refreshImg)}/>
+         <div className={css(styles.iconArea)} >
+            <div className={css(styles.iconBox)}>
+               <img src="/images/sort-alphabet.png" className={css(styles.iconImage)}/>
+            </div>
+            <div className={css(styles.iconBox)} onClick={::this.actCleanTask}>
+               <img src="/images/recycling.png" className={css(styles.iconImage)}/>
+            </div>
          </div>
       );
       }
@@ -21,10 +28,18 @@ export default class HeadIcon extends Component {
 const styles = StyleSheet.create({
    iconArea: {
       float: 'right',
-      width: 30,
-      height: '100%'
+      marginRight: 10
    },
-   refreshImg: {
-
+   iconBox:{
+      display: 'inline-block',
+      height: 35,
+      width: 35,
+      margin: '0px 5px'
+   },
+   iconImage: {
+      width: 28,
+      position: 'relative',
+      top: 2,
+      cursor: 'pointer'
    }
 });

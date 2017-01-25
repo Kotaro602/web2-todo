@@ -11,7 +11,7 @@ export default class HeadDisp extends Component {
 
       /** レンダリング **/
       return (
-         <div >
+         <div className={css(styles.parentBox)}>
             <div className={css(styles.selectBox, styles.selectedBox)}>
                <span className={css(styles.selectName, styles.selectedTag)}>tasks</span>
             </div>
@@ -30,8 +30,10 @@ export default class HeadDisp extends Component {
    }
 
 const styles = StyleSheet.create({
+   parentBox:{
+      display: 'inline-block'
+   },
    selectBox: {
-      position: 'relative',
       display: 'inline-block',
       left: 230,
       height: '100%',

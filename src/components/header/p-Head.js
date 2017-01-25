@@ -28,30 +28,10 @@ export default class Head extends Component {
 
 const styles = StyleSheet.create({
    projectTitleBox: {
-      position: 'relative',
-      width: '100%',
       height: 35,
       backgroundColor: '#3baae3',
-      color: 'white'
-   },
-   titleLink: {
-      position: 'absolute',
-      top: 7,
-      left: 10,
-      cursor :'pointer',
-      ':hover > img':{
-         opacity: 1,
-      },
-   },
-   projectTitle: {
-      fontSize: 20
-   },
-   underArrowImg: {
-      width: 12,
-      opacity: 0.3,
-      position: 'relative',
-      top: -3,
-      left: 8,
-      color: 'white'
+      color: 'white',
+      marginRight: 10,
+      paddingRight: 180
    }
 });

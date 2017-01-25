@@ -85,10 +85,9 @@ export default class Task extends Component {
          <div className={css(styles.taskAreaBox)}>
             <ScrollZone className={css(styles.taskMainArea)}>
             {state.get('members').map((member, key) => (
-               <div key={key} >
+               <div key={key} className={css(styles.userTaskArea)}>
                   <TaskUser {...this.props} member={member}/>
                   <TaskMemberList {...this.props} member={member}/>
-                  <TaskButton {...this.props} member={member} />
                </div>
             ))}
             </ScrollZone>
@@ -113,7 +112,7 @@ const styles = StyleSheet.create({
       height: '100%'
    },
    taskMainArea: {
-      paddingTop: 15,
+      marginTop: 20,
       marginLeft: 10,
       marginRight: 180,
       overflowX: 'hidden',
@@ -150,6 +149,10 @@ const styles = StyleSheet.create({
          WebkitBorderRadius: 3,
          borderRadius: 3
       }
+   },
+   userTaskArea: {
+      marginBottom: 30
+
    },
    addLinePopupOverLay:{
       position: 'fixed',

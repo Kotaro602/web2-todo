@@ -27,7 +27,7 @@ export default class RedmineJournal extends Component {
                   <div className={css(styles.journal)} key={journal.get('id')}>
                      <a className={css(styles.name)}>
                         <span>
-                           #{i} {journal.getIn(['user', 'name'])}
+                           {journal.getIn(['user', 'name'])}
                         </span>
                         <span className={css(styles.createOn)}>
                            {journal.get('createOn')}
