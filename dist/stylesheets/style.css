@@ -16,7 +16,7 @@ body {
 }
 
 input {
-	font: 15px "Lucida Grande", Helvetica, Arial, sans-serif;
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 	background-color: transparent;
 }
 
@@ -31,4 +31,25 @@ input[type=number] {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+}
+
+/**
+アニメーション用
+ */
+.example-enter {
+	opacity: 0.01;
+}
+
+.example-enter.example-enter-active {
+	opacity: 1;
+	transition: opacity 500ms ease-in;
+}
+
+.example-leave {
+	opacity: 1;
+}
+
+.example-leave.example-leave-active {
+	opacity: 0.01;
+	transition: opacity 300ms ease-in;
 }

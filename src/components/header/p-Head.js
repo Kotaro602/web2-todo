@@ -18,8 +18,10 @@ export default class Head extends Component {
       /** レンダリング **/
       return (
          <div className={css(styles.projectTitleBox)}>
-            <HeadPro {...this.props}/>
-            <HeadDisp {...this.props}/>
+            <div className={css(styles.titleAndSelectBox)}>
+               <HeadPro {...this.props}/>
+               <HeadDisp {...this.props}/>
+            </div>
             <HeadIcon {...this.props}/>
          </div>
       );
@@ -31,7 +33,13 @@ const styles = StyleSheet.create({
       height: 35,
       backgroundColor: '#3baae3',
       color: 'white',
-      marginRight: 10,
+      paddingRight: 180,
+      overflow: 'hidden'
+   },
+   titleAndSelectBox:{
+      width: 580,
+      float: 'left',
+      marginRight: -180,
       paddingRight: 180
    }
 });

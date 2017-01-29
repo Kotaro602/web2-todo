@@ -8,14 +8,14 @@ export default class SideSearch extends Component {
       /** レンダリング **/
       return(
          <dl className={css(styles.searchBox)}>
-            <dt>
-               <input type="text" className={css(styles.searchInput)} placeholder="taskSearch"/>
-            </dt>
-            <dd className={css(styles.searchDd)}>
-               <button className={css(styles.searchButton)}>
-                  <span className={css(styles.searchSpan)}></span>
-               </button>
-            </dd>
+            {/*<dt>*/}
+               {/*<input type="text" className={css(styles.searchInput)} placeholder="taskSearch"/>*/}
+            {/*</dt>*/}
+            {/*<dd className={css(styles.searchDd)}>*/}
+               {/*<button className={css(styles.searchButton)}>*/}
+                  {/*<span className={css(styles.searchSpan)}></span>*/}
+               {/*</button>*/}
+            {/*</dd>*/}
          </dl>
       );
    }

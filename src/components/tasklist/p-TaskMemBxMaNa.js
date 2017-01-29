@@ -13,16 +13,15 @@ export default class TaskMainBox extends Component {
       }
    }
 
-   // componentDidUpdate(prevProps){
-   //    //最初にタスクがオープンした時のみフォーカスをあてる
-   //    const prevOpenTaskId = prevProps.state.get('conf').get('openTaskId');
-   //    const nowOpenTaskId = this.props.state.get('conf').get('openTaskId');
-   //    const taskNameInputDom = document.getElementById('taskNameToFocus');
-   //
-   //    console.log(taskNameInputDom);
-   //
-   //    if(taskNameInputDom !== null) taskNameInputDom.select();
-   // }
+   componentDidUpdate(nextProps){
+
+      const taskNameInputDom = document.getElementById('taskNameToFocus');
+      // const openTaskId = nextProps.state.getIn(['conf', 'openTaskId']);
+      if(taskNameInputDom) {
+         taskNameInputDom.select();
+      }
+   }
+
 
    //タスク名称変更
    chgTaskName() {
@@ -93,6 +92,7 @@ export default class TaskMainBox extends Component {
                               className={taskSpanStyle}
                               defaultValue={task.get('taskName')}
                               ref='taskName'
+
                               readOnly/>
 
       }else{ //ノーマルタスク オープン
@@ -120,8 +120,8 @@ const styles = StyleSheet.create({
       minWidth: '100%',
       height: 25,
       boxSizing: 'border-box',
-      paddingRight: 230,
-      marginRight: -230
+      paddingRight: 180,
+      marginRight: -180
    },
    pointer:{
       cursor: 'pointer'
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
       height: '100%',
       outline: '0',
       border: '0px',
-      height: 18,
+      height: 25,
       lineHeight: '16px',
       WebkitUserSelect: 'none'
    }

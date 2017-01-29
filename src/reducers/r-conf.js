@@ -24,8 +24,8 @@ export default function conf(state=Map([]), action) {
       case a.OPEN_REDMINE_MODAL:
          return state.set('openRedmineId', action.taskId);
 
-      case a.ADD_LINE_MODAL:
-         return state.set('lineModalUserId', action.userId);
+      case a.OPEN_MENU_MODAL:
+         return state.set('openMenuFlg', action.openMenuFlg);
 
       default:
          return state;

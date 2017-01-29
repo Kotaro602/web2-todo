@@ -33,7 +33,6 @@ export default class TaskMemBxMaDa extends React.Component {
 
       const inputStyle = css(
          styles.datepickerInput,
-         remainDays < 3 && styles.limitWarning,
          remainDays < 0 && styles.limitOver,
       )
 
@@ -47,7 +46,7 @@ export default class TaskMemBxMaDa extends React.Component {
                placeholderText="03/01"
                minDate={moment()}
                className={inputStyle}
-               popoverTargetOffset="8px -140px"/>
+               popoverTargetOffset='12px -30px'/>
          </div>
       );
    }
@@ -58,7 +57,7 @@ const styles = StyleSheet.create({
       display: 'inline-block',
       height: 25,
       width: 50,
-      margin: '0px 15px'
+      margin: '0px 10px'
    },
    datepickerInput:{
       outline: 0,
@@ -70,7 +69,6 @@ const styles = StyleSheet.create({
       color:'#e68100'
    },
    limitOver:{
-      color: 'red !important',
-      fontWeight: 'bold'
+      color: 'red !important'
    }
 });

@@ -1,6 +1,6 @@
 .react-datepicker__tether-element-attached-top .react-datepicker__triangle, .react-datepicker__tether-element-attached-bottom .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow,
 .react-datepicker__month-read-view--down-arrow {
-  margin-left: 100px;
+  margin-left: -8px;
   position: absolute;
 }
 .react-datepicker__tether-element-attached-top .react-datepicker__triangle, .react-datepicker__tether-element-attached-bottom .react-datepicker__triangle, .react-datepicker__year-read-view--down-arrow,
@@ -155,7 +155,7 @@
 .react-datepicker__week-number {
   color: #ccc;
   display: inline-block;
-  width: 1.5rem;
+  width: 1.7rem;
   line-height: 1.7rem;
   text-align: center;
   margin: 0.166rem;
@@ -165,7 +165,7 @@
 .react-datepicker__day {
   color: #000;
   display: inline-block;
-  width: 1.5rem;
+  width: 1.7rem;
   line-height: 1.7rem;
   text-align: center;
   margin: 0.166rem;

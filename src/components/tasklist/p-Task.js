@@ -15,64 +15,52 @@ const ScrollZone = withScrolling('div');
 
 export default class Task extends Component {
 
-   //オープンしたタスクにフォーカスをあてる
-   componentDidUpdate(prevProps){
-
-      const taskNameInputDom = document.getElementById('taskNameToFocus');
-      if(taskNameInputDom) taskNameInputDom.select();
-   }
 
    componentDidMount() {
 
-      const {openTask, selectTask, openRedmineModal, reqTasks} = this.props;
+      const {openTask, selectTask, reqTasks} = this.props;
 
       //オープン中のタスクをクローズ
       const closeOpenTask = (evt) => {
-         const openTaskDOM = document.getElementById(this.props.state.get('conf').get('openTaskId'));
+         const openTaskId = this.props.state.get('conf').get('openTaskId');
+         const openTaskDOM = document.getElementById(openTaskId);
 
          // 追加ボタンを押した時、タイトルを押した時に2回呼ばれるのも無効にする
          if(openTaskDOM == null) return;
          if(openTaskDOM.contains(evt.target)) return;
-         if(event.target.className.match('addTaskArea')) return;
+         if(event.target.className.match('addIcon')) return;
          if(event.target.className.match('redmineIcon')) return;
-         if(this.props.state.get('conf').get('openTaskId') == evt.target.getAttribute('data-closeId')) return;
+         if(openTaskId == evt.target.getAttribute('data-closeId')) return;
 
          openTask(undefined);
-      }
+      };
 
       //選択中のタスクをクローズ
       const closeSelectTask = (evt) => {
-         const selectTaskDOM = document.getElementById(this.props.state.get('conf').get('selectTaskId'));
+         const selectTaskId = this.props.state.get('conf').get('selectTaskId');
+         const selectTaskDOM = document.getElementById(selectTaskId);
 
          // 追加ボタンを押した時、タイトルを押した時に2回呼ばれるのも無効にする
          if(selectTaskDOM == null) return;
          if(selectTaskDOM.contains(evt.target)) return;
          if(event.target.className.match('addTaskButton')) return;
          if(event.target.className.match('redmineIcon')) return;
-         if(this.props.state.get('conf').get('selectTaskId') == evt.target.getAttribute('data-closeId')) return;
+         if(selectTaskId == evt.target.getAttribute('data-closeId')) return;
 
          selectTask(undefined);
-      }
-
-      //オープン中のレッドマインモーダルをクローズ
-      const closeRedmineModal = (evt) => {
-         const openRedmineDOM = document.getElementById('redmineModal');
-
-         if(openRedmineDOM == null) return;
-         if(openRedmineDOM.contains(evt.target)) return;
-         if(event.target.className.match('redmineIcon')) return;
-
-         openRedmineModal(undefined);
-      }
+      };
 
       //イベントハンドラに追加
       document.addEventListener('click', closeSelectTask);
       document.addEventListener('click', closeOpenTask);
-      document.addEventListener('click', closeRedmineModal);
 
       //タスクリスト定期的に取得する
       reqTasks();
-      setInterval(reqTasks, 120000);
+      setInterval(() => {
+
+         //タスクがオープン中は再更新しない
+         if(this.props.state.get('conf').get('openTaskId') !== undefined) reqTasks();
+      }, 120000);
    }
 
    render() {
@@ -109,7 +97,7 @@ export default class Task extends Component {
 
 const styles = StyleSheet.create({
    taskAreaBox: {
-      height: '100%'
+      height: '95%'
    },
    taskMainArea: {
       marginTop: 20,

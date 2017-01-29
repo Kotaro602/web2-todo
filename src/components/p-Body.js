@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
       width: 180,
       height: '100%',
       float: 'left',
-      background: 'rgb(66, 70, 76)'
+      background: 'rgb(66, 70, 76)',
+      WebkitUserSelect: 'none'
    },
    mainAreaBox:{
       position: 'absolute',

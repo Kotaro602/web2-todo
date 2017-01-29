@@ -22,11 +22,11 @@ export function cleanTask(userId){return{type: CLEAN_TASK, userId}};
 export const SELECT_TASK = 'SELECT_TASK';
 export const OPEN_TASK = 'OPEN_TASK';
 export const OPEN_REDMINE_MODAL = 'OPEN_REDMINE_MODAL';
-export const ADD_LINE_MODAL = 'ADD_LINE_MODAL';
+export const OPEN_MENU_MODAL = 'OPEN_MENU_MODAL';
 export function selectTask(taskId){return {type: SELECT_TASK, taskId}};
 export function openTask(taskId){return {type: OPEN_TASK, taskId}};
 export function openRedmineModal(taskId){return {type: OPEN_REDMINE_MODAL, taskId}};
-export function addLineModal(userId){return {type: ADD_LINE_MODAL, userId}};
+export function openMenuModal(openMenuFlg){return {type: OPEN_MENU_MODAL, openMenuFlg}};
 
 /** Redux-Saga系 */
 export const REQ_TASKS = 'REQ_TASKS';

@@ -7,24 +7,23 @@ import RedmineJournal from'./p-RedmineJournal';
 
 export default class RedmineArea extends Component {
 
-   // componentDidMount(){
-   //    const {state, reqRedmineDetail} = this.props;
-   //    const openRedmineId = state.get('conf').get('openRedmineId');
-   //    const task = state.get('tasks').filter(t => t.get('_id') == openRedmineId).get(0);
-   //
-   //    console.log('componentDidMount');
-   //
-   //    reqRedmineDetail(task);
-   // }
-   //
-   // componentWillReceiveProps(nextProps){
-   //
-   //    const {state, reqRedmineDetail} = nextProps;
-   //    const openRedmineId = state.get('conf').get('openRedmineId');
-   //    const task = state.get('tasks').filter(t => t.get('_id') == openRedmineId).get(0);
-   //
-   //    if(task.get('newFlg') || task.get('journals') === undefined) reqRedmineDetail(task);
-   // }
+   componentDidMount() {
+
+      const {openRedmineModal} = this.props;
+
+      //オープン中のレッドマインモーダルをクローズ
+      const closeRedmineModal = (evt) => {
+         const openRedmineDOM = document.getElementById('redmineModal');
+
+         if(openRedmineDOM == null) return;
+         if(openRedmineDOM.contains(evt.target)) return;
+         if(event.target.className.match('redmineIcon')) return;
+
+         openRedmineModal(undefined);
+      }
+
+      document.addEventListener('click', closeRedmineModal);
+   }
 
    render() {
 

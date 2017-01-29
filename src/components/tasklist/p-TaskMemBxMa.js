@@ -17,10 +17,9 @@ export default class TaskMainBox extends React.Component {
       return(
          <div className={css(styles.taskMainBox)}>
             <TaskMemBxMaPr {...this.props} task={task}/>
+            <TaskMemBxMaDa {...this.props} task={task}/>
             <TaskMemBxMaIc {...this.props} task={task}/>
             <TaskName {...this.props} task={task}/>
-            <TaskMemBxMaDa {...this.props} task={task}/>
-            <TaskMemBxMaEs {...this.props} task={task}/>
          </div>
       );
    }

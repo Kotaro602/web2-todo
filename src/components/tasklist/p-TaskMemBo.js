@@ -3,6 +3,7 @@ import TaskMemSo from './p-TaskMemBx';
 import {Map} from 'immutable';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import {createNewTask} from '../../model/m-Task';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default class TaskMemBo extends React.Component {
 
@@ -14,7 +15,6 @@ export default class TaskMemBo extends React.Component {
          id : taskList.getIn([ 0, 'project', 'id']),
          name: taskList.getIn([ 0, 'project', 'name'])
       });
-
       reqAddTask(createNewTask(userId, project));
    }
 
@@ -27,12 +27,13 @@ export default class TaskMemBo extends React.Component {
       return(
          <div className={css(styles.borderBox)}>
             <div className={css(styles.borderLine)}>
+               <img src="/images/plus.png" className={css(styles.addIcon)} onClick={::this.addTask}/>
                <span className={css(styles.borderSpan)}>{taskList.getIn([ 0, 'project', 'name'])}</span>
             </div>
             {taskList.map((task, i) => (
                <TaskMemSo task={task} key={i} {...this.props}/>
             ))}
-            <div className={css(styles.addTaskArea)} onDoubleClick={::this.addTask}></div>
+            <div className={css(styles.addTaskArea)} ></div>
          </div>
       );
    }
@@ -41,10 +42,10 @@ export default class TaskMemBo extends React.Component {
 const styles = StyleSheet.create({
    borderBox: {
       position: 'relative',
-      marginTop: 20,
-      marginLeft: 5,
+      marginTop: 30,
+      marginLeft: 10,
       marginRight: 5,
-      paddingBottom: 1,
+      paddingBottom: 20,
       width: '100%'
    },
    borderLine:{
@@ -54,21 +55,27 @@ const styles = StyleSheet.create({
       display: 'block',
       width: '100%',
       height: 1,
-      backgroundColor: '#ccc'
+      backgroundColor: 'rgb(214, 214, 214)'
    },
    borderSpan:{
       fontWeight: 'bold',
       position: 'relative',
-      top: -7,
-      left: 20,
+      top: -13,
+      left: -20,
       zIndex: 2,
       display: 'inline-block',
-      padding: '0 10px',
+      paddingLeft: 5,
+      paddingRight: 10,
       backgroundColor: '#fff',
       textAlign: 'left'
    },
-   addTaskArea:{
-      padding: 10,
+   addIcon:{
+      width: 20,
+      position: 'relative',
+      left: -20,
+      top: -8,
+      backgroundColor: '#fff',
+      paddingLeft: 10,
       cursor: 'pointer'
    }
 });
