@@ -44,8 +44,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#42464c'
    },
    menuImage:{
-      width: 20,
-      verticalAlign: 'text-bottom',
+      width: 14,
       marginLeft: 15,
       cursor: 'pointer'
    },
