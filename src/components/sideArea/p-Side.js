@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { StyleSheet, css } from 'aphrodite/no-important';
 import Collapse from 'react-collapse';
-import SideSearch from './p-SideSearch';
+import SideWatch from './p-SideWatch';
 import SideProject from './p-SideProject';
 import SideMenu from './p-SideMenu';
 
@@ -29,8 +29,8 @@ export default class SideArea extends Component {
                   <SideMenu {...this.props} />
                </Collapse>
             </div>
-            <SideSearch {...this.props} />
             <SideProject {...this.props} />
+            <SideWatch {...this.props} />
          </div>
       );
    }
@@ -53,9 +53,8 @@ const styles = StyleSheet.create({
       color: '#eaeaea',
       marginLeft: 15
    },
-   version: {
-      color: '#eaeaea',
-      textAlign: 'right',
-      paddingLeft: 5
+   sideHr: {
+      margin: 0,
+      borderColor: '#7f828a'
    }
 });

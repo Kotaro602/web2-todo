@@ -46,10 +46,12 @@ export function fetchRedmineTaskList(taskListEachMember) {
  * @param taskListEachMember
  * @returns {Promise|Promise.<T>}
  */
-export function fetchRedmineTaskDetailList(mergeObj) {
+export function fetchRedmineTaskDetailList(taskList) {
+
+   console.log(taskList.toJS());
 
    //同時にRedmineにリクエストを投げる
-   return Promise.all(mergeObj.tasks.map(task => {
+   return Promise.all(taskList.map(task => {
       if(task.get('redmineFlg')){
 
          const redmineUrl = process.env.NODE_ENV === `production` ?

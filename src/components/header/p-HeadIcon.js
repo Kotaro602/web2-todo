@@ -19,7 +19,7 @@ export default class HeadIcon extends Component {
 
    actRefresh(){
       const {reqTasks} = this.props;
-      reqTasks();
+      reqTasks(false);
    }
 
    render() {

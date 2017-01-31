@@ -203,6 +203,7 @@ export function mergeTasks(dbMemberAndTask, redmineTasks){
    let mergeTaskList = createTaskListFromObj(dbMemberAndTask.tasks);
    let redmineIdList = List([]);
    let reqRedmineTaskList = List([]);
+   let reqRedmineDetailList = List([]);
 
    //RedmineTaskをDBタスクに追加/マージする。
    if(redmineTasks != null) {
@@ -210,14 +211,24 @@ export function mergeTasks(dbMemberAndTask, redmineTasks){
          members.issues.forEach(task => {
 
             const index = findIndexById(mergeTaskList, task.id);
+
+            //更新時刻が更新されていたら詳細情報を取得する
+            if(mergeTaskList.getIn([index, 'redmineUpdDate']) != task.updated_on){
+               reqRedmineDetailList = reqRedmineDetailList.push(mergeTaskList.get(index));
+            }
+
             if (index >= 0) {
+               //既にDBに登録済みのRedmineタスク
                const mergeTask = mergeRedmineTask(mergeTaskList.get(index), task);
                mergeTaskList = mergeTaskList.set(index, mergeTask);
                reqRedmineTaskList = reqRedmineTaskList.push(mergeTask);
+
             } else {
+               //Redmine未登録のタスク
                const addTask = copyTaskFromRedmine(task);
                mergeTaskList = mergeTaskList.push(addTask);
                reqRedmineTaskList = reqRedmineTaskList.push(addTask);
+               reqRedmineDetailList = reqRedmineDetailList.push(addTask);
             }
 
             //完了済みのRedmineタスクを知るために、RedmineのIDリストを取得する。
@@ -246,6 +257,7 @@ export function mergeTasks(dbMemberAndTask, redmineTasks){
    mergeObj.members = fromJS(dbMemberAndTask.members);
    mergeObj.tasks = mergeTaskList;
    mergeObj.reqTasks = reqRedmineTaskList;
+   mergeObj.reqDetails = reqRedmineDetailList;
 
    return mergeObj;
 }
@@ -262,7 +274,6 @@ export function mergeDetailTaskList(mergeObj, issueList){
    issueList.map((data) =>{
 
       if(data === undefined) return;
-
       const index = findIndexById(mergeList, data.issue.id);
       mergeList = mergeList.setIn([index, 'journals'], formatJournals(data.issue.journals));
    });
