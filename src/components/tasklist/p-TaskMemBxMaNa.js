@@ -16,17 +16,17 @@ export default class TaskMainBox extends Component {
 
    componentDidUpdate(nextProps){
 
-      console.log(this.props.task.get('_id'));
-      console.log(this.props.state.get('conf').get('openTaskId'));
-      if(this.props.task.get('_id') != this.props.state.get('conf').get('openTaskId')) return;
-
-      console.log(ReactDOM.findDOMNode(this.refs.taskName));
-      let input = ReactDOM.findDOMNode(this.refs.taskName);
-      if(input) input.select();
-      // const taskNameInputDom = document.getElementById('taskNameToFocus');
-      // if(taskNameInputDom) {
-      //    taskNameInputDom.select();
-      // }
+      // console.log(this.props.task.get('_id'));
+      // console.log(this.props.state.get('conf').get('openTaskId'));
+      // if(this.props.task.get('_id') != this.props.state.get('conf').get('openTaskId')) return;
+      //
+      // console.log(ReactDOM.findDOMNode(this.refs.taskName));
+      // let input = ReactDOM.findDOMNode(this.refs.taskName);
+      // if(input) input.select();
+      const taskNameInputDom = document.getElementById('taskNameToFocus');
+      if(taskNameInputDom) {
+         taskNameInputDom.select();
+      }
    }
 
 
@@ -84,12 +84,14 @@ export default class TaskMainBox extends Component {
          taskNameDOM = <input type="text"
                               className={css(styles.nameInput, styles.pointer)}
                               defaultValue={task.get('taskName')}
+                              ref='taskName'
                               readOnly/>
 
       }else if(redmineFlg && openFlg){ //REDMINEタスク オープン
          taskNameDOM = <input type="text"
                               className={css(styles.nameInput, styles.pointer)}
                               defaultValue={task.get('taskName')}
+                              ref='taskName'
                               readOnly/>
 
       }else if(!redmineFlg && !openFlg){ //ノーマルタスク 非オープン
@@ -97,6 +99,7 @@ export default class TaskMainBox extends Component {
          taskNameDOM = <input type="text"
                               className={taskSpanStyle}
                               defaultValue={task.get('taskName')}
+                              ref='taskName'
                               readOnly/>
 
       }else{ //ノーマルタスク オープン
