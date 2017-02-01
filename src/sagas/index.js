@@ -11,7 +11,7 @@ function* hundleReqTasks() {
    while (true) {
       const action = yield take(actCreater.REQ_TASKS);
       const oriTasks = yield call(API.fetchTaskList);
-      yield put(actCreater.reqRedmineAll(oriTasks, action.firstFlg));
+      yield put(actCreater.reqRedmineAll(oriTasks, action.preTaskList));
    }
 }
 
@@ -22,7 +22,7 @@ function* hundleReqRedmineAll() {
       const redmineTasks = yield call(API.fetchRedmineTaskList, action.oriTasks);
       const mergeObj = mergeTasks(action.oriTasks, redmineTasks);
       API.updateTaskList(mergeObj.reqTasks); //マージしたRedmineTaskをDBに更新（非同期）
-      yield put(actCreater.reqRedmineIssueList(mergeObj, action.firstFlg));
+      yield put(actCreater.reqRedmineIssueList(mergeObj, action.preTaskList));
    }
 }
 
@@ -30,10 +30,10 @@ function* hundleReqRedmineAll() {
 function* hundleReqRedmineDetailList() {
    while (true) {
       const action = yield take(actCreater.REQ_REDMINE_ISSUE_LIST);
-      const issueList =  action.firstFlg ?
+      const issueList =  action.preTaskList === undefined ?
          yield call(API.fetchRedmineTaskDetailList, action.mergeObj.tasks):
          yield call(API.fetchRedmineTaskDetailList, action.mergeObj.reqDetails);
-      action.mergeObj.tasks = mergeDetailTaskList(action.mergeObj, issueList);
+      action.mergeObj.tasks = mergeDetailTaskList(action.mergeObj, action.preTaskList, issueList);
       yield put(actCreater.recieveTasks(action.mergeObj));
    }
 }

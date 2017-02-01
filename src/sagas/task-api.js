@@ -48,8 +48,6 @@ export function fetchRedmineTaskList(taskListEachMember) {
  */
 export function fetchRedmineTaskDetailList(taskList) {
 
-   console.log(taskList.toJS());
-
    //同時にRedmineにリクエストを投げる
    return Promise.all(taskList.map(task => {
       if(task.get('redmineFlg')){

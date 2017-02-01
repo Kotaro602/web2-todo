@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom'
 import { StyleSheet, css } from 'aphrodite/no-important';
 import {substr} from '../../lib/utils';
 import Immutable from 'immutable';
@@ -15,11 +16,17 @@ export default class TaskMainBox extends Component {
 
    componentDidUpdate(nextProps){
 
-      const taskNameInputDom = document.getElementById('taskNameToFocus');
-      // const openTaskId = nextProps.state.getIn(['conf', 'openTaskId']);
-      if(taskNameInputDom) {
-         taskNameInputDom.select();
-      }
+      console.log(this.props.task.get('_id'));
+      console.log(this.props.state.get('conf').get('openTaskId'));
+      if(this.props.task.get('_id') != this.props.state.get('conf').get('openTaskId')) return;
+
+      console.log(ReactDOM.findDOMNode(this.refs.taskName));
+      let input = ReactDOM.findDOMNode(this.refs.taskName);
+      if(input) input.select();
+      // const taskNameInputDom = document.getElementById('taskNameToFocus');
+      // if(taskNameInputDom) {
+      //    taskNameInputDom.select();
+      // }
    }
 
 
@@ -77,22 +84,19 @@ export default class TaskMainBox extends Component {
          taskNameDOM = <input type="text"
                               className={css(styles.nameInput, styles.pointer)}
                               defaultValue={task.get('taskName')}
-                              ref='taskName'
                               readOnly/>
 
       }else if(redmineFlg && openFlg){ //REDMINEタスク オープン
          taskNameDOM = <input type="text"
                               className={css(styles.nameInput, styles.pointer)}
                               defaultValue={task.get('taskName')}
-                              ref='taskName'
                               readOnly/>
 
       }else if(!redmineFlg && !openFlg){ //ノーマルタスク 非オープン
+         // taskNameDOM = <span className={taskSpanStyle}>{task.get('taskName')}</span>
          taskNameDOM = <input type="text"
                               className={taskSpanStyle}
                               defaultValue={task.get('taskName')}
-                              ref='taskName'
-
                               readOnly/>
 
       }else{ //ノーマルタスク オープン
@@ -138,6 +142,8 @@ const styles = StyleSheet.create({
       border: '0px',
       height: 25,
       lineHeight: '16px',
-      WebkitUserSelect: 'none'
+      WebkitUserSelect: 'none',
+      fontSize: 14,
+      padding: 1
    }
 });

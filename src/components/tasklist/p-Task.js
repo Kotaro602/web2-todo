@@ -55,11 +55,15 @@ export default class Task extends Component {
       document.addEventListener('click', closeOpenTask);
 
       //タスクリスト定期的に取得する
-      reqTasks(true);
+      reqTasks(undefined);
       setInterval(() => {
 
+         console.log(this.props.state.get('tasks'));
+
          //タスクがオープン中は再更新しない
-         if(this.props.state.get('conf').get('openTaskId') !== undefined) reqTasks(false);
+         if(this.props.state.get('conf').get('openTaskId') === undefined) {
+            reqTasks(this.props.state.get('tasks'));
+         }
       }, 120000);
    }
 

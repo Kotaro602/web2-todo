@@ -266,11 +266,27 @@ export function mergeTasks(dbMemberAndTask, redmineTasks){
  * Redmineの詳細情報を全てマージする。
  *
  * @param mergeObj
+ * @param preTaskList
  * @param issueList
  */
-export function mergeDetailTaskList(mergeObj, issueList){
+export function mergeDetailTaskList(mergeObj, preTaskList, issueList){
 
    let mergeList = mergeObj.tasks;
+
+   //最初に元の履歴を全部コピーする
+   if(preTaskList !== undefined) {
+      preTaskList.map((task, preIndex) => {
+
+         //Redmineタスク以外はスキップ
+         if(!task.get('redmineFlg')) return;
+
+         const index = findIndexById(mergeList, task.get('_id'));
+         if (index == -1) return;
+         mergeList = mergeList.setIn([index, 'journals'], preTaskList.getIn([preIndex, 'journals']));
+      })
+   }
+
+   //更新リストをマージする。
    issueList.map((data) =>{
 
       if(data === undefined) return;
