@@ -82,7 +82,7 @@ export default class HeadIcon extends Component {
                         <li className={css(styles.iconLi)} onClick={::this.filterByPriority}>星付き</li>
                         <li className={css(styles.iconLi)} onClick={::this.filterIn1Day}>本日期限</li>
                         <li className={css(styles.iconLi)} onClick={::this.filterIn3Day}>３日以内</li>
-                        <li className={css(styles.iconLi)} onClick={::this.filterIn5Day}>１週間以内</li>
+                        <li className={css(styles.iconLi)} onClick={::this.filterIn5Day}>５日以内</li>
                      </ul>
                   </div>
                </Collapse>
@@ -92,8 +92,8 @@ export default class HeadIcon extends Component {
                <Collapse isOpened={state.getIn(['conf', 'openSortFlg'])} keepCollapsedContent={false}>
                   <div className={css(styles.iconModalBox)}>
                      <ul className={css(styles.iconUl)}　id='iconModal'>
-                        <li className={css(styles.iconLi)} onClick={::this.sortByDate}>締め切り日順</li>
-                        <li className={css(styles.iconLi)} onClick={::this.sortByPriority}>優先度順</li>
+                        <li className={css(styles.iconLi)} onClick={::this.sortByDate}>締切日</li>
+                        <li className={css(styles.iconLi)} onClick={::this.sortByPriority}>優先度</li>
                      </ul>
                   </div>
                </Collapse>
@@ -142,17 +142,19 @@ const styles = StyleSheet.create({
       left: -10,
       top: 5,
       listStyle: 'none',
-      padding: '5px 0px 5px 5px',
+      padding: '8px 10px',
       margin: 0,
-      border: '1px solid',
-      borderRadius: 4,
-      fontSize: 12,
+      border: '1px solid rgba(0,0,0,.15)',
+      boxShadow: '0 5px 10px rgba(0,0,0,.12)',
+      borderRadius: 6,
+      fontSize: 13,
       color: 'black'
    },
    iconLi:{
-      lineHeight: 1.8,
+      lineHeight: 2,
       cursor: 'pointer',
       ':hover':{
+         borderRadius: 6,
          backgroundColor: 'rgba(59, 170, 227, 0.21)'
       }
    }

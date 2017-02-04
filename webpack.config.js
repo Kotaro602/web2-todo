@@ -20,7 +20,7 @@ module.exports = {
          }
       }
    },
-   devtool: 'inline-source-map',
+   // devtool: 'inline-source-map',
    module: {
       loaders: [
          {
@@ -41,9 +41,9 @@ module.exports = {
    resolve: {
       extensions: ["", ".webpack.js", ".web.js", ".js", ".jsx"]
    },
-   plugins: [
-      new webpack.DefinePlugin({
-         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-      })
-   ]
+   // plugins: [
+   //    new webpack.DefinePlugin({
+   //       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+   //    })
+   // ]
 };

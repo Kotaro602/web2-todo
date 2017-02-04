@@ -5,7 +5,8 @@
   "scripts": {
     "start": "npm install && npm run webpack && node app.js",
     "hot": "webpack-dev-server --hot --inline",
-    "webpack": "webpack",
+    "webpack": "webpack --watch -d",
+    "browser-sync": "browser-sync start --config bs-config.js",
     "webpackDispError": "webpack --display-error-details",
     "mongod": "mongod --dbpath=data --nojournal"
   },
@@ -43,6 +44,7 @@
     "jade": "*",
     "jquery": "^3.1.1",
     "jsx-loader": "^0.13.2",
+    "koyomi": "^0.5.1",
     "lodash": "^4.17.2",
     "marked": "^0.3.6",
     "material-ui": "^0.16.2",
@@ -85,8 +87,5 @@
     "webpack-dev-middleware": "^1.9.0",
     "webpack-dev-server": "^1.16.2",
     "webpack-hot-middleware": "^2.14.0"
-  },
-  "devDependencies": {
-    "koyomi": "^0.5.1"
   }
 }
