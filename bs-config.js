@@ -22,14 +22,6 @@ module.exports = {
     "files": "./dist/*",
     "watchOptions": {},
    "server": false,
-       // "server": {
-       //      "baseDir": "./dist",
-       //      "middleware": function(req, res, next){
-       //          var timestamp = "[" + new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '') + "] ";
-       //          console.log(timestamp + req.method + " " + req.originalUrl + " - " +  req.connection.remoteAddress + " - " + req.headers['user-agent']);
-       //          next();
-       //      }
-       //  },
    "proxy": "localhost:8080",
    "port": 9999,
     "middleware": false,
