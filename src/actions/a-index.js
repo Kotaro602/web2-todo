@@ -1,3 +1,7 @@
+/** アカウント系Action */
+export const INIT_ACCOUNT = 'INIT_ACCOUNT';
+export function initAccount(){return {type: INIT_ACCOUNT}};
+
 
 /** タスク系Action */
 export const RECIEVE_TASKS = 'RECIEVE_TASKS';

@@ -11,15 +11,15 @@ module.exports = {
       path: path.join(__dirname, './dist'),
       filename: 'bundle.js'
    },
-   devServer: {
-      contentBase: 'dist',
-      port: 9999,
-      proxy: {
-         '/api': {
-            target: 'http://localhost:8080'
-         }
-      }
-   },
+   // devServer: {
+   //    contentBase: 'dist',
+   //    port: 9999,
+   //    proxy: {
+   //       '/api': {
+   //          target: 'http://localhost:8080'
+   //       }
+   //    }
+   // },
    // devtool: 'inline-source-map',
    module: {
       loaders: [
@@ -40,10 +40,10 @@ module.exports = {
    },
    resolve: {
       extensions: ["", ".webpack.js", ".web.js", ".js", ".jsx"]
-   },
-   plugins: [
-      new webpack.DefinePlugin({
-         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-      })
-   ]
+   }
+   // plugins: [
+   //    new webpack.DefinePlugin({
+   //       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+   //    })
+   // ]
 };

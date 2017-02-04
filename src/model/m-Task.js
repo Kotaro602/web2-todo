@@ -38,6 +38,12 @@ export default class Task extends TaskRecord {
    constructor() {
       super()
    }
+
+   changeDueDate(dueDate){
+
+      const nextTask = this.set('dueDate', dueDate.format("YYYY-MM-DD"));
+      return nextTask.set('remainDate', culcRemainDay(nextTask.get('dueDate')));
+   }
 }
 
 /********************************** Private Method ************************************/
@@ -372,6 +378,14 @@ export function filterTask(taskList, userId, filterKey){
          case '1day':
             return t.get('redmineUserId') == userId && !t.get('compDelFlg')
                && t.get('remainDate') <= 1
+
+         case '3day':
+            return t.get('redmineUserId') == userId && !t.get('compDelFlg')
+               && t.get('remainDate') <= 3
+
+         case '5day':
+            return t.get('redmineUserId') == userId && !t.get('compDelFlg')
+               && t.get('remainDate') <= 5
 
          default:
             return t.get('redmineUserId') == userId && !t.get('compDelFlg')

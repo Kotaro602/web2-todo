@@ -19,7 +19,7 @@ export default class TaskMemBxMaDa extends React.Component {
          alert('まだREDMINEから締切日を変更するロジックは未作成です');
          return;
       }
-      reqUpdateTask(task.set('dueDate', date.format("YYYY-MM-DD")));
+      reqUpdateTask(task.changeDueDate(date));
    }
 
    render(){
