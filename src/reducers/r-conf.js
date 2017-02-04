@@ -1,8 +1,8 @@
 import * as a from '../actions/a-index';
 import { Map, List, fromJS } from 'immutable';
-import {Conf} from '../model/m-Conf';
+import Conf from '../model/m-Conf';
 
-export default function conf(state=Map([]), action) {
+export default function conf(state = new Conf(), action) {
 
    switch(action.type){
 
@@ -26,6 +26,18 @@ export default function conf(state=Map([]), action) {
 
       case a.OPEN_MENU_MODAL:
          return state.set('openMenuFlg', action.openMenuFlg);
+
+      case a.OPEN_SORT_MODAL:
+         return state.set('openSortFlg', action.openSortFlg);
+
+      case a.OPEN_FILTER_MODAL:
+         return state.set('openFilterFlg', action.openFilterFlg);
+
+      case a.SORT_TASK:
+         return state.set('sortKey', action.sortKey);
+
+      case a.FILTER_TASK:
+         return state.set('filterKey', action.filterKey);
 
       default:
          return state;

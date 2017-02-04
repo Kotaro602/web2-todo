@@ -109,17 +109,6 @@ export default class TaskMemSo extends React.Component {
       return !taskSameFlg || taskSelectChgFlg || taskOpenChgFlg;
    }
 
-   //タスクを選択する
-   selectTask() {
-      const {state, task, selectTask, reqUpdNewFlg} = this.props;
-
-      //既に選択されている or 開いているならばスキップする。
-      if(state.get('conf').get('selectTaskId') == task.get('_id')) return;
-      if(state.get('conf').get('openTaskId') == task.get('_id')) return;
-      if(task.get('newFlg')) reqUpdNewFlg(task.set('newFlg', false));
-      else selectTask(task.get('_id'))
-   }
-
    render(){
 
       /** prop取得 **/
@@ -138,9 +127,7 @@ export default class TaskMemSo extends React.Component {
       /** レンダリング **/
       return(
          <li id={task.get('_id')}
-             className={taskBoxClass}
-             onClick={::this.selectTask}
-             data-test={task.get('sortValue')} >
+             className={taskBoxClass}>
             <TaskMainBox {...this.props}/>
             <ToggleAndPattern isTaskOpen={openTaskFlg}>
                <TaskSubBox isTaskOpen={true} {...this.props}/>

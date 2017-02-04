@@ -7,7 +7,12 @@ import moment from 'moment';
 const ConfRecord = Record({
    selectTaskId: undefined,
    openTaskId: undefined,
-   openRedmineId: undefined
+   openRedmineId: undefined,
+   openMenuFlg: false,
+   openSortFlg: false,
+   openFilterFlg: false,
+   sortKey: 'date',
+   filterKey: 'non'
 })
 
 export default class Conf extends ConfRecord {

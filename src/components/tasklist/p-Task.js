@@ -45,6 +45,8 @@ export default class Task extends Component {
          if(selectTaskDOM.contains(evt.target)) return;
          if(event.target.className.match('addTaskButton')) return;
          if(event.target.className.match('redmineIcon')) return;
+         if(event.target.className.match('todayButton')) return;
+         if(event.target.className.match('react-datepicker')) return;
          if(selectTaskId == evt.target.getAttribute('data-closeId')) return;
 
          selectTask(undefined);

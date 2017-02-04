@@ -9,7 +9,7 @@ export default class SideProject extends Component {
       return(
          <ul className={css(styles.sideUl)}>
             <li className={css(styles.publicBox)}>
-               <span className={css(styles.publicTitle)}>private</span>
+               <span className={css(styles.publicTitle)}>account</span>
             </li>
             <li className={css(styles.projectBox)}>
                <span className={css(styles.projectTitle)}>関原 光太郎</span>

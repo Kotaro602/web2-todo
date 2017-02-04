@@ -3,6 +3,7 @@
  */
 import {Immutable, Record, List, Map, toJS, fromJS} from 'immutable';
 import moment from 'moment';
+import koyomi from 'koyomi';
 
 const TaskRecord = Record({
    _id: undefined, //タスクID
@@ -12,6 +13,7 @@ const TaskRecord = Record({
    tempDelFlg: undefined,
    compDelFlg: undefined,
    dueDate: undefined,
+   remainDate: undefined,
    estimate: undefined,
    priority: undefined,
    taskMemo: undefined,
@@ -51,7 +53,7 @@ function copyTaskFromObj(task){
    nextTask = nextTask.set('tempDelFlg', task.tempDelFlg);
    nextTask = nextTask.set('compDelFlg', task.compDelFlg);
    nextTask = nextTask.set('dueDate', task.dueDate);
-   nextTask = nextTask.set('estimate', task.estimate);
+   nextTask = nextTask.set('remainDate', culcRemainDay(task.dueDate));
    nextTask = nextTask.set('priority', task.priority);
    nextTask = nextTask.set('taskMemo', task.taskMemo);
    nextTask = nextTask.set('sortValue', task.sortValue);
@@ -107,6 +109,7 @@ function copyTaskFromRedmine(task){
    nextTask = nextTask.set('redmineFlg', true);
    nextTask = nextTask.set('taskName', task.subject);
    nextTask = nextTask.set('dueDate', task.due_date);
+   nextTask = nextTask.set('remainDate', culcRemainDay(task.due_date));
    nextTask = nextTask.set('project', Map({id: task.project.id, name: task.project.name}));
    nextTask = nextTask.set('tempDelFlg', false);
    nextTask = nextTask.set('compDelFlg', false);
@@ -134,6 +137,7 @@ function mergeRedmineTask(preTask, task){
    nextTask = nextTask.set('redmineUserId',task.assigned_to.id);
    nextTask = nextTask.set('taskName', task.subject);
    nextTask = nextTask.set('dueDate', task.due_date);
+   nextTask = nextTask.set('remainDate', culcRemainDay(task.due_date));
    nextTask = nextTask.set('project', Map({id: task.project.id, name: task.project.name}));
    nextTask = nextTask.set('redmineUpdDate', task.updated_on);
    nextTask = nextTask.set('startDate', task.start_date);
@@ -143,11 +147,16 @@ function mergeRedmineTask(preTask, task){
    nextTask = nextTask.set('updateJournalsFlg', preTask.get('redmineUpdDate') != task.updated_on);
    nextTask = nextTask.set('newFlg', preTask.get('newFlg') || preTask.get('redmineUpdDate') != task.updated_on);
 
+   culcRemainDay(task.due_date);
 
    return nextTask;
 }
 
-//タスクIDを元にINDEXを取得する
+/**
+ * タスクIDからINDEXを取得する
+ * @param taskList
+ * @param id
+ */
 function findIndexById(taskList, id) {
    return taskList.findIndex((task) => task.get('_id') == id);
 }
@@ -175,6 +184,16 @@ function formatJournals(oriJournals){
    });
 
    return journalList;
+}
+
+/**
+ * 締切日までの残り営業日を計算するメソッド
+ * 当日は1, 締切を過ぎていたら0を返却する。
+ *
+ * @param dueDate
+ */
+function culcRemainDay(dueDate){
+   return koyomi.biz(moment().format("YYYY-MM-DD"), dueDate);
 }
 
 /********************************** Public Method ************************************/
@@ -282,7 +301,8 @@ export function mergeDetailTaskList(mergeObj, preTaskList, issueList){
 
          const index = findIndexById(mergeList, task.get('_id'));
          if (index == -1) return;
-         mergeList = mergeList.setIn([index, 'journals'], preTaskList.getIn([preIndex, 'journals']));
+         console.log(preTaskList.getIn[preIndex, 'journals']);
+         mergeList = mergeList.setIn([index, 'journals'], preTaskList.getIn[preIndex, 'journals']);
       })
    }
 
@@ -329,29 +349,73 @@ export function mergeDetailTask(preTask, issue){
    return nextTask;
 }
 
-/** タスクリストをフィルタリング&ソートする。
- * フィルタリング条件：同一ユーザ＆タスク未完了
- * 第一ソートキー：プロジェクトID
- * 第二ソートキー：日付
+/**
+ * タスクをフィルタリングする
+ *
+ * @param taskList
+ * @param userId
+ * @param filterKey
  */
-export function sortAndFilterTask(taskList, userId){
+export function filterTask(taskList, userId, filterKey){
 
-   taskList = taskList.filter(t => t.get('redmineUserId') == userId && !t.get('compDelFlg'));
+   //0件ならばスキップ
+   if(taskList.size === 0) return List([]);
 
-   taskList = taskList.sort((a, b) => {
-      if(b.get('project').get('id') !== a.get('project').get('id')){
-         return b.get('project').get('id') - a.get('project').get('id');
+   return taskList.filter(t => {
 
-      }else if(b.get('priority') !== a.get('priority')) {
-         return b.get('priority') - a.get('priority');
+      switch (filterKey){
 
-      }else if(a.get('dueDate') != b.get('dueDate')){
-         return a.get('dueDate') < b.get('dueDate') ? -1 : 1;
+         case 'priority':
+            return t.get('redmineUserId') == userId && !t.get('compDelFlg')
+               && t.get('priority') == 1
 
-      }else{
-         return a.get('_id') - b.get('_id');
+         case '1day':
+            return t.get('redmineUserId') == userId && !t.get('compDelFlg')
+               && t.get('remainDate') <= 1
+
+         default:
+            return t.get('redmineUserId') == userId && !t.get('compDelFlg')
       }
    });
+}
+
+export function sortTask(taskList, sortKey){
+
+   if(taskList.size === 0) return List([]);
+
+   if(sortKey == 'priority') {
+      //優先度を第一ソートキートしてソートする
+      taskList = taskList.sort((a, b) => {
+
+         if (b.get('project').get('id') !== a.get('project').get('id')) {
+            return b.get('project').get('id') - a.get('project').get('id');
+
+         } else if (b.get('priority') !== a.get('priority')) {
+            return b.get('priority') - a.get('priority');
+
+         } else if (a.get('dueDate') != b.get('dueDate')) {
+            return a.get('dueDate') < b.get('dueDate') ? -1 : 1;
+
+         } else {
+            return a.get('_id') - b.get('_id');
+         }
+      });
+
+   }else{
+      //締切日を第一ソートキートしてソートする。
+      taskList = taskList.sort((a, b) => {
+
+         if (b.get('project').get('id') !== a.get('project').get('id')) {
+            return b.get('project').get('id') - a.get('project').get('id');
+
+         } else if (a.get('dueDate') != b.get('dueDate')) {
+            return a.get('dueDate') < b.get('dueDate') ? -1 : 1;
+
+         } else {
+            return a.get('_id') - b.get('_id');
+         }
+      });
+   }
 
    return taskList;
 }
@@ -363,6 +427,8 @@ export function sortAndFilterTask(taskList, userId){
  * @returns {Immutable.List<*>}
  */
 export function sumEachProject(taskList){
+
+   if(taskList.size === 0) return List([]);
 
    let taskProjectList = List([]);
    let tmpTaskList = List([]);

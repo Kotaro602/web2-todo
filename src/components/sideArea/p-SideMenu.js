@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
       listStyle: 'none',
       padding: '10px 0px 10px 5px',
       margin: 0,
-      borderRadius: 8,
+      borderRadius: 4,
       fontSize: 13
    },
    menuLi:{

@@ -5,16 +5,6 @@ import TaskMemBxSbSi from './p-TaskMemBxSbSi'
 
 export default class TaskSubBox extends Component {
 
-   //オープンしたタスクにフォーカスをあてる
-   // componentDidMount(){
-   //
-   //    const taskNameInputDom = document.getElementById('taskNameToFocus');
-   //    if(taskNameInputDom) {
-   //       taskNameInputDom.select();
-   //       taskNameInputDom.focus();
-   //    }
-   // }
-
    chgTaskMemo(){
       const {task, reqUpdateTask} = this.props;
       const taskMemoVal = this.refs.taskMemo.value;
@@ -40,7 +30,7 @@ export default class TaskSubBox extends Component {
                   className={css(styles.memoText)}
                   defaultValue={task.get('taskMemo')}
                   ref='taskMemo'
-                  minRows={4}
+                  minRows={3}
                   placeholder="Notes"
                   onBlur={::this.chgTaskMemo}/>
             </div>
@@ -65,9 +55,10 @@ const styles = StyleSheet.create({
    memoTextBox: {
       display: 'inline-block',
       verticalAlign: 'middle',
-      width: 580,
+      width: '80%',
       marginLeft: 10,
-      marginBottom: 10
+      marginBottom: 25,
+      marginRight: -100
    },
    memoText: {
       width: '100%',

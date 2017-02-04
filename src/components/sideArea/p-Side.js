@@ -23,9 +23,7 @@ export default class SideArea extends Component {
             <div className={css(styles.titleBox)}>
                <img src="/images/menu.png" className={css(styles.menuImage)} onClick={::this.actOpenMenuModal}/>
                <span className={css(styles.title)}>WEB2-todo</span>
-               <Collapse
-                  isOpened={state.getIn(['conf', 'openMenuFlg']) !== undefined && state.getIn(['conf', 'openMenuFlg'])}
-                  keepCollapsedContent={false}>
+               <Collapse isOpened={state.getIn(['conf', 'openMenuFlg'])} keepCollapsedContent={false}>
                   <SideMenu {...this.props} />
                </Collapse>
             </div>

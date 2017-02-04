@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, css } from 'aphrodite/no-important';
 import Immutable from 'immutable';
 import {TogglePattern} from "react-toggle-pattern";
-import {sortAndFilterTask, sumEachProject} from '../../model/m-Task';
+import {sortTask, filterTask, sumEachProject} from '../../model/m-Task';
 import { DragDropContext } from 'react-dnd';
 import ReactDnDHTML5Backend from 'react-dnd-html5-backend'
 import TaskMemBo from './p-TaskMemBo'
@@ -22,8 +22,9 @@ export default class TaskMemberList extends React.Component {
       const {state, member} = this.props;
 
       /** ユーザごとのタスク取得 & ソート処理 */
-      const taskList = sortAndFilterTask(state.get('tasks'), member.get('_id'));
-      const taskProjectList = sumEachProject(taskList);
+      const filterTaskList = filterTask(state.get('tasks'), member.get('_id'), state.getIn(['conf', 'filterKey']))
+      const sortTaskList = sortTask(filterTaskList, state.getIn(['conf', 'sortKey']));
+      const taskProjectList = sumEachProject(sortTaskList);
 
       /** レンダリング **/
       return(

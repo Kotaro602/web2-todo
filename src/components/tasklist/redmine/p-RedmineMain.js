@@ -6,6 +6,11 @@ import Collapse from 'react-collapse';
 
 export default class RedmineHeader extends Component {
 
+   //defaultValueを更新する。
+   componentWillReceiveProps(nextProps){
+      this.refs.description.value = nextProps.task.get('description');
+   }
+
    openRedmineUrl(){
       const {task} = this.props;
       const url = REDMINE_URL + '/issues/' + task.get('_id');
@@ -13,6 +18,8 @@ export default class RedmineHeader extends Component {
    }
 
    render() {
+
+      console.log('eee')
 
       /** prop取得 **/
       const {task} = this.props;
@@ -29,6 +36,7 @@ export default class RedmineHeader extends Component {
             <Textarea
                className={css(styles.description)}
                defaultValue={task.get('description')}
+               ref='description'
                readOnly/>
             {/*            タスク名称：{task.get('taskName')}<br/>
              プロジェクト：{task.getIn(['project', 'name'])}<br/>
