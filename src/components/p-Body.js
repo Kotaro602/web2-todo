@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import { StyleSheet, css } from 'aphrodite/no-important';
-import Task from '../components/tasklist/p-Task';
-import SideArea from '../components/sideArea/p-Side';
-import Head from '../components/header/p-Head';
+import Task from './tasklist/p-Task';
+import SideArea from './sideArea/p-Side';
+import Head from './header/p-Head';
+import PaModal from './modal/p-PaModal';
 
 export default class Body extends Component {
 
@@ -17,6 +18,7 @@ export default class Body extends Component {
                <Head {...this.props}/>
                <Task {...this.props}/>
             </div>
+            <PaModal {...this.props}/>
          </div>
          );
       }

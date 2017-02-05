@@ -42,7 +42,7 @@ module.exports = {
     "logSnippet": true,
     "rewriteRules": [],
     "open": "local",
-    "browser": "google chrome",
+    "browser": "default",
     "cors": false,
     "xip": false,
     "hostnameSuffix": false,

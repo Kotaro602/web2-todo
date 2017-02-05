@@ -77,25 +77,17 @@ export default class Task extends Component {
       /** レンダリング **/
       return (
          <div className={css(styles.taskAreaBox)}>
-            <ScrollZone className={css(styles.taskMainArea)}>
+            <div className={css(styles.taskMainArea)}>
             {state.get('members').map((member, key) => (
                <div key={key} className={css(styles.userTaskArea)}>
                   <TaskUser {...this.props} member={member}/>
                   <TaskMemberList {...this.props} member={member}/>
                </div>
             ))}
-            </ScrollZone>
+            </div>
             <TogglePattern isOpenFlg={state.get('conf').get('openRedmineId') != undefined}>
                <RedmineArea isOpenFlg={true} {...this.props}/>
             </TogglePattern>
-            {/*<Modal isOpen={showLineModal}*/}
-                   {/*contentLabel="onRequestClose Example"*/}
-                   {/*onRequestClose={::this.closeLineModal}*/}
-                   {/*shouldCloseOnOverlayClick={true}*/}
-                   {/*overlayClassName={css(styles.addLinePopupOverLay)}*/}
-                   {/*className={css(styles.addLinePopup)}>*/}
-               {/*<TaskLineModal {...this.props}/>*/}
-            {/*</Modal>*/}
          </div>
       );
    }
@@ -147,27 +139,5 @@ const styles = StyleSheet.create({
    userTaskArea: {
       marginBottom: 30
 
-   },
-   addLinePopupOverLay:{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: 'rgba(162, 159, 159, 0.74902)'
-   },
-   addLinePopup: {
-      position: 'absolute',
-      top: '40%',
-      left: '50%',
-      marginTop: -125,
-      marginLeft: -300,
-      border: '2px solid rgb(154, 153, 156)',
-      background: 'rgb(255, 255, 255)',
-      overflow: 'auto',
-      borderRadius: '4px',
-      outline: 'none',
-      width: 600,
-      height: 250
    }
 });
