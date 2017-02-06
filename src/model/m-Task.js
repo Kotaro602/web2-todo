@@ -300,21 +300,16 @@ export function mergeDetailTaskList(mergeObj, preTaskList, issueList){
 
    //最初に元の履歴を全部コピーする
    if(preTaskList !== undefined) {
-      preTaskList.map((task, preIndex) => {
+      preTaskList.map(task => {
 
          //Redmineタスク以外はスキップ
          if(!task.get('redmineFlg')) return;
 
          const index = findIndexById(mergeList, task.get('_id'));
          if (index == -1) return;
-         console.log(preTaskList.toJS());
-         console.log(preIndex);
          
-         console.log(mergeList.toJS());
-         console.log(index);
-         
-         console.log(preTaskList.getIn[preIndex, 'journals']);
-         mergeList = mergeList.setIn([index, 'journals'], preTaskList.getIn[preIndex, 'journals']);
+         console.log(task.get('journals').toJS());
+         mergeList = mergeList.setIn([index, 'journals'], task.get('journals'));
       })
    }
 
