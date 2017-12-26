@@ -11,16 +11,16 @@ module.exports = {
       path: path.join(__dirname, './dist'),
       filename: 'bundle.js'
    },
-   // devServer: {
-   //    contentBase: 'dist',
-   //    port: 9999,
-   //    proxy: {
-   //       '/api': {
-   //          target: 'http://localhost:8080'
-   //       }
-   //    }
-   // },
-   // devtool: 'inline-source-map',
+   devServer: {
+      contentBase: 'dist',
+      port: 9999,
+      proxy: {
+         '/api': {
+            target: 'http://localhost:8080'
+         }
+      }
+   },
+   devtool: 'inline-source-map',
    module: {
       loaders: [
          {

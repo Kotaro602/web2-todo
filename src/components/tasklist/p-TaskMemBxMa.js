@@ -13,8 +13,8 @@ export default class TaskMainBox extends React.Component {
       const {state, task, selectTask, reqUpdNewFlg} = this.props;
 
       //既に選択されている or 開いているならばスキップする。
-      if(state.get('conf').get('selectTaskId') == task.get('_id')) return;
-      if(state.get('conf').get('openTaskId') == task.get('_id')) return;
+      if(state.get('conf').get('selectTaskId') === task.get('_id')) return;
+      if(state.get('conf').get('openTaskId') === task.get('_id')) return;
       if(task.get('newFlg')) reqUpdNewFlg(task.set('newFlg', false));
       else selectTask(task.get('_id'))
    }

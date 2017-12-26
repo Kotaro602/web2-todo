@@ -16,7 +16,7 @@ export default class TaskMainBox extends Component {
 
    //タスクが新規追加された時
    componentDidMount(){
-      this.refs["taskName"].select();
+      this.refs["taskName"].blur();
    }
 
    //タスクがオープンした時
@@ -25,7 +25,7 @@ export default class TaskMainBox extends Component {
       //console.log(ReactDOM.findDOMNode(this.refs.taskName));
       //ReactDOM.findDOMNode(this.refs.taskName).focus();
       if(nextProps.state.get('conf').get('openTaskId') !== undefined) return;
-      this.refs["taskName"].select();
+      this.refs["taskName"].blur();
       // console.log(this.props.task.get('_id'));
       // console.log(this.props.state.get('conf').get('openTaskId'));
       // if(this.props.task.get('_id') != this.props.state.get('conf').get('openTaskId')) return;

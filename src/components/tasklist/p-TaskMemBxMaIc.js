@@ -22,7 +22,7 @@ export default class TaskMemBxMaIc extends Component {
       const preOpenId = state.get('conf').get('openRedmineId');
 
       //既に開いているボタンならば閉じる
-      const nextOpenId = preOpenId == task.get('_id') ? undefined : task.get('_id');
+      const nextOpenId = preOpenId === task.get('_id') ? undefined : task.get('_id');
       openRedmineModal(nextOpenId);
    }
 
