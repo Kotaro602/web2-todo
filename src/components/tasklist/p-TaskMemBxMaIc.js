@@ -12,6 +12,7 @@ export default class TaskMemBxMaIc extends Component {
    chgTempCompFlg() {
       const {task, reqUpdateTask} = this.props;
       const nextTempDelFlg = !task.get('tempDelFlg');
+
       reqUpdateTask(task.set('tempDelFlg', nextTempDelFlg));
    }
 

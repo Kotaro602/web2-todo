@@ -19,7 +19,6 @@ export default function task(state=List([]), action) {
       case a.UPDATE_NEW_FLG_TASK:
       case a.UPDATE_AND_CLOSE_TASK:
           return state.set(findIndexById(action.task.get('_id')), action.task);
-          return state.set(findIndexById(action.task.get('_id')), action.task);
 
       //完了
       case a.CLEAN_TASK:

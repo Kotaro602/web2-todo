@@ -15,6 +15,10 @@ export default function conf(state = new Conf(), action) {
       case a.UPDATE_AND_CLOSE_TASK:
          return state.set('openTaskId', undefined);
 
+      case a.UPDATE_TASK:
+         return action.task.get('tempDelFlg') && action.task.get('taskMemo') ?
+            state.set('openTaskId', action.task.get('_id')) : state.set('openTaskId', undefined);
+
       case a.SELECT_TASK:
          return state.set('selectTaskId', action.taskId);
 
