@@ -5,14 +5,17 @@ import {Immutable, Record, List, toJS, fromJS} from 'immutable';
 import moment from 'moment';
 
 const MemberRecord = Record({
-   _id: undefined,
-   userName: undefined,
-   redmineKey: undefined
+    _id: undefined,
+    userName: undefined,
+    redmineKey: undefined,
+    slackToken: undefined
 })
 
-export default class Member extends MemberRecord {
+export class Member extends MemberRecord {
 
-   constructor() {
-      super()
+   constructor(userName) {
+      super({
+          userName: userName
+      })
    }
 }

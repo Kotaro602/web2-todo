@@ -6,81 +6,41 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 import { Map, List, fromJS, toJS } from 'immutable';
 import { reduxForm, Field } from 'redux-form/immutable';
 
-
-const renderInput = field =>   // Define stateless component to render input and errors
-   <div><input {...field.input} type={field.type}/></div>
+const renderField = props =>(
+    <div className={css(styles.inputBox)}>
+        <label className={css(styles.label)}>{props.title}</label>
+        <input {...props.input} type={props.type} className={css(styles.inputText)}/>
+    </div>
+);
 
 class AccountInfo extends Component {
-
-   componentDidMount() {
-      // this.refs.lineName            // the Field
-      //    .getRenderedComponent() // on Field, returns ReduxFormMaterialUITextField
-      //    .getRenderedComponent() // on ReduxFormMaterialUITextField, returns TextField
-      //    .focus()                // on TextField
-   }
-
-   addNewLine(values){
-      console.log(values);
-   }
 
    render() {
 
       /** prop取得 **/
-      const {handleSubmit} = this.props;
+      const {handleSubmit, pristine, submitting, reset} = this.props;
 
       /** レンダリング **/
       return (
          <div className={css(styles.accountInfoBox)}>
-            <form onSubmit={handleSubmit(::this.addNewLine)}>
-               <div className={css(styles.inputBox)}>
-                  <label className={css(styles.label)}>First name</label>
-                  <input type="text" className={css(styles.inputText)}/>
-               </div>
-               <div className={css(styles.inputBox)}>
-                  <label className={css(styles.label)}>Last name</label>
-                  <input type="text" className={css(styles.inputText)}/>
-               </div>
-               <div className={css(styles.inputBox)}>
-                  <label className={css(styles.label)}>RedmineKey</label>
-                  <input type="text" className={css(styles.inputText)}/>
-               </div>
-               {/*<table className={css(styles.table)}>*/}
-                  {/*<tbody>*/}
-                  {/*<tr>*/}
-                     {/*<td className={css(styles.subTitleTd)}>グループ名</td>*/}
-                     {/*<td>*/}
-                        {/*<Field name="lineName"*/}
-                               {/*component={TextField}*/}
-                               {/*hintText="Group Name"*/}
-                               {/*ref="lineName" withRef/>*/}
-                     {/*</td>*/}
-                  {/*</tr>*/}
-                  {/*<tr>*/}
-                     {/*<td className={css(styles.subTitleTd)}>紐づけるRedMineプロジェクト</td>*/}
-                     {/*<td>*/}
-                        {/*<Field name="projectId"*/}
-                               {/*component={SelectField}*/}
-                               {/*floatingLabelText="Redmine Project">*/}
-                           {/*<MenuItem value={1} primaryText="18本サイト" />*/}
-                           {/*<MenuItem value={2} primaryText="19プレサイト" />*/}
-                           {/*<MenuItem value={3} primaryText="保守" />*/}
-                           {/*<MenuItem value={4} primaryText="DB申請" />*/}
-                           {/*<MenuItem value={5} primaryText="なし" />*/}
-                        {/*</Field>*/}
-                     {/*</td>*/}
-                  {/*</tr>*/}
-                  {/*</tbody>*/}
-               {/*</table>*/}
+            <form onSubmit={handleSubmit}>
+                <Field name="userName" type="text" component={renderField} title="名前"/>
+                <Field name="redmineLoginId" type="text" component={renderField} title="RedmineログインID"/>
+                <Field name="redmineKey" type="text" component={renderField} title="RedmineKey"/>
+                <Field name="slackToken" type="text" component={renderField} title="SlackToken"/>
+                <button type='submit'>登録</button>
+                <button type="button" onClick={reset}>キャンセル</button>
             </form>
          </div>
       );
    }
 }
 
+
 // Decorate with redux-form
 AccountInfo = reduxForm({
-   form: 'accountInfo'
-})(AccountInfo)
+   form: 'ImmutableForm'
+})(AccountInfo);
 export default AccountInfo;
 
 const styles = StyleSheet.create({
@@ -110,3 +70,31 @@ const styles = StyleSheet.create({
       width: '70%'
    }
 });
+
+{/*<table className={css(styles.table)}>*/}
+{/*<tbody>*/}
+{/*<tr>*/}
+{/*<td className={css(styles.subTitleTd)}>グループ名</td>*/}
+{/*<td>*/}
+{/*<Field name="lineName"*/}
+{/*component={TextField}*/}
+{/*hintText="Group Name"*/}
+{/*ref="lineName" withRef/>*/}
+{/*</td>*/}
+{/*</tr>*/}
+{/*<tr>*/}
+{/*<td className={css(styles.subTitleTd)}>紐づけるRedMineプロジェクト</td>*/}
+{/*<td>*/}
+{/*<Field name="projectId"*/}
+{/*component={SelectField}*/}
+{/*floatingLabelText="Redmine Project">*/}
+{/*<MenuItem value={1} primaryText="18本サイト" />*/}
+{/*<MenuItem value={2} primaryText="19プレサイト" />*/}
+{/*<MenuItem value={3} primaryText="保守" />*/}
+{/*<MenuItem value={4} primaryText="DB申請" />*/}
+{/*<MenuItem value={5} primaryText="なし" />*/}
+{/*</Field>*/}
+{/*</td>*/}
+{/*</tr>*/}
+{/*</tbody>*/}
+{/*</table>*/}

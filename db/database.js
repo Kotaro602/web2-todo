@@ -9,7 +9,7 @@ mongoose.connect(mURI);
 // 接続イベントを利用してログ出力
 mongoose.connection.on('connected', function () {
   console.log('mongoose URI locates ' + mURI);
-})
+});
 
 // メンバのスキーマ定義
 var memberListSchema = new mongoose.Schema({

@@ -4,19 +4,26 @@
 import React, { Component} from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import { Map, List, fromJS, toJS } from 'immutable';
-import { reduxForm, Field } from 'redux-form/immutable';
 import Dialog from 'rc-dialog';
 import 'rc-dialog/assets/index.css';
 import ModalSide from './p-ModalSide';
 import AccountInfo from './p-AccountInfo';
+import {Member} from '../../model/m-Member';
+
 
 
 export default class PaModal extends Component {
 
-
    closeAccountModal(){
       const {openMenuModal} = this.props;
       openMenuModal(false);
+   }
+
+   showResults(values){
+      const {reqAddMember} = this.props;
+
+      const newMember = new Member(values.get('userName'));
+      reqAddMember(newMember, values.get('redmineLoginId'));
    }
 
    render() {
@@ -34,7 +41,7 @@ export default class PaModal extends Component {
             mousePosition={{x: 10, y: 10}}
          >
             <ModalSide {...this.props}/>
-            <AccountInfo {...this.props}/>
+            <AccountInfo {...this.props} onSubmit={::this.showResults}/>
          </Dialog>
       );
    }

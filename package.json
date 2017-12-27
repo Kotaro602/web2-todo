@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "npm install && npm run webpack && NODE_ENV='production' node app.js",
+    "start": "npm install && npm run webpack && node app.js",
     "hot": "webpack-dev-server --hot --inline",
     "webpack": "webpack",
     "dev": "webpack-watch && browser-sync",
@@ -28,8 +28,10 @@
     "browserify": "^13.1.0",
     "child_process": "^1.0.2",
     "combine-section-reducers": "^1.0.4",
+    "cross-env": "^5.1.3",
     "css-loader": "^0.26.1",
     "dotenv": "^2.0.0",
+    "express": "3.2.6",
     "file-loader": "^0.9.0",
     "forever": "^0.15.3",
     "handlebars": "^4.0.5",
@@ -78,8 +80,7 @@
     "webpack": "^1.13.2",
     "webpack-dev-middleware": "^1.9.0",
     "webpack-dev-server": "^1.16.2",
-    "webpack-hot-middleware": "^2.14.0",
-    "express": "3.2.6"
+    "webpack-hot-middleware": "^2.14.0"
   },
   "devDependencies": {
     "gulp": "^3.9.1",

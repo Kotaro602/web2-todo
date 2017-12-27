@@ -19,6 +19,8 @@ export function updateAndCloseTask(task){return {type: UPDATE_AND_CLOSE_TASK, ta
 export function cleanTask(userId){return{type: CLEAN_TASK, userId}};
 
 /** メンバー系Action */
+export const ADD_MEMBER = 'ADD_MEMBER';
+export function addMember(member){return {type: ADD_MEMBER, member}};
 
 /** プロジェクト系Action */
 
@@ -48,6 +50,7 @@ export const REQ_ADD_TASK = 'REQ_ADD_TASK';
 export const REQ_CLEAN_TASK = 'REQ_CLEAN_TASK';
 export const REQ_UPD_NEW_FLG = 'REQ_UPD_NEW_FLG';
 export const REQ_REDMINE_ISSUE_LIST = 'REQ_REDMINE_ISSUE_LIST';
+export const REQ_ADD_MEMBER = 'REQ_ADD_MEMBER';
 export function reqTasks(preTaskList){return {type: REQ_TASKS, preTaskList}};
 export function reqRedmineAll(oriTasks, preTaskList){return {type: REQ_REDMINE_ALL, oriTasks, preTaskList}};
 export function reqRedmineIssueList(mergeObj, preTaskList){return {type: REQ_REDMINE_ISSUE_LIST, mergeObj, preTaskList}};
@@ -55,3 +58,4 @@ export function reqUpdateTask(task, closeFlg){return {type: REQ_UPDATE_TASK, tas
 export function reqUpdNewFlg(task){return {type: REQ_UPD_NEW_FLG, task}};
 export function reqAddTask(task){return {type: REQ_ADD_TASK, task}};
 export function reqCleanTask(userId){return {type: REQ_CLEAN_TASK, userId}};
+export function reqAddMember(member, redmineLoginId){return {type: REQ_ADD_MEMBER, member, redmineLoginId}};
