@@ -27,7 +27,7 @@ export function fetchRedmineTaskList(taskListEachMember) {
 
    //RedmineURLを取得
    return Promise.all(taskListEachMember.members.map(member => {
-      const redmineUrl = process.env.NODE_ENV === `production` ?
+      const redmineUrl = process.env.NODE_ENV !== `production` ?
          `${REDMINE_URL}/issues.json?limit=100&key=${member.redmineKey}&assigned_to_id=${member._id}`:
          `/testdata/issues_${member._id}.json`;
       return fetch(redmineUrl).then(res => res.json());
@@ -52,7 +52,7 @@ export function fetchRedmineTaskDetailList(taskList) {
    return Promise.all(taskList.map(task => {
       if(task.get('redmineFlg')){
 
-         const redmineUrl = process.env.NODE_ENV === `production` ?
+         const redmineUrl = process.env.NODE_ENV !== `production` ?
             `${REDMINE_URL}/issues/${task.get('_id')}.json?include=attachments,journals&key=4a4606aff3f4db05dd5f391cbbaf026e7cf588c6`:
             `/testdata/detail_${task.get('_id')}.json`;
          return fetch(redmineUrl).then(res => res.json());
