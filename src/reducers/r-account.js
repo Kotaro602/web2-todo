@@ -1,10 +1,16 @@
 import * as a from '../actions/a-index';
-import { Map, List, fromJS } from 'immutable';
+import { Map, List, fromJS, toJS } from 'immutable';
 import Account from '../model/m-Account';
 
 export default function account(state = new Account(), action) {
 
    switch(action.type){
+
+      case a.INIT_ACCOUNT:
+         return action.account;
+
+      case a.ADD_ACCOUNT:
+         return action.account;
 
       default:
          return state;

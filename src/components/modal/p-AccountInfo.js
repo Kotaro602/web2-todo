@@ -28,8 +28,8 @@ class AccountInfo extends Component {
                 <Field name="redmineLoginId" type="text" component={renderField} title="RedmineログインID"/>
                 <Field name="redmineKey" type="text" component={renderField} title="RedmineKey"/>
                 <Field name="slackToken" type="text" component={renderField} title="SlackToken"/>
-                <button type='submit'>登録</button>
-                <button type="button" onClick={reset}>キャンセル</button>
+                <button type="submit" disabled={submitting}>登録</button>
+                <button type="button" disabled={pristine || submitting} onClick={reset}>キャンセル</button>
             </form>
          </div>
       );

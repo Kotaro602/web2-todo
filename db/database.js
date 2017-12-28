@@ -13,10 +13,10 @@ mongoose.connection.on('connected', function () {
 
 // メンバのスキーマ定義
 var memberListSchema = new mongoose.Schema({
-  _id: Number, //redmineUserId;
-  userName: String,
-  redmineKey: String,
-  memberConf:[]
+   _id: Number, //redmineUserId
+   userName: String,
+   redmineLoginId: String,
+   memberConf:[]
 });
 
 // タスクのスキーマ定義

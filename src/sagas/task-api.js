@@ -30,6 +30,7 @@ export function fetchRedmineTaskList(taskListEachMember) {
       const redmineUrl = process.env.NODE_ENV === `production` ?
          `${REDMINE_URL}/issues.json?limit=100&key=${member.redmineKey}&assigned_to_id=${member._id}`:
          `/testdata/issues_${member._id}.json`;
+
       return fetch(redmineUrl).then(res => res.json());
 
    })).then(redmineTasks => redmineTasks)

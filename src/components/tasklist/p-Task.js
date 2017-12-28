@@ -3,26 +3,22 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 import { Map, List, fromJS, toJS } from 'immutable';
 import withScrolling from 'react-dnd-scrollzone';
 import {TogglePattern} from "react-toggle-pattern";
-import Modal from 'react-modal';
 import TaskMemberList from './p-TaskMem';
 import TaskUser from './p-TaskUser';
-import TaskButton from './p-TaskButton';
-import TaskPro from '../header/p-Head';
-import TaskLineModal from './p-TaskLineModal';
-import RedmineArea from './redmine/p-RedmineArea'
+import RedmineArea from './redmine/p-RedmineArea';
+
 
 const ScrollZone = withScrolling('div');
 
 export default class Task extends Component {
 
-
    componentDidMount() {
 
-      const {openTask, selectTask, reqTasks} = this.props;
+      const {state, openTask, selectTask} = this.props;
 
       //オープン中のタスクをクローズ
       const closeOpenTask = (evt) => {
-         const openTaskId = this.props.state.get('conf').get('openTaskId');
+         const openTaskId = state.get('conf').get('openTaskId');
          const openTaskDOM = document.getElementById(openTaskId);
 
          // 追加ボタンを押した時、タイトルを押した時に2回呼ばれるのも無効にする
@@ -30,14 +26,14 @@ export default class Task extends Component {
          if(openTaskDOM.contains(evt.target)) return;
          if(event.target.className.match('addIcon')) return;
          if(event.target.className.match('redmineIcon')) return;
-         if(openTaskId == evt.target.getAttribute('data-closeId')) return;
+         if(openTaskId === evt.target.getAttribute('data-closeId')) return;
 
          openTask(undefined);
       };
 
       //選択中のタスクをクローズ
       const closeSelectTask = (evt) => {
-         const selectTaskId = this.props.state.get('conf').get('selectTaskId');
+         const selectTaskId = state.get('conf').get('selectTaskId');
          const selectTaskDOM = document.getElementById(selectTaskId);
 
          // 追加ボタンを押した時、タイトルを押した時に2回呼ばれるのも無効にする
@@ -47,7 +43,7 @@ export default class Task extends Component {
          if(event.target.className.match('redmineIcon')) return;
          if(event.target.className.match('todayButton')) return;
          if(event.target.className.match('react-datepicker')) return;
-         if(selectTaskId == evt.target.getAttribute('data-closeId')) return;
+         if(selectTaskId === evt.target.getAttribute('data-closeId')) return;
 
          selectTask(undefined);
       };
@@ -56,17 +52,22 @@ export default class Task extends Component {
       document.addEventListener('click', closeSelectTask);
       document.addEventListener('click', closeOpenTask);
 
-      //タスクリスト定期的に取得する
-      reqTasks(undefined);
-      setInterval(() => {
+   }
 
-         console.log(this.props.state.get('tasks'));
+   componentWillUpdate(nextProps){
 
-         //タスクがオープン中は再更新しない
-         if(this.props.state.get('conf').get('openTaskId') === undefined) {
-            reqTasks(this.props.state.get('tasks'));
-         }
-      }, 120000);
+      const {state, reqTasks} = this.props;
+      if(state.get('account') !== nextProps.state.get('account')){
+         reqTasks(undefined);
+
+         //タスクリスト定期的に取得する
+         setInterval(() => {
+            //タスクがオープン中は再更新しない
+            if(state.get('conf').get('openTaskId') === undefined) {
+               reqTasks(state.get('tasks'));
+            }
+         }, 120000);
+      }
    }
 
    render() {
@@ -74,10 +75,13 @@ export default class Task extends Component {
       /** prop取得 **/
       const {state} = this.props;
 
+      const registeredFlg = !!state.getIn(['account', '_id']);
+
       /** レンダリング **/
       return (
          <div className={css(styles.taskAreaBox)}>
             <div className={css(styles.taskMainArea)}>
+            {!registeredFlg && <div>左上から登録してください</div>}
             {state.get('members').map((member, key) => (
                <div key={key} className={css(styles.userTaskArea)}>
                   <TaskUser {...this.props} member={member}/>

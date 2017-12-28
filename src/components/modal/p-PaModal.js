@@ -8,8 +8,7 @@ import Dialog from 'rc-dialog';
 import 'rc-dialog/assets/index.css';
 import ModalSide from './p-ModalSide';
 import AccountInfo from './p-AccountInfo';
-import {Member} from '../../model/m-Member';
-
+import Account from '../../model/m-Account';
 
 
 export default class PaModal extends Component {
@@ -19,11 +18,9 @@ export default class PaModal extends Component {
       openMenuModal(false);
    }
 
-   showResults(values){
-      const {reqAddMember} = this.props;
-
-      const newMember = new Member(values.get('userName'));
-      reqAddMember(newMember, values.get('redmineLoginId'));
+   showResults(data){
+      const {reqAddAccount} = this.props;
+      reqAddAccount(new Account().merge(data));
    }
 
    render() {

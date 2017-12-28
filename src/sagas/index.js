@@ -4,8 +4,22 @@ import { put, call, take, fork } from "redux-saga/effects";
 import {Immutable, Record, List, Map, toJS, fromJS} from 'immutable';
 import * as actCreater from "../actions/a-index";
 import * as taskApi from "./task-api.js";
-import * as memberApi from "./member-api.js";
+import * as accountApi from "./account-api.js";
 import {mergeTasks, mergeDetailTask, mergeDetailTaskList} from '../model/m-Task';
+import {setLocalStrage} from '../model/m-Member';
+
+/** ユーザー追加 */
+function* hundleReqAccount() {
+   while (true) {
+      const action = yield take(actCreater.REQ_ADD_ACCOUNT);
+      const redmineUserInfo = yield call(accountApi.fetchRedmineUserId, action.account);
+      const regAccount = action.account.set('_id', redmineUserInfo.users[0].id);
+      accountApi.addAccount(regAccount); //非同期
+      setLocalStrage(regAccount);
+      //window.location.reload();
+      yield put(actCreater.addAccount(regAccount));
+   }
+}
 
 /** 通常タスク取得 */
 function* hundleReqTasks() {
@@ -22,7 +36,7 @@ function* hundleReqRedmineAll() {
       const action = yield take(actCreater.REQ_REDMINE_ALL);
       const redmineTasks = yield call(taskApi.fetchRedmineTaskList, action.oriTasks);
       const mergeObj = mergeTasks(action.oriTasks, redmineTasks);
-       taskApi.updateTaskList(mergeObj.reqTasks); //マージしたRedmineTaskをDBに更新（非同期）
+      taskApi.updateTaskList(mergeObj.reqTasks); //マージしたRedmineTaskをDBに更新（非同期）
       yield put(actCreater.reqRedmineIssueList(mergeObj, action.preTaskList));
    }
 }
@@ -41,7 +55,7 @@ function* hundleReqRedmineDetailList() {
 
 /** タスク更新実行 */
 function* ReqUpdateTask(action){
-    taskApi.updateTask(action.task); //非同期
+   taskApi.updateTask(action.task); //非同期
    if(action.closeFlg) yield put(actCreater.updateAndCloseTask(action.task));
    else yield put(actCreater.updateTask(action.task));
 }
@@ -55,7 +69,7 @@ function* hundleReqUpdateTask() {
 function* hundleReqUpdNewFlg() {
    while (true) {
       const action = yield take(actCreater.REQ_UPD_NEW_FLG);
-       taskApi.updateTask(action.task); //非同期
+      taskApi.updateTask(action.task); //非同期
       yield put(actCreater.updateNewFlgTask(action.task));
    }
 }
@@ -64,7 +78,7 @@ function* hundleReqUpdNewFlg() {
 function* hundleReqAddTask() {
    while (true) {
       const action = yield take(actCreater.REQ_ADD_TASK);
-       taskApi.addTask(action.task);　//非同期
+      taskApi.addTask(action.task);　//非同期
       yield put(actCreater.addTask(action.task));
    }
 }
@@ -78,16 +92,6 @@ function* hundleReqCleanTask() {
    }
 }
 
-/** ユーザー追加 */
-function* hundleReqMember() {
-    while (true) {
-        const action = yield take(actCreater.REQ_ADD_MEMBER);
-        const redmineId = yield call(memberApi.fetchRedmineUserId(action.redmineLoginId));
-        console.log(redmineId);
-        //yield put(actCreater.cleanTask(action.userId));
-    }
-}
-
 /** ルート **/
 export default function* rootSaga() {
    yield fork(hundleReqTasks);
@@ -97,5 +101,5 @@ export default function* rootSaga() {
    yield fork(hundleReqUpdNewFlg);
    yield fork(hundleReqAddTask);
    yield fork(hundleReqCleanTask);
-   yield fork(hundleReqMember);
+   yield fork(hundleReqAccount);
 }

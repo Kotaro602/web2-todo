@@ -4,8 +4,17 @@ import Task from './tasklist/p-Task';
 import SideArea from './sideArea/p-Side';
 import Head from './header/p-Head';
 import PaModal from './modal/p-PaModal';
+import {isRegistered, getLocalStrage} from '../model/m-Account.js';
 
 export default class Body extends Component {
+
+   componentDidMount() {
+
+      const {state, initAccount} = this.props;
+      if (!state.getIn[('account', '_id')] && isRegistered()){
+         initAccount(getLocalStrage());
+      }
+   }
 
    render(){
       /** レンダリング **/

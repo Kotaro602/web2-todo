@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 var index = require('./routes/index');
 var crudTask = require('./routes/crudTask');
-var memberTask = require('./routes/memberTask');
+var crudMember = require('./routes/crudMember');
 
 //ルーティング
 app.get('/', index.index);
@@ -37,7 +37,7 @@ app.post('/api/updateTaskList', crudTask.updateTaskList);
 app.post('/api/cleanTask', crudTask.cleanTask);
 app.post('/api/changeSortTask', crudTask.changeSortTask);
 
-app.post('/api/addMember', memberTask.registerMember);
+app.post('/api/addMember', crudMember.registerMember);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

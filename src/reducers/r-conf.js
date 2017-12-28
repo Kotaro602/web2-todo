@@ -43,6 +43,9 @@ export default function conf(state = new Conf(), action) {
       case a.FILTER_TASK:
          return state.set('filterKey', action.filterKey);
 
+      case a.ADD_ACCOUNT:
+         return state.set('openMenuFlg', false);
+
       default:
          return state;
    }
