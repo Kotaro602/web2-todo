@@ -299,19 +299,19 @@ export function mergeDetailTaskList(mergeObj, preTaskList, issueList){
    let mergeList = mergeObj.tasks;
 
    //最初に元の履歴を全部コピーする
-   if(preTaskList !== undefined) {
-      preTaskList.map(task => {
-
-         //Redmineタスク以外はスキップ
-         if(!task.get('redmineFlg')) return;
-
-         const index = findIndexById(mergeList, task.get('_id'));
-         if (index == -1) return;
-         
-         console.log(task.get('journals').toJS());
-         mergeList = mergeList.setIn([index, 'journals'], task.get('journals'));
-      })
-   }
+   //なぜこれが必要なのかわからなくなったため、削除
+   // if(preTaskList !== undefined) {
+   //    preTaskList.map(task => {
+   //
+   //       //Redmineタスク以外はスキップ
+   //       if(!task.get('redmineFlg')) return;
+   //
+   //       const index = findIndexById(mergeList, task.get('_id'));
+   //       if (index == -1) return;
+   //
+   //       mergeList = mergeList.setIn([index, 'journals'], task.get('journals'));
+   //    })
+   // }
 
    //更新リストをマージする。
    issueList.map((data) =>{
