@@ -34,7 +34,7 @@ export default class TaskMemBxMaDa extends React.Component {
       const inputStyle = css(
          styles.datepickerInput,
          remainDays < 0 && styles.limitOver,
-      )
+      );
 
       /** レンダリング **/
       return(
@@ -43,7 +43,6 @@ export default class TaskMemBxMaDa extends React.Component {
                selected={dueDate}
                onChange={::this.chgDueDate}
                dateFormat="MM/DD"
-               placeholderText="03/01"
                minDate={moment()}
                className={inputStyle}
                popoverTargetOffset='12px -30px'/>

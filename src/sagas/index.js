@@ -5,18 +5,35 @@ import {Immutable, Record, List, Map, toJS, fromJS} from 'immutable';
 import * as actCreater from "../actions/a-index";
 import * as taskApi from "./task-api.js";
 import * as accountApi from "./account-api.js";
-import {mergeTasks, mergeDetailTask, mergeDetailTaskList} from '../model/m-Task';
-import {setLocalStrage} from '../model/m-Member';
+import * as channelApi from "./channel-api.js";
+import {mergeTasks, mergeDetailTask, mergeDetailTaskList, mergeSlackTaskList} from '../model/m-Task';
+import {setLocalStrage} from '../model/m-Account';
+import {isExistAccountUser} from '../model/m-Member';
+
+/** 初期設定 */
+function* hundleReqInit(){
+   while (true) {
+      const action = yield take(actCreater.REQ_INIT);
+      const channels = yield call(channelApi.fetchChannelList);
+      yield put(actCreater.initAccount(action.account, channels));
+   }
+}
 
 /** ユーザー追加 */
 function* hundleReqAccount() {
    while (true) {
       const action = yield take(actCreater.REQ_ADD_ACCOUNT);
-      const redmineUserInfo = yield call(accountApi.fetchRedmineUserId, action.account);
+
+      //RedmineからUserIDを取得
+      const redmineUserInfo = yield call(accountApi.fetchRedmineUserId, action.account.get('redmineLoginId'));
       const regAccount = action.account.set('_id', redmineUserInfo.users[0].id);
+
+      //サーバにアカウント情報を登録
       accountApi.addAccount(regAccount); //非同期
+
+      //ローカルストレージに登録
       setLocalStrage(regAccount);
-      //window.location.reload();
+
       yield put(actCreater.addAccount(regAccount));
    }
 }
@@ -25,31 +42,30 @@ function* hundleReqAccount() {
 function* hundleReqTasks() {
    while (true) {
       const action = yield take(actCreater.REQ_TASKS);
-      const oriTasks = yield call(taskApi.fetchTaskList);
-      yield put(actCreater.reqRedmineAll(oriTasks, action.preTaskList));
-   }
-}
 
-/** Redmineユーザごとの一覧タスク取得 */
-function* hundleReqRedmineAll() {
-   while (true) {
-      const action = yield take(actCreater.REQ_REDMINE_ALL);
-      const redmineTasks = yield call(taskApi.fetchRedmineTaskList, action.oriTasks);
-      const mergeObj = mergeTasks(action.oriTasks, redmineTasks);
-      taskApi.updateTaskList(mergeObj.reqTasks); //マージしたRedmineTaskをDBに更新（非同期）
-      yield put(actCreater.reqRedmineIssueList(mergeObj, action.preTaskList));
-   }
-}
+      //DBタスクを取得
+      const oriTasks = yield call(taskApi.fetchTaskList, action.reqTask);
 
-/** Redmine詳細情報を全て取得 */
-function* hundleReqRedmineDetailList() {
-   while (true) {
-      const action = yield take(actCreater.REQ_REDMINE_ISSUE_LIST);
-      const issueList =  action.preTaskList === undefined ?
-         yield call(taskApi.fetchRedmineTaskDetailList, action.mergeObj.tasks):
-         yield call(taskApi.fetchRedmineTaskDetailList, action.mergeObj.reqDetails);
-      action.mergeObj.tasks = mergeDetailTaskList(action.mergeObj, action.preTaskList, issueList);
-      yield put(actCreater.recieveTasks(action.mergeObj));
+      //Redmine一覧タスク取得
+      const redmineTasks = yield call(taskApi.fetchRedmineTaskList, oriTasks);
+      let mergeObj = mergeTasks(oriTasks, redmineTasks);
+
+      //Redmine詳細情報取得
+      const demandTaskDetailList = !action.preTaskList ? mergeObj.tasks : mergeObj.reqDetails;
+      const issueList = yield call(taskApi.fetchRedmineTaskDetailList, demandTaskDetailList);
+      mergeObj.tasks = mergeDetailTaskList(mergeObj, action.preTaskList, issueList);
+
+      //Slack情報取得
+      if(isExistAccountUser(mergeObj.members)){
+         const slackTasks = yield call(taskApi.fetchSlackTaskList);
+         mergeObj = mergeSlackTaskList(mergeObj, slackTasks);
+      }
+
+      //マージしたRedmineTaskをDBに更新（非同期）
+      taskApi.updateTaskList(mergeObj.reqTasks);
+
+      yield put(actCreater.recieveTasks(mergeObj));
+
    }
 }
 
@@ -94,9 +110,8 @@ function* hundleReqCleanTask() {
 
 /** ルート **/
 export default function* rootSaga() {
+   yield fork(hundleReqInit);
    yield fork(hundleReqTasks);
-   yield fork(hundleReqRedmineAll);
-   yield fork(hundleReqRedmineDetailList);
    yield fork(hundleReqUpdateTask);
    yield fork(hundleReqUpdNewFlg);
    yield fork(hundleReqAddTask);

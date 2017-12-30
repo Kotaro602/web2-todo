@@ -29,7 +29,8 @@ const TaskRecord = Record({
    tracker: undefined,
    status: undefined,
    updateJournalsFlg: undefined,
-   journals: undefined
+   journals: undefined,
+   slackFlg: undefined
 });
 
 export default class Task extends TaskRecord {
@@ -55,6 +56,7 @@ function copyTaskFromObj(task){
    nextTask = nextTask.set('_id', task._id);
    nextTask = nextTask.set('redmineUserId', task.redmineUserId);
    nextTask = nextTask.set('redmineFlg', task.redmineFlg);
+   nextTask = nextTask.set('slackFlg', task.slackFlg);
    nextTask = nextTask.set('taskName', task.taskName);
    nextTask = nextTask.set('tempDelFlg', task.tempDelFlg);
    nextTask = nextTask.set('compDelFlg', task.compDelFlg);
@@ -153,8 +155,6 @@ function mergeRedmineTask(preTask, task){
    nextTask = nextTask.set('updateJournalsFlg', preTask.get('redmineUpdDate') != task.updated_on);
    nextTask = nextTask.set('newFlg', preTask.get('newFlg') || preTask.get('redmineUpdDate') != task.updated_on);
 
-   culcRemainDay(task.due_date);
-
    return nextTask;
 }
 
@@ -164,7 +164,7 @@ function mergeRedmineTask(preTask, task){
  * @param id
  */
 function findIndexById(taskList, id) {
-   return taskList.findIndex((task) => task.get('_id') == id);
+   return taskList.findIndex((task) => task.get('_id') === id);
 }
 
 /**
@@ -190,6 +190,23 @@ function formatJournals(oriJournals){
    });
 
    return journalList;
+}
+
+//Slackタスクを新規作成
+function createSlackTask(task){
+
+   let nextTask = new Task();
+   nextTask = nextTask.set('_id', Number(task.date_create));
+   nextTask = nextTask.set('redmineUserId',localStorage._id);
+   nextTask = nextTask.set('redmineFlg', false);
+   nextTask = nextTask.set('slackFlg', true);
+   nextTask = nextTask.set('taskName', task.message.text);
+   nextTask = nextTask.set('project', Map({id: 1, name: 'slack'}));
+   nextTask = nextTask.set('tempDelFlg', false);
+   nextTask = nextTask.set('compDelFlg', false);
+   nextTask = nextTask.set('dueDate', moment().add("days", 7).format("YYYY-MM-DD"));
+
+   return nextTask;
 }
 
 /**
@@ -238,7 +255,7 @@ export function mergeTasks(dbMemberAndTask, redmineTasks){
             const index = findIndexById(mergeTaskList, task.id);
 
             //更新時刻が更新されていたら詳細情報を取得する
-            if(mergeTaskList.getIn([index, 'redmineUpdDate']) != task.updated_on){
+            if(mergeTaskList.getIn([index, 'redmineUpdDate']) !== task.updated_on){
                reqRedmineDetailList = reqRedmineDetailList.push(mergeTaskList.get(index));
             }
 
@@ -259,7 +276,7 @@ export function mergeTasks(dbMemberAndTask, redmineTasks){
             //完了済みのRedmineタスクを知るために、RedmineのIDリストを取得する。
             redmineIdList = redmineIdList.push(task.id);
          })
-      })
+      });
 
       //完了済みのRedmineタスクを調べる
       mergeTaskList.map((task, taskIndex) => {
@@ -299,19 +316,18 @@ export function mergeDetailTaskList(mergeObj, preTaskList, issueList){
    let mergeList = mergeObj.tasks;
 
    //最初に元の履歴を全部コピーする
-   //なぜこれが必要なのかわからなくなったため、削除
-   // if(preTaskList !== undefined) {
-   //    preTaskList.map(task => {
-   //
-   //       //Redmineタスク以外はスキップ
-   //       if(!task.get('redmineFlg')) return;
-   //
-   //       const index = findIndexById(mergeList, task.get('_id'));
-   //       if (index == -1) return;
-   //
-   //       mergeList = mergeList.setIn([index, 'journals'], task.get('journals'));
-   //    })
-   // }
+   if(preTaskList !== undefined) {
+      preTaskList.map(task => {
+
+         //Redmineタスク以外はスキップ
+         if(!task.get('redmineFlg')) return;
+
+         const index = findIndexById(mergeList, task.get('_id'));
+         if (index === -1) return;
+
+         mergeList = mergeList.setIn([index, 'journals'], task.get('journals'));
+      })
+   }
 
    //更新リストをマージする。
    issueList.map((data) =>{
@@ -354,6 +370,55 @@ export function mergeDetailTask(preTask, issue){
    nextTask = nextTask.set('journals', journals);
 
    return nextTask;
+}
+
+/**
+ * Slackタスクをマージ
+ * @param mergeObj
+ * @param slackObj
+ * @returns {*}
+ */
+export function mergeSlackTaskList(mergeObj, slackTasks){
+
+   let mergeTaskList = mergeObj.tasks;
+   let slackIdList = List([]);
+   let reqSlackTaskList = List([]);
+
+   //Slackタスクを追加
+   slackTasks.items.forEach(task => {
+
+      if(task.type !== 'message') return;
+
+      const index = findIndexById(mergeTaskList, Number(task.date_create));
+
+      if(index === -1){
+         //DB未登録のSlackタスク
+         const addTask = createSlackTask(task);
+         mergeTaskList = mergeTaskList.push(addTask);
+         reqSlackTaskList = reqSlackTaskList.push(addTask);
+      }
+
+      slackIdList = slackIdList.push(Number(task.date_create));
+   });
+
+   //完了済のSlackタスクを調べる
+   mergeTaskList.map((task, taskIndex) => {
+
+      if (!task.get('slackFlg')) return;
+
+      //完了済みのタスクを更新する
+      const slackIndex = slackIdList.indexOf(task.get('_id'));
+      if (slackIndex === -1) {
+         const compTask = mergeTaskList.get(taskIndex).set('compDelFlg', true);
+         mergeTaskList = mergeTaskList.set(taskIndex, compTask);
+         reqSlackTaskList = reqSlackTaskList.push(compTask);
+      }
+   });
+
+   mergeObj.tasks = mergeTaskList;
+   mergeObj.reqTasks = reqSlackTaskList;
+
+   return mergeObj;
 }
 
 /**

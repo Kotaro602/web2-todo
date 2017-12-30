@@ -10,7 +10,7 @@ export default function configureStore() {
    const logger =  createLogger({
       collapsed: true,
       stateTransformer: state => state.toJS()
-   })
+   });
 
    const sagaMiddleware = createSagaMiddleware();
 

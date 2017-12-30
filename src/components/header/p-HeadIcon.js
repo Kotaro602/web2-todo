@@ -63,7 +63,7 @@ export default class HeadIcon extends Component {
 
    actRefresh(){
       const {reqTasks, state} = this.props;
-      reqTasks(state.get('tasks'));
+      reqTasks(state.get('tasks'), state.getIn(['account', '_id']));
    }
 
    render() {

@@ -14,11 +14,11 @@ export default class Task extends Component {
 
    componentDidMount() {
 
-      const {state, openTask, selectTask} = this.props;
+      const {openTask, selectTask} = this.props;
 
       //オープン中のタスクをクローズ
       const closeOpenTask = (evt) => {
-         const openTaskId = state.get('conf').get('openTaskId');
+         const openTaskId = this.props.state.get('conf').get('openTaskId');
          const openTaskDOM = document.getElementById(openTaskId);
 
          // 追加ボタンを押した時、タイトルを押した時に2回呼ばれるのも無効にする
@@ -33,7 +33,7 @@ export default class Task extends Component {
 
       //選択中のタスクをクローズ
       const closeSelectTask = (evt) => {
-         const selectTaskId = state.get('conf').get('selectTaskId');
+         const selectTaskId = this.props.state.get('conf').get('selectTaskId');
          const selectTaskDOM = document.getElementById(selectTaskId);
 
          // 追加ボタンを押した時、タイトルを押した時に2回呼ばれるのも無効にする
@@ -51,20 +51,29 @@ export default class Task extends Component {
       //イベントハンドラに追加
       document.addEventListener('click', closeSelectTask);
       document.addEventListener('click', closeOpenTask);
-
    }
 
    componentWillUpdate(nextProps){
 
       const {state, reqTasks} = this.props;
-      if(state.get('account') !== nextProps.state.get('account')){
-         reqTasks(undefined);
+      const nextState = nextProps.state;
+      const nextGroup = nextState.getIn(['conf', 'selectGroup']);
+
+      if(state.get('account') !== nextProps.state.get('account') ||
+         state.getIn(['conf', 'selectGroup']) !== nextGroup) {
+
+         const reqTask = !!nextGroup ? nextGroup : nextProps.state.getIn(['account', '_id']);
+         reqTasks(undefined, reqTask);
 
          //タスクリスト定期的に取得する
          setInterval(() => {
             //タスクがオープン中は再更新しない
-            if(state.get('conf').get('openTaskId') === undefined) {
-               reqTasks(state.get('tasks'));
+            if(this.props.state.get('conf').get('openTaskId') === undefined) {
+
+               const selectGroup =  this.props.state.getIn(['conf', 'selectGroup']);
+               const reqTask = !!selectGroup ? selectGroup : this.props.state.getIn(['account', '_id']);
+
+               reqTasks(this.props.state.get('tasks'), reqTask);
             }
          }, 120000);
       }

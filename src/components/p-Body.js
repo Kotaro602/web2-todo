@@ -10,9 +10,9 @@ export default class Body extends Component {
 
    componentDidMount() {
 
-      const {state, initAccount} = this.props;
+      const {state, reqInit} = this.props;
       if (!state.getIn[('account', '_id')] && isRegistered()){
-         initAccount(getLocalStrage());
+         reqInit(getLocalStrage());
       }
    }
 

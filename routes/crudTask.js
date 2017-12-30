@@ -1,25 +1,53 @@
 var mongoose = require( 'mongoose' );
-var MemberList = mongoose.model( 'MemberList' );
-var TodoList = mongoose.model( 'TodoList' );
+var MemberList = mongoose.model('MemberList');
+var ChannelList = mongoose.model('ChannelList');
+var TodoList = mongoose.model('TodoList');
 
 /**
  * ユーザごとのタスク一覧取得用のメソッド
  **/
 exports.readTaskList = function(req, res){
 
-   MemberList.find({},{},{sort:'_id'}, function(err, memberLists) {
-     if (err) console.log({'error': 'An error has occurred - ' + err});
+   const getMemberArray = () => {
+      return new Promise((resolve) => {
 
-     TodoList.find({compDelFlg: false},{},{sort:'sortValue'}, function(err, taskLists) {
-        if (err) console.log({'error': 'An error has occurred - ' + err});
+         const taskId = req.query.reqTask;
+         if(taskId.slice(0, 1) === 'c'){
+            ChannelList.find({_id: taskId},{},{}, function(err, channelList) {
+               resolve(channelList[0].members);
+            });
+         }else{
+            resolve([taskId]);
+         }
+      });
+   };
 
-        res.json({
-           'members': memberLists,
-           'tasks': taskLists
-        })
-     });
-   });
-}
+   getMemberArray().then(memberArray =>{
+
+      MemberList.find({_id: {$in: memberArray}},{},{sort:'_id'}, function(err, memberLists) {
+         if (err) console.log({'error': 'An error has occurred - ' + err});
+
+         var memberArray = [];
+         memberLists.forEach((val => memberArray.push(val._id)));
+
+         TodoList.find(
+            {$and: [{compDelFlg: false}, {'redmineUserId': {$in: memberArray}}]}
+            ,{},
+            {sort:'sortValue'},
+            function(err, taskLists){
+
+               if (err) console.log({'error': 'An error has occurred - ' + err});
+
+               res.json({
+                  'members': memberLists,
+                  'tasks': taskLists
+               })
+            });
+      });
+   })
+
+
+};
 
 /**
  * タスクの登録用のメソッド

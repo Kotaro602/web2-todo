@@ -46,6 +46,9 @@ export default function conf(state = new Conf(), action) {
       case a.ADD_ACCOUNT:
          return state.set('openMenuFlg', false);
 
+      case a.CHANGE_GROUP:
+         return state.set('selectGroup', action.groupId);
+
       default:
          return state;
    }

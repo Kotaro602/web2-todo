@@ -12,8 +12,9 @@ const ConfRecord = Record({
    openSortFlg: false,
    openFilterFlg: false,
    sortKey: 'date',
-   filterKey: 'non'
-})
+   filterKey: 'non',
+   selectGroup: undefined
+});
 
 export default class Conf extends ConfRecord {
 

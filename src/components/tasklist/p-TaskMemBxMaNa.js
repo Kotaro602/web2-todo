@@ -56,13 +56,13 @@ export default class TaskMainBox extends Component {
    //Enterキーを押した場合は、タスク名称を変更しクローズする。
    chgAndCloseTaskName(event){
 
-      if(event.which == 13) {
+      if(event.which === 13) {
 
          const {task, openTask, reqUpdateTask} = this.props;
          let taskNameVal = this.refs.taskName.value;
-         if(taskNameVal == '') taskNameVal = 'unnamed task';
+         if(taskNameVal === '') taskNameVal = 'unnamed task';
 
-         if(task.get('taskName') == taskNameVal) openTask(undefined);
+         if(task.get('taskName') === taskNameVal) openTask(undefined);
          else reqUpdateTask(task.set('taskName', taskNameVal), true);
       }
    }
@@ -73,7 +73,7 @@ export default class TaskMainBox extends Component {
       const preOpenId = state.get('conf').get('openTaskId');
 
       //既に開いているならばスキップする。
-      if(preOpenId == task.get('_id')) return;
+      if(preOpenId === task.get('_id')) return;
       openTask(task.get('_id'))
    }
 
@@ -84,7 +84,7 @@ export default class TaskMainBox extends Component {
 
       /** レンダリング前処理 **/
       const redmineFlg = task.get('redmineFlg');
-      const openFlg = task.get('_id') == state.get('conf').get('openTaskId');
+      const openFlg = task.get('_id') === state.get('conf').get('openTaskId');
 
       const taskSpanStyle = css(
          styles.nameInput, styles.pointer,

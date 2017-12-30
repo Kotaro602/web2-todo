@@ -3,7 +3,21 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 
 export default class SideProject extends Component {
 
+   //グループを変更する
+   changeGroup(e) {
+      const channelId = e.target.getAttribute('data-channel') ? e.target.getAttribute('data-channel') : undefined;
+      this.props.changeGroup(channelId);
+   }
+
+
    render(){
+
+      const {state} = this.props;
+
+      const userName = !!state.getIn(['account', 'userName']) ? state.getIn(['account', 'userName']) : '-';
+      const selectConf = state.getIn(['conf', 'selectGroup']);
+      const nonActiveStyle = css(styles.projectBox);
+      const activeStyle = css(styles.projectBox, styles.projectActive);
 
       /** レンダリング **/
       return(
@@ -11,21 +25,18 @@ export default class SideProject extends Component {
             <li className={css(styles.publicBox)}>
                <span className={css(styles.publicTitle)}>account</span>
             </li>
-            <li className={css(styles.projectBox)}>
-               <span className={css(styles.projectTitle)}>関原 光太郎sas</span>
+            <li className={!!selectConf ? nonActiveStyle : activeStyle} onClick={::this.changeGroup}>
+               <span className={css(styles.projectTitle)}>{userName}</span>
             </li>
             <li className={css(styles.publicBox)}>
-               <span className={css(styles.publicTitle)}>public</span>
+               <span className={css(styles.publicTitle)}>group</span>
             </li>
-            <li className={css(styles.projectBox, styles.projectActive)}>
-               <span className={css(styles.projectTitle)}>18Main</span>
-            </li>
-            <li className={css(styles.projectBox)}>
-               <span className={css(styles.projectTitle)}>18Enhance</span>
-            </li>
-            <li className={css(styles.projectBox)}>
-               <span className={css(styles.projectTitle)}>19Pre</span>
-            </li>
+            {state.get('channels').map((channel, key) => (
+               <li key={key} className={selectConf === channel._id ? activeStyle : nonActiveStyle}
+                   data-channel={channel._id} onClick={::this.changeGroup}>
+                  <span data-channel={channel._id} className={css(styles.projectTitle)}>{channel.channelName}</span>
+               </li>
+            ))}
          </ul>
       );
    }

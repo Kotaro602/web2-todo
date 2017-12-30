@@ -34,8 +34,10 @@ export default class TaskMemBxMaIc extends Component {
 
       /** レンダリング前処理 **/
       let chkBoxDOM;
-      if(task.get('redmineFlg')){
+      if(task.get('redmineFlg')) {
          chkBoxDOM = <span className={css(styles.redmineIcon)} onClick={::this.openRedmineModal}>R</span>;
+      }else if(task.get('slackFlg')){
+            chkBoxDOM = <span className={css(styles.slackIcon)}>S</span>;
       }else if(task.get('tempDelFlg')){
          chkBoxDOM = <span className={css(styles.taskCompBoxChecked)} onClick={::this.chgTempCompFlg}>&#x2713;</span>;
       }else{
@@ -65,6 +67,21 @@ const styles = StyleSheet.create({
       marginLeft: '4px',
       display: 'inline-block',
       backgroundColor: '#d80a1f',
+      borderRadius: '3px',
+      cursor: 'pointer',
+      verticalAlign: 'middle',
+      textAlign: 'center',
+      color: '#fafafa',
+      fontSize: '14px',
+      WebkitUserSelect: 'none'
+   },
+   slackIcon:{
+      width: '16px',
+      height: '16px',
+      marginRight: '2px',
+      marginLeft: '4px',
+      display: 'inline-block',
+      backgroundColor: '#6506d8',
       borderRadius: '3px',
       cursor: 'pointer',
       verticalAlign: 'middle',

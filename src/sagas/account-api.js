@@ -12,8 +12,8 @@ const ERR_MESSAGE = '通信に失敗しました。F5を押して処理をやり
 export function fetchRedmineUserId(redmineLoginId) {
 
    const redmineUrl = process.env.NODE_ENV === `production` ?
-      `${REDMINE_URL}/users.json?name=${redmineLoginId}&key=${redmineLoginId}`:
-      `/testdata/user_sekihara_kotaro.json`;
+      `${REDMINE_URL}/users.json?name=${redmineLoginId}&key=${localStorage.redmineKey}`:
+      `/testdata/user_${redmineLoginId}.json`;
 
    return fetch(redmineUrl).then(res => res.json())
    .then(json => json);
@@ -25,6 +25,6 @@ export function addAccount(account) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(account.toJS())
    }).then(res => {
-      if(res.status != 200) alert(ERR_MESSAGE);
+      if(res.status !== 200) alert(ERR_MESSAGE);
    }).catch(err => err);
 }

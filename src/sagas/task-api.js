@@ -7,11 +7,11 @@ const ERR_MESSAGE = '通信に失敗しました。F5を押して処理をやり
 /**
  * DBから一覧情報を取得
  */
-export function fetchTaskList() {
+export function fetchTaskList(reqTaskId) {
 
-   return fetch(`api/readTaskList`)
+   return fetch(`api/readTaskList?reqTask=` + reqTaskId.toString())
       .then(res => {
-         if(res.status != 200) alert(ERR_MESSAGE);
+         if(res.status !== 200) alert(ERR_MESSAGE);
          return res.json();
       })
       .then(json => json);
@@ -28,7 +28,7 @@ export function fetchRedmineTaskList(taskListEachMember) {
    //RedmineURLを取得
    return Promise.all(taskListEachMember.members.map(member => {
       const redmineUrl = process.env.NODE_ENV === `production` ?
-         `${REDMINE_URL}/issues.json?limit=100&key=${member.redmineKey}&assigned_to_id=${member._id}`:
+         `${REDMINE_URL}/issues.json?limit=100&key=${localStorage.redmineKey}&assigned_to_id=${member._id}`:
          `/testdata/issues_${member._id}.json`;
 
       return fetch(redmineUrl).then(res => res.json());
@@ -54,7 +54,7 @@ export function fetchRedmineTaskDetailList(taskList) {
       if(task.get('redmineFlg')){
 
          const redmineUrl = process.env.NODE_ENV === `production` ?
-            `${REDMINE_URL}/issues/${task.get('_id')}.json?include=attachments,journals&key=4a4606aff3f4db05dd5f391cbbaf026e7cf588c6`:
+            `${REDMINE_URL}/issues/${task.get('_id')}.json?include=attachments,journals&key=${localStorage.redmineKey}`:
             `/testdata/detail_${task.get('_id')}.json`;
          return fetch(redmineUrl).then(res => res.json());
       }
@@ -66,6 +66,20 @@ export function fetchRedmineTaskDetailList(taskList) {
          }
       )
 }
+
+/**
+ * Slackからスタータスクを取得
+ */
+export function fetchSlackTaskList() {
+
+   const slackUrl = `https://slack.com/api/stars.list?token=xoxp-3757383324-11192965717-290987002627-8f10c62b2cd1a409e9343234731ae0ea`;
+
+   return fetch(slackUrl)
+      .then(res => {
+         if(res.status !== 200) alert(ERR_MESSAGE);
+         return res.json();
+      }).then(json => json);
+};
 
 export function updateTask(task) {
    return fetch(`api/updateTask`,{

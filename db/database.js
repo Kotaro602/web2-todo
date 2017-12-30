@@ -17,6 +17,13 @@ var memberListSchema = new mongoose.Schema({
    userName: String
 });
 
+// チャンネルのスキーマ定義
+var channelListSchema = new mongoose.Schema({
+   _id: String,
+   channelName: String,
+   members:[]
+});
+
 // タスクのスキーマ定義
 var todoListSchema = new mongoose.Schema({
    _id: Number,
@@ -36,9 +43,11 @@ var todoListSchema = new mongoose.Schema({
    redmineFlg: {type: Boolean ,default: false},
    project: {id: Number, name: String},
    newFlg: {type: Boolean ,default: false},
-   redmineUpdDate: String
+   redmineUpdDate: String,
+   slackFlg: {type: Boolean ,default: false}
 });
 
 // modelへ登録
-mongoose.model( 'MemberList', memberListSchema );
-mongoose.model( 'TodoList', todoListSchema );
+mongoose.model('MemberList', memberListSchema);
+mongoose.model('ChannelList', channelListSchema);
+mongoose.model('TodoList', todoListSchema);
