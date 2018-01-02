@@ -27,7 +27,7 @@ function* hundleReqAccount() {
       const action = yield take(actCreater.REQ_ADD_ACCOUNT);
 
       //RedmineからUserIDを取得
-      const redmineUserInfo = yield call(accountApi.fetchRedmineUserId, action.account.get('redmineLoginId'));
+      const redmineUserInfo = yield call(accountApi.fetchRedmineUserId, action.account);
       let regAccount = action.account.set('_id', redmineUserInfo.users[0].id);
 
       //サーバにアカウント情報を登録

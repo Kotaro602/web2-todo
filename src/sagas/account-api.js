@@ -9,10 +9,13 @@ const ERR_MESSAGE = '通信に失敗しました。F5を押して処理をやり
  *
  * @param taskListEachMember
  */
-export function fetchRedmineUserId(redmineLoginId) {
+export function fetchRedmineUserId(account) {
+
+   const redmineLoginId = account.get('redmineLoginId');
+   const redmineKey = account.get('redmineKey');
 
    const redmineUrl = process.env.NODE_ENV === `production` ?
-      `${REDMINE_URL}/users.json?name=${redmineLoginId}&key=${localStorage.redmineKey}`:
+      `${REDMINE_URL}/users.json?name=${redmineLoginId}&key=${redmineKey}`:
       `/testdata/user_${redmineLoginId}.json`;
 
    return fetch(redmineUrl).then(res => res.json())

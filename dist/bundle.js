@@ -67961,7 +67961,7 @@
 	            case 3:
 	               action = _context2.sent;
 	               _context2.next = 6;
-	               return (0, _effects.call)(accountApi.fetchRedmineUserId, action.account.get('redmineLoginId'));
+	               return (0, _effects.call)(accountApi.fetchRedmineUserId, action.account);
 	
 	            case 6:
 	               redmineUserInfo = _context2.sent;
@@ -78292,9 +78292,12 @@
 	 *
 	 * @param taskListEachMember
 	 */
-	function fetchRedmineUserId(redmineLoginId) {
+	function fetchRedmineUserId(account) {
 	
-	   var redmineUrl = (undefined) === 'production' ? _const.REDMINE_URL + '/users.json?name=' + redmineLoginId + '&key=' + localStorage.redmineKey : '/testdata/user_' + redmineLoginId + '.json';
+	   var redmineLoginId = account.get('redmineLoginId');
+	   var redmineKey = account.get('redmineKey');
+	
+	   var redmineUrl = (undefined) === 'production' ? _const.REDMINE_URL + '/users.json?name=' + redmineLoginId + '&key=' + redmineKey : '/testdata/user_' + redmineLoginId + '.json';
 	
 	   return fetch(redmineUrl).then(function (res) {
 	      return res.json();
