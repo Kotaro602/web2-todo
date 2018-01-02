@@ -103,8 +103,8 @@ export default class TaskMemSo extends React.Component {
       const preTaskOpenId = nextProps.state.get('conf').get('openTaskId');
       const nextTaskOpenId = this.props.state.get('conf').get('openTaskId');
 
-      const taskOpenChgFlg = nextTaskOpenId == thisTaskId || preTaskOpenId == thisTaskId;
-      const taskSelectChgFlg = nextTaskSelectedId == thisTaskId || preTaskSelectedId == thisTaskId;
+      const taskOpenChgFlg = nextTaskOpenId === thisTaskId || preTaskOpenId === thisTaskId;
+      const taskSelectChgFlg = nextTaskSelectedId === thisTaskId || preTaskSelectedId === thisTaskId;
 
       return !taskSameFlg || taskSelectChgFlg || taskOpenChgFlg;
    }
@@ -113,16 +113,16 @@ export default class TaskMemSo extends React.Component {
 
       /** prop取得 **/
       const {state, task, isDraggingTaskId} = this.props;
-      const selectedFlg = task.get('_id') == state.get('conf').get('selectTaskId');
-      const openTaskFlg = state.get('conf').get('openTaskId') == task.get('_id');
+      const selectedFlg = task.get('_id') === state.get('conf').get('selectTaskId');
+      const openTaskFlg = state.get('conf').get('openTaskId') === task.get('_id');
 
       const taskBoxClass = css(
          styles.taskListBox,
          task.get('newFlg') && styles.newTask,
          selectedFlg && styles.selectedTask,
          openTaskFlg ? styles.taskOpen : styles.taskNoOpen,
-         isDraggingTaskId == task.get('_id') && styles.taskDraggingLi
-      )
+         isDraggingTaskId === task.get('_id') && styles.taskDraggingLi
+      );
 
       /** レンダリング **/
       return(

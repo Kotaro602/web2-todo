@@ -1,22 +1,39 @@
 import React, {Component} from 'react'
+import {setOfficeToken} from './../office-auth-api';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import Task from './tasklist/p-Task';
 import SideArea from './sideArea/p-Side';
 import Head from './header/p-Head';
 import PaModal from './modal/p-PaModal';
-import {isRegistered, getLocalStrage} from '../model/m-Account.js';
+import {isRegistered, getFromStrage} from '../model/m-Account.js';
+import {renewToken} from "../office-auth-api";
 
 export default class Body extends Component {
 
    componentDidMount() {
 
-      const {state, reqInit} = this.props;
-      if (!state.getIn[('account', '_id')] && isRegistered()){
-         reqInit(getLocalStrage());
+      const {state, reqInit, officeConnected} = this.props;
+
+      //画面起動時にアカウント情報を登録する
+      if (!state.getIn[('account', '_id')]){
+         reqInit(getFromStrage());
+      }
+
+      //1時間でトークンが切れるので、最新化する。
+      renewToken();
+      setInterval(() => renewToken(), 3500000);
+
+      window.onmessage = e => {
+         if(typeof (e.data) === "string"){
+            console.log('updateToken');
+            sessionStorage.setItem('officeToken', e.data);
+            officeConnected(e.data);
+         }
       }
    }
 
    render(){
+
       /** レンダリング **/
       return(
          <div className={css(styles.container)}>

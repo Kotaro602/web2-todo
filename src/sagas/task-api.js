@@ -72,11 +72,37 @@ export function fetchRedmineTaskDetailList(taskList) {
  */
 export function fetchSlackTaskList() {
 
-   const slackUrl = `https://slack.com/api/stars.list?token=xoxp-3757383324-11192965717-290987002627-8f10c62b2cd1a409e9343234731ae0ea`;
+   const slackUrl = `https://slack.com/api/stars.list?token=xoxp-120767183653-121370721255-290986916499-e62cfced84c2e55c7de137a51d12f5a2`;
 
    return fetch(slackUrl)
       .then(res => {
          if(res.status !== 200) alert(ERR_MESSAGE);
+         return res.json();
+      }).then(json => json);
+};
+
+/**
+ * Officeからタスクを取得
+ */
+export function fetchOfficeTaskList() {
+
+   const officeUrl = `https://outlook.office.com/api/v2.0/me/tasks`;
+   const officeToken = sessionStorage.officeToken;
+   const headers = new Headers();
+   const bearer = "Bearer " + officeToken;
+   headers.append("Authorization", bearer);
+   const options = {
+      method: "GET",
+      headers: headers
+   };
+
+   return fetch(officeUrl, options)
+      .then(res => {
+         console.log(res);
+         if(res.status !== 200) {
+            alert(ERR_MESSAGE);
+            return undefined;
+         }
          return res.json();
       }).then(json => json);
 };

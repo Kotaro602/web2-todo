@@ -38,6 +38,8 @@ export default class TaskMemBxMaIc extends Component {
          chkBoxDOM = <span className={css(styles.redmineIcon)} onClick={::this.openRedmineModal}>R</span>;
       }else if(task.get('slackFlg')){
             chkBoxDOM = <span className={css(styles.slackIcon)}>S</span>;
+      }else if(task.get('officeFlg')){
+         chkBoxDOM = <span className={css(styles.mailIcon)}>M</span>;
       }else if(task.get('tempDelFlg')){
          chkBoxDOM = <span className={css(styles.taskCompBoxChecked)} onClick={::this.chgTempCompFlg}>&#x2713;</span>;
       }else{
@@ -82,6 +84,21 @@ const styles = StyleSheet.create({
       marginLeft: '4px',
       display: 'inline-block',
       backgroundColor: '#6506d8',
+      borderRadius: '3px',
+      cursor: 'pointer',
+      verticalAlign: 'middle',
+      textAlign: 'center',
+      color: '#fafafa',
+      fontSize: '14px',
+      WebkitUserSelect: 'none'
+   },
+   mailIcon:{
+      width: '16px',
+      height: '16px',
+      marginRight: '2px',
+      marginLeft: '4px',
+      display: 'inline-block',
+      backgroundColor: '#074fd8eb',
       borderRadius: '3px',
       cursor: 'pointer',
       verticalAlign: 'middle',

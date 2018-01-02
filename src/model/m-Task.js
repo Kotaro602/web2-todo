@@ -30,7 +30,8 @@ const TaskRecord = Record({
    status: undefined,
    updateJournalsFlg: undefined,
    journals: undefined,
-   slackFlg: undefined
+   slackFlg: undefined,
+   officeFlg: undefined
 });
 
 export default class Task extends TaskRecord {
@@ -57,6 +58,7 @@ function copyTaskFromObj(task){
    nextTask = nextTask.set('redmineUserId', task.redmineUserId);
    nextTask = nextTask.set('redmineFlg', task.redmineFlg);
    nextTask = nextTask.set('slackFlg', task.slackFlg);
+   nextTask = nextTask.set('officeFlg', task.officeFlg);
    nextTask = nextTask.set('taskName', task.taskName);
    nextTask = nextTask.set('tempDelFlg', task.tempDelFlg);
    nextTask = nextTask.set('compDelFlg', task.compDelFlg);
@@ -192,12 +194,14 @@ function formatJournals(oriJournals){
    return journalList;
 }
 
-//Slackタスクを新規作成
+/**
+ * Slackタスクを新規作成
+ */
 function createSlackTask(task){
 
    let nextTask = new Task();
    nextTask = nextTask.set('_id', Number(task.date_create));
-   nextTask = nextTask.set('redmineUserId',localStorage._id);
+   nextTask = nextTask.set('redmineUserId',Number(localStorage._id));
    nextTask = nextTask.set('redmineFlg', false);
    nextTask = nextTask.set('slackFlg', true);
    nextTask = nextTask.set('taskName', task.message.text);
@@ -205,6 +209,27 @@ function createSlackTask(task){
    nextTask = nextTask.set('tempDelFlg', false);
    nextTask = nextTask.set('compDelFlg', false);
    nextTask = nextTask.set('dueDate', moment().add("days", 7).format("YYYY-MM-DD"));
+
+   return nextTask;
+}
+
+/**
+ * Officeタスクを新規作成
+ */
+function createOfficeTask(task, officeId){
+
+   const dueDate = task.DueDateTime !== null ?
+      task.DueDateTime.DateTime : moment().add("days", 7).format("YYYY-MM-DD");
+
+   let nextTask = new Task();
+   nextTask = nextTask.set('_id', officeId);
+   nextTask = nextTask.set('redmineUserId',Number(localStorage._id));
+   nextTask = nextTask.set('officeFlg', true);
+   nextTask = nextTask.set('taskName', task.Subject);
+   nextTask = nextTask.set('project', Map({id: 2, name: 'Mail'}));
+   nextTask = nextTask.set('tempDelFlg', false);
+   nextTask = nextTask.set('compDelFlg', false);
+   nextTask = nextTask.set('dueDate', dueDate);
 
    return nextTask;
 }
@@ -381,8 +406,8 @@ export function mergeDetailTask(preTask, issue){
 export function mergeSlackTaskList(mergeObj, slackTasks){
 
    let mergeTaskList = mergeObj.tasks;
+   let reqSlackTaskList = mergeObj.reqTasks;
    let slackIdList = List([]);
-   let reqSlackTaskList = List([]);
 
    //Slackタスクを追加
    slackTasks.items.forEach(task => {
@@ -417,6 +442,63 @@ export function mergeSlackTaskList(mergeObj, slackTasks){
 
    mergeObj.tasks = mergeTaskList;
    mergeObj.reqTasks = reqSlackTaskList;
+
+   return mergeObj;
+}
+
+/**
+ * Officeタスクをマージ
+ * @param mergeObj
+ * @param slackObj
+ * @returns {*}
+ */
+export function mergeOfficeTaskList(mergeObj, officetask){
+
+   if(!officetask) return mergeObj;
+
+   let mergeTaskList = mergeObj.tasks;
+   let reqOfficeTaskList = mergeObj.reqTasks;
+   let officeIdList = List([]);
+
+   //完了済タスクを除外する
+   officetask = officetask.value.filter(task => task.Status !== 'Completed');
+
+   console.log(officetask);
+
+   //Officeタスクを追加
+   officetask.forEach(task => {
+
+      const officeId = Number(moment(task.CreatedDateTime).format('YYYYMMDDHHmmssSSS'));
+      const index = findIndexById(mergeTaskList, officeId);
+
+      if(index === -1){
+         //DB未登録のSlackタスク
+         const addTask = createOfficeTask(task, officeId);
+         mergeTaskList = mergeTaskList.push(addTask);
+         reqOfficeTaskList = reqOfficeTaskList.push(addTask);
+      }
+
+      officeIdList = officeIdList.push(officeId);
+   });
+
+   //完了済のSlackタスクを調べる
+   mergeTaskList.map((task, taskIndex) => {
+
+      if (!task.get('officeFlg')) return;
+
+      console.log(task.get('_id'));
+
+      //完了済みのタスクを更新する
+      const officeIndex = officeIdList.indexOf(task.get('_id'));
+      if (officeIndex === -1) {
+         const compTask = mergeTaskList.get(taskIndex).set('compDelFlg', true);
+         mergeTaskList = mergeTaskList.set(taskIndex, compTask);
+         reqOfficeTaskList = reqOfficeTaskList.push(compTask);
+      }
+   });
+
+   mergeObj.tasks = mergeTaskList;
+   mergeObj.reqTasks = reqOfficeTaskList;
 
    return mergeObj;
 }
@@ -517,12 +599,12 @@ export function sumEachProject(taskList){
    taskList.map((task, i) => {
 
       //前のタスクと同じならば詰め替える。
-      if(i != 0 && taskList.getIn([i - 1, 'project', 'id']) != task.getIn(['project', 'id'])){
+      if(i !== 0 && taskList.getIn([i - 1, 'project', 'id']) !== task.getIn(['project', 'id'])){
          taskProjectList = taskProjectList.push(tmpTaskList);
          tmpTaskList = List([]);
       }
       tmpTaskList = tmpTaskList.push(task);
-   })
+   });
 
    return taskProjectList.push(tmpTaskList);
 }

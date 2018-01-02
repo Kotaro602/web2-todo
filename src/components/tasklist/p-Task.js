@@ -51,6 +51,17 @@ export default class Task extends Component {
       //イベントハンドラに追加
       document.addEventListener('click', closeSelectTask);
       document.addEventListener('click', closeOpenTask);
+
+      //タスクリスト定期的に取得する
+      setInterval(() => {
+         //タスクがオープン中は再更新しない
+         if(this.props.state.get('conf').get('openTaskId') === undefined) {
+
+            const selectGroup =  this.props.state.getIn(['conf', 'selectGroup']);
+            const reqTask = !!selectGroup ? selectGroup : this.props.state.getIn(['account', '_id']);
+            this.props.reqTasks(this.props.state.get('tasks'), reqTask);
+         }
+      }, 120000);
    }
 
    componentWillUpdate(nextProps){
@@ -60,22 +71,12 @@ export default class Task extends Component {
       const nextGroup = nextState.getIn(['conf', 'selectGroup']);
 
       if(state.get('account') !== nextProps.state.get('account') ||
+         state.getIn(['account', 'officeToken']) !== nextProps.state.getIn(['account', 'officeToken']) ||
          state.getIn(['conf', 'selectGroup']) !== nextGroup) {
 
          const reqTask = !!nextGroup ? nextGroup : nextProps.state.getIn(['account', '_id']);
          reqTasks(undefined, reqTask);
 
-         //タスクリスト定期的に取得する
-         setInterval(() => {
-            //タスクがオープン中は再更新しない
-            if(this.props.state.get('conf').get('openTaskId') === undefined) {
-
-               const selectGroup =  this.props.state.getIn(['conf', 'selectGroup']);
-               const reqTask = !!selectGroup ? selectGroup : this.props.state.getIn(['account', '_id']);
-
-               reqTasks(this.props.state.get('tasks'), reqTask);
-            }
-         }, 120000);
       }
    }
 

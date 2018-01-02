@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Test page</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+</head>
+<body>
+<button id="btnLog">Login !</button>
+<button id="btnNew">Renew Token</button>
+<button id="btnGet">Display Token</button>
+<div id="txtMsg"></div>
+<script>
+　　const aaa = 'https://login.microsoftonline.com/oauth2/v2.0/authorize'
+   const graphApiAhtuUrl = 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize';
+   const clientID = "0ec0e046-8ca5-49ee-8358-185aab128361";
+   const scope = 'https://graph.microsoft.com/user.read openid';
+   const urlAuth =  graphApiAhtuUrl +
+      '?response_type=token+id_token' +
+      '&client_id=' + clientID +
+      '&redirect_uri=' + encodeURIComponent(location.origin + '/test.html') +
+      '&scope=' + encodeURIComponent(scope) +
+      '&nonce=678910';
+   const updateAuthUrl = graphApiAhtuUrl +
+      '?response_type=token' +
+      '&response_mode=fragment' +
+      '&prompt=none' +
+      '&login_hint=sekihara_k@waku-2.com'+
+      '&client_id=' + clientID +
+      '&domain_hint=organizations' +
+      '&redirect_uri=' + encodeURIComponent(location.origin + '/test.html') +
+      '&scope=' + encodeURIComponent(scope)+
+      '&nonce=678910';
+
+(function () {
+if(location.hash) {
+var hasharr = location.hash.substr(1).split('&');
+hasharr.forEach(function(hashelem) {
+var elemarr = hashelem.split('=');
+if(elemarr[0] == 'access_token') {
+sessionStorage.setItem('token_value', elemarr[1]);
+}
+}, this);
+};
+
+document.getElementById('btnLog').onclick = function() {
+location.href = urlAuth;
+};
+
+document.getElementById('btnGet').onclick = function() {
+var token = sessionStorage.getItem('token_value');
+document.getElementById('txtMsg').innerHTML = 'Access Token: ' + token;
+};
+
+// renew access token using hidden iframe
+document.getElementById('btnNew').onclick = function() {
+
+   location.href = updateAuthUrl;
+
+
+// var ifr = document.createElement('iframe');
+// ifr.style.visibility = 'hidden';
+// ifr.style.position = 'absolute';
+// ifr.style.width = ifr.style.height = ifr.borderWidth = '0px';
+// var frame = document.getElementsByTagName('body')[0].appendChild(ifr);
+// frame.src = updateAuthUrl;
+};
+}());
+
+</script>
+</body>
+</html>

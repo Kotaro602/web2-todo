@@ -7,8 +7,10 @@ import { Map, List, fromJS, toJS } from 'immutable';
 import Dialog from 'rc-dialog';
 import 'rc-dialog/assets/index.css';
 import ModalSide from './p-ModalSide';
-import AccountInfo from './p-AccountInfo';
+import AccountInfo  from './p-AccountInfo';
 import Account from '../../model/m-Account';
+import WatchGroup from './p-WatchGroup';
+
 
 
 export default class PaModal extends Component {
@@ -18,14 +20,23 @@ export default class PaModal extends Component {
       openMenuModal(false);
    }
 
-   showResults(data){
+   setAccount(data){
       const {reqAddAccount} = this.props;
       reqAddAccount(new Account().merge(data));
+   }
+
+   setChannelAccount(data){
+
+      const watchGroupArray = [];
+      data.map((flg, key) => flg && watchGroupArray.push(key));
+      const nextAccount = this.props.state.get('account').set('watchGroup', watchGroupArray);
+      this.props.reqAddAccount(nextAccount);
    }
 
    render() {
 
       const {state} = this.props;
+      const menu = state.getIn(['conf', 'menuType']);
 
       /** レンダリング **/
       return (
@@ -38,7 +49,8 @@ export default class PaModal extends Component {
             mousePosition={{x: 10, y: 10}}
          >
             <ModalSide {...this.props}/>
-            <AccountInfo {...this.props} onSubmit={::this.showResults}/>
+            {menu === 'account' && <AccountInfo {...this.props} onSubmit={::this.setAccount}/>}
+            {menu === 'watchGroup' && <WatchGroup {...this.props} onSubmit={::this.setChannelAccount}/>}
          </Dialog>
       );
    }

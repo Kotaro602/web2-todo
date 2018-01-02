@@ -9,11 +9,13 @@ const ConfRecord = Record({
    openTaskId: undefined,
    openRedmineId: undefined,
    openMenuFlg: false,
+   menuType: 'account',
    openSortFlg: false,
    openFilterFlg: false,
    sortKey: 'date',
    filterKey: 'non',
-   selectGroup: undefined
+   selectGroup: undefined,
+   officeConnecedFlg: false
 });
 
 export default class Conf extends ConfRecord {

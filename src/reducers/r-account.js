@@ -12,6 +12,9 @@ export default function account(state = new Account(), action) {
       case a.ADD_ACCOUNT:
          return action.account;
 
+      case a.OFFICE_CONNECTED:
+         return state.set('officeToken', action.token);
+
       default:
          return state;
    }

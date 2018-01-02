@@ -26,6 +26,8 @@ export default class TaskMemberList extends React.Component {
       const sortTaskList = sortTask(filterTaskList, state.getIn(['conf', 'sortKey']));
       const taskProjectList = sumEachProject(sortTaskList);
 
+      console.log(taskProjectList.toJS());
+
       /** レンダリング **/
       return(
          <ul className={css(styles.taskListUl)} >

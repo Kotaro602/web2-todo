@@ -33,7 +33,7 @@ export default class TaskMemBo extends React.Component {
             {taskList.map((task, i) => (
                <TaskMemSo task={task} key={i} {...this.props}/>
             ))}
-            <div className={css(styles.addTaskArea)} ></div>
+            <div className={css(styles.addTaskArea)}></div>
          </div>
       );
    }

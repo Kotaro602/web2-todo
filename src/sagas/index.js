@@ -6,9 +6,11 @@ import * as actCreater from "../actions/a-index";
 import * as taskApi from "./task-api.js";
 import * as accountApi from "./account-api.js";
 import * as channelApi from "./channel-api.js";
-import {mergeTasks, mergeDetailTask, mergeDetailTaskList, mergeSlackTaskList} from '../model/m-Task';
+import * as officeApi from './../office-auth-api';
+import {mergeTasks, mergeOfficeTaskList, mergeDetailTaskList, mergeSlackTaskList} from '../model/m-Task';
 import {setLocalStrage} from '../model/m-Account';
 import {isExistAccountUser} from '../model/m-Member';
+
 
 /** 初期設定 */
 function* hundleReqInit(){
@@ -26,10 +28,10 @@ function* hundleReqAccount() {
 
       //RedmineからUserIDを取得
       const redmineUserInfo = yield call(accountApi.fetchRedmineUserId, action.account.get('redmineLoginId'));
-      const regAccount = action.account.set('_id', redmineUserInfo.users[0].id);
+      let regAccount = action.account.set('_id', redmineUserInfo.users[0].id);
 
       //サーバにアカウント情報を登録
-      accountApi.addAccount(regAccount); //非同期
+      accountApi.addAccount(regAccount);
 
       //ローカルストレージに登録
       setLocalStrage(regAccount);
@@ -55,10 +57,19 @@ function* hundleReqTasks() {
       const issueList = yield call(taskApi.fetchRedmineTaskDetailList, demandTaskDetailList);
       mergeObj.tasks = mergeDetailTaskList(mergeObj, action.preTaskList, issueList);
 
-      //Slack情報取得
       if(isExistAccountUser(mergeObj.members)){
-         const slackTasks = yield call(taskApi.fetchSlackTaskList);
-         mergeObj = mergeSlackTaskList(mergeObj, slackTasks);
+
+         //Slack情報取得
+         if(localStorage.slackToken){
+            const slackTasks = yield call(taskApi.fetchSlackTaskList);
+            mergeObj = mergeSlackTaskList(mergeObj, slackTasks);
+         }
+
+         //Officeタスク情報を取得
+         if(!!sessionStorage.officeToken){
+            const officeTasks = yield call(taskApi.fetchOfficeTaskList);
+            mergeOfficeTaskList(mergeObj, officeTasks);
+         }
       }
 
       //マージしたRedmineTaskをDBに更新（非同期）

@@ -28,6 +28,9 @@ export default function conf(state = new Conf(), action) {
       case a.OPEN_REDMINE_MODAL:
          return state.set('openRedmineId', action.taskId);
 
+      case a.CHG_MENU_TYPE:
+         return state.set('menuType', action.menuType);
+
       case a.OPEN_MENU_MODAL:
          return state.set('openMenuFlg', action.openMenuFlg);
 
@@ -48,6 +51,9 @@ export default function conf(state = new Conf(), action) {
 
       case a.CHANGE_GROUP:
          return state.set('selectGroup', action.groupId);
+
+      case a.OFFICE_CONNECTED:
+         return state.set('officeConnecedFlg', true);
 
       default:
          return state;

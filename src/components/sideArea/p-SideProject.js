@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import { StyleSheet, css } from 'aphrodite/no-important';
+import channels from "../../reducers/r-channels";
 
 export default class SideProject extends Component {
 
@@ -9,6 +10,7 @@ export default class SideProject extends Component {
       this.props.changeGroup(channelId);
    }
 
+   taskName = (id) => this.props.state.get('channels').find(channel => channel._id === id).channelName;
 
    render(){
 
@@ -31,10 +33,10 @@ export default class SideProject extends Component {
             <li className={css(styles.publicBox)}>
                <span className={css(styles.publicTitle)}>group</span>
             </li>
-            {state.get('channels').map((channel, key) => (
-               <li key={key} className={selectConf === channel._id ? activeStyle : nonActiveStyle}
-                   data-channel={channel._id} onClick={::this.changeGroup}>
-                  <span data-channel={channel._id} className={css(styles.projectTitle)}>{channel.channelName}</span>
+            {state.getIn(['account', 'watchGroup']).map(id => (
+               <li key={id} className={selectConf === id ? activeStyle : nonActiveStyle}
+                   data-channel={id} onClick={::this.changeGroup}>
+                  <span data-channel={id} className={css(styles.projectTitle)}>{::this.taskName(id)}</span>
                </li>
             ))}
          </ul>
@@ -72,7 +74,7 @@ const styles = StyleSheet.create({
       left: 30
    },
    projectActive:{
-      backgroundColor: '#505761',
+      backgroundColor: '#646971',
       color: 'white !important'
    }
 });

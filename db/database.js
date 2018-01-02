@@ -44,7 +44,8 @@ var todoListSchema = new mongoose.Schema({
    project: {id: Number, name: String},
    newFlg: {type: Boolean ,default: false},
    redmineUpdDate: String,
-   slackFlg: {type: Boolean ,default: false}
+   slackFlg: {type: Boolean ,default: false},
+   officeFlg: {type: Boolean ,default: false}
 });
 
 // modelへ登録

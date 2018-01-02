@@ -3,13 +3,16 @@
  */
 import {Immutable, Record, List, toJS, fromJS} from 'immutable';
 import moment from 'moment';
+import {getToken} from './../office-auth-api';
 
 const AccountRecord = Record({
    _id: undefined,
    redmineLoginId: undefined,
    userName: undefined,
    redmineKey: undefined,
-   slackToken: undefined
+   slackToken: undefined,
+   officeToken: undefined,
+   watchGroup: []
 });
 
 export default class Account extends AccountRecord {
@@ -26,9 +29,10 @@ export function setLocalStrage(account){
    localStorage.userName = account.get('userName');
    localStorage.redmineKey = account.get('redmineKey');
    localStorage.slackToken = account.get('slackToken');
+   localStorage.watchGroup = account.get('watchGroup');
 }
 
-export function getLocalStrage(){
+export function getFromStrage(){
 
    let account = new Account();
    account = account.set('_id', localStorage._id);
@@ -36,8 +40,14 @@ export function getLocalStrage(){
    account = account.set('userName', localStorage.userName);
    account = account.set('redmineKey', localStorage.redmineKey);
    account = account.set('slackToken', localStorage.slackToken);
+   account = account.set('officeToken', sessionStorage.officeToken);
+   account = account.set('watchGroup', localStorage.watchGroup.split(","));
 
    return account;
+}
+
+export function setWatchGroupToStorage(groupArray){
+   localStorage.watchGroup = groupArray;
 }
 
 export function isRegistered(){
