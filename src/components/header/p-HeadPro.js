@@ -12,7 +12,7 @@ export default class HeadPro extends Component {
       /** レンダリング **/
       return (
          <a className={css(styles.titleLink)}>
-            <span className={css(styles.projectTitle)}>18Main</span>
+            <span className={css(styles.projectTitle)}></span>
          </a>
       );
       }

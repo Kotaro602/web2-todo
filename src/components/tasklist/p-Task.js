@@ -70,11 +70,18 @@ export default class Task extends Component {
       const nextState = nextProps.state;
       const nextGroup = nextState.getIn(['conf', 'selectGroup']);
 
+      const nextAccountId = nextProps.state.getIn(['account', '_id']);
+      console.log(nextAccountId)
+      if(!nextAccountId) return;
+
       if(state.get('account') !== nextProps.state.get('account') ||
          state.getIn(['account', 'officeToken']) !== nextProps.state.getIn(['account', 'officeToken']) ||
          state.getIn(['conf', 'selectGroup']) !== nextGroup) {
 
+         console.log('nextGroup'+nextGroup);
+         console.log('nextAccountId'+nextAccountId);
          const reqTask = !!nextGroup ? nextGroup : nextProps.state.getIn(['account', '_id']);
+
          reqTasks(undefined, reqTask);
 
       }

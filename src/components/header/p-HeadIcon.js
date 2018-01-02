@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import Collapse from 'react-collapse';
+import {Map} from 'immutable';
+import {createNewTask} from "../../model/m-Task";
 
 export default class HeadIcon extends Component {
 
@@ -53,17 +55,25 @@ export default class HeadIcon extends Component {
    filterIn5Day(){this.props.filterTask('5day')};
 
    actAddTask() {
-      alert('未作成');
+      const {state, reqAddTask} = this.props;
+      const userId = state.getIn(['account', '_id']);
+      const project = Map({
+         id : 0,
+         name: 'その他'
+      });
+      reqAddTask(createNewTask(userId, project));
    };
 
    actCleanTask() {
-      const {reqCleanTask} = this.props;
-      reqCleanTask(549); //TODO ユーザーIDを追加する
+      const {state, reqCleanTask} = this.props;
+      reqCleanTask(state.getIn(['account', '_id']));
    }
 
    actRefresh(){
       const {reqTasks, state} = this.props;
-      reqTasks(state.get('tasks'), state.getIn(['account', '_id']));
+      const userId = state.getIn(['account', '_id']);
+      const selectGroup = state.getIn(['conf', 'selectGroup']);
+      reqTasks(state.get('tasks'), !!selectGroup ? selectGroup : userId);
    }
 
    render() {

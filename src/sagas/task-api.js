@@ -72,7 +72,7 @@ export function fetchRedmineTaskDetailList(taskList) {
  */
 export function fetchSlackTaskList() {
 
-   const slackUrl = `https://slack.com/api/stars.list?token=xoxp-120767183653-121370721255-290986916499-e62cfced84c2e55c7de137a51d12f5a2`;
+   const slackUrl = `https://slack.com/api/stars.list?token=${localStorage.slackToken}`;
 
    return fetch(slackUrl)
       .then(res => {

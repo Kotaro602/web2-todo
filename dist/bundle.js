@@ -29916,7 +29916,9 @@
 	   account = account.set('redmineKey', localStorage.redmineKey);
 	   account = account.set('slackToken', localStorage.slackToken);
 	   account = account.set('officeToken', sessionStorage.officeToken);
-	   account = account.set('watchGroup', localStorage.watchGroup.split(","));
+	   if (!!localStorage.watchGroup) {
+	      account = account.set('watchGroup', localStorage.watchGroup.split(","));
+	   }
 	
 	   return account;
 	}
@@ -47115,7 +47117,7 @@
 	   newTask = newTask.set('_id', getId(userId));
 	   newTask = newTask.set('redmineUserId', parseFloat(userId));
 	   newTask = newTask.set('redmineFlg', false);
-	   newTask = newTask.set('taskName', '');
+	   newTask = newTask.set('taskName', 'タスク名を入力してください');
 	   newTask = newTask.set('tempDelFlg', false);
 	   newTask = newTask.set('compDelFlg', false);
 	   newTask = newTask.set('dueDate', (0, _moment2.default)().add("days", 7).format("YYYY-MM-DD"));
@@ -47263,6 +47265,9 @@
 	 * @returns {*}
 	 */
 	function mergeSlackTaskList(mergeObj, slackTasks) {
+	
+	   if (!slackTasks.ok) alert('Slackデータの取得に失敗しました。TOKENを登録し直してください。');
+	   if (!slackTasks.items) return mergeObj;
 	
 	   var mergeTaskList = mergeObj.tasks;
 	   var reqSlackTaskList = mergeObj.reqTasks;
@@ -67996,7 +68001,7 @@
 	         switch (_context3.prev = _context3.next) {
 	            case 0:
 	               if (false) {
-	                  _context3.next = 32;
+	                  _context3.next = 33;
 	                  break;
 	               }
 	
@@ -68028,51 +68033,53 @@
 	
 	               mergeObj.tasks = (0, _mTask.mergeDetailTaskList)(mergeObj, action.preTaskList, issueList);
 	
+	               console.log(mergeObj);
+	
 	               if (!(0, _mMember.isExistAccountUser)(mergeObj.members)) {
-	                  _context3.next = 27;
+	                  _context3.next = 28;
 	                  break;
 	               }
 	
 	               if (!localStorage.slackToken) {
-	                  _context3.next = 22;
+	                  _context3.next = 23;
 	                  break;
 	               }
 	
-	               _context3.next = 20;
+	               _context3.next = 21;
 	               return (0, _effects.call)(taskApi.fetchSlackTaskList);
 	
-	            case 20:
+	            case 21:
 	               slackTasks = _context3.sent;
 	
 	               mergeObj = (0, _mTask.mergeSlackTaskList)(mergeObj, slackTasks);
 	
-	            case 22:
+	            case 23:
 	               if (!sessionStorage.officeToken) {
-	                  _context3.next = 27;
+	                  _context3.next = 28;
 	                  break;
 	               }
 	
-	               _context3.next = 25;
+	               _context3.next = 26;
 	               return (0, _effects.call)(taskApi.fetchOfficeTaskList);
 	
-	            case 25:
+	            case 26:
 	               officeTasks = _context3.sent;
 	
-	               (0, _mTask.mergeOfficeTaskList)(mergeObj, officeTasks);
+	               mergeObj = (0, _mTask.mergeOfficeTaskList)(mergeObj, officeTasks);
 	
-	            case 27:
+	            case 28:
 	
 	               //マージしたRedmineTaskをDBに更新（非同期）
 	               taskApi.updateTaskList(mergeObj.reqTasks);
 	
-	               _context3.next = 30;
+	               _context3.next = 31;
 	               return (0, _effects.put)(actCreater.recieveTasks(mergeObj));
 	
-	            case 30:
+	            case 31:
 	               _context3.next = 0;
 	               break;
 	
-	            case 32:
+	            case 33:
 	            case "end":
 	               return _context3.stop();
 	         }
@@ -78178,7 +78185,7 @@
 	 */
 	function fetchSlackTaskList() {
 	
-	   var slackUrl = 'https://slack.com/api/stars.list?token=xoxp-120767183653-121370721255-290986916499-e62cfced84c2e55c7de137a51d12f5a2';
+	   var slackUrl = 'https://slack.com/api/stars.list?token=' + localStorage.slackToken;
 	
 	   return fetch(slackUrl).then(function (res) {
 	      if (res.status !== 200) alert(ERR_MESSAGE);
@@ -89428,9 +89435,16 @@
 	         var nextState = nextProps.state;
 	         var nextGroup = nextState.getIn(['conf', 'selectGroup']);
 	
+	         var nextAccountId = nextProps.state.getIn(['account', '_id']);
+	         console.log(nextAccountId);
+	         if (!nextAccountId) return;
+	
 	         if (state.get('account') !== nextProps.state.get('account') || state.getIn(['account', 'officeToken']) !== nextProps.state.getIn(['account', 'officeToken']) || state.getIn(['conf', 'selectGroup']) !== nextGroup) {
 	
+	            console.log('nextGroup' + nextGroup);
+	            console.log('nextAccountId' + nextAccountId);
 	            var reqTask = !!nextGroup ? nextGroup : nextProps.state.getIn(['account', '_id']);
+	
 	            reqTasks(undefined, reqTask);
 	         }
 	      }
@@ -104800,6 +104814,8 @@
 	         var nonActiveStyle = (0, _noImportant.css)(styles.projectBox);
 	         var activeStyle = (0, _noImportant.css)(styles.projectBox, styles.projectActive);
 	
+	         var watchGroupList = state.getIn(['account', 'watchGroup']);
+	
 	         /** レンダリング **/
 	         return _react2.default.createElement(
 	            'ul',
@@ -104831,7 +104847,7 @@
 	                  'group'
 	               )
 	            ),
-	            state.getIn(['account', 'watchGroup']).map(function (id) {
+	            watchGroupList && watchGroupList.map(function (id) {
 	               return _react2.default.createElement(
 	                  'li',
 	                  { key: id, className: selectConf === id ? activeStyle : nonActiveStyle,
@@ -105083,7 +105099,6 @@
 	            _react2.default.createElement(
 	               'div',
 	               { className: (0, _noImportant.css)(styles.titleAndSelectBox) },
-	               _react2.default.createElement(_pHeadPro2.default, this.props),
 	               _react2.default.createElement(_pHeadDisp2.default, this.props)
 	            ),
 	            _react2.default.createElement(_pHeadIcon2.default, this.props)
@@ -105169,11 +105184,7 @@
 	         return _react2.default.createElement(
 	            'a',
 	            { className: (0, _noImportant.css)(styles.titleLink) },
-	            _react2.default.createElement(
-	               'span',
-	               { className: (0, _noImportant.css)(styles.projectTitle) },
-	               '18Main'
-	            )
+	            _react2.default.createElement('span', { className: (0, _noImportant.css)(styles.projectTitle) })
 	         );
 	      }
 	   }]);
@@ -105361,6 +105372,10 @@
 	
 	var _reactCollapse2 = _interopRequireDefault(_reactCollapse);
 	
+	var _immutable = __webpack_require__(/*! immutable */ 217);
+	
+	var _mTask = __webpack_require__(/*! ../../model/m-Task */ 347);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -105473,23 +105488,36 @@
 	   }, {
 	      key: 'actAddTask',
 	      value: function actAddTask() {
-	         alert('未作成');
+	         var _props5 = this.props,
+	             state = _props5.state,
+	             reqAddTask = _props5.reqAddTask;
+	
+	         var userId = state.getIn(['account', '_id']);
+	         var project = (0, _immutable.Map)({
+	            id: 0,
+	            name: 'その他'
+	         });
+	         reqAddTask((0, _mTask.createNewTask)(userId, project));
 	      }
 	   }, {
 	      key: 'actCleanTask',
 	      value: function actCleanTask() {
-	         var reqCleanTask = this.props.reqCleanTask;
+	         var _props6 = this.props,
+	             state = _props6.state,
+	             reqCleanTask = _props6.reqCleanTask;
 	
-	         reqCleanTask(549); //TODO ユーザーIDを追加する
+	         reqCleanTask(state.getIn(['account', '_id']));
 	      }
 	   }, {
 	      key: 'actRefresh',
 	      value: function actRefresh() {
-	         var _props5 = this.props,
-	             reqTasks = _props5.reqTasks,
-	             state = _props5.state;
+	         var _props7 = this.props,
+	             reqTasks = _props7.reqTasks,
+	             state = _props7.state;
 	
-	         reqTasks(state.get('tasks'), state.getIn(['account', '_id']));
+	         var userId = state.getIn(['account', '_id']);
+	         var selectGroup = state.getIn(['conf', 'selectGroup']);
+	         reqTasks(state.get('tasks'), !!selectGroup ? selectGroup : userId);
 	      }
 	   }, {
 	      key: 'render',

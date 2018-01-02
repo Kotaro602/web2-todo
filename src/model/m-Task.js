@@ -253,7 +253,7 @@ export function createNewTask(userId, project){
    newTask = newTask.set('_id', getId(userId));
    newTask = newTask.set('redmineUserId', parseFloat(userId));
    newTask = newTask.set('redmineFlg', false);
-   newTask = newTask.set('taskName', '');
+   newTask = newTask.set('taskName', 'タスク名を入力してください');
    newTask = newTask.set('tempDelFlg', false);
    newTask = newTask.set('compDelFlg', false);
    newTask = newTask.set('dueDate', moment().add("days", 7).format("YYYY-MM-DD"));
@@ -404,6 +404,9 @@ export function mergeDetailTask(preTask, issue){
  * @returns {*}
  */
 export function mergeSlackTaskList(mergeObj, slackTasks){
+
+   if(!slackTasks.ok) alert('Slackデータの取得に失敗しました。TOKENを登録し直してください。');
+   if(!slackTasks.items) return mergeObj;
 
    let mergeTaskList = mergeObj.tasks;
    let reqSlackTaskList = mergeObj.reqTasks;

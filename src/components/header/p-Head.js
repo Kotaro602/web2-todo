@@ -19,7 +19,7 @@ export default class Head extends Component {
       return (
          <div className={css(styles.projectTitleBox)}>
             <div className={css(styles.titleAndSelectBox)}>
-               <HeadPro {...this.props}/>
+               {/*<HeadPro {...this.props}/>*/}
                <HeadDisp {...this.props}/>
             </div>
             <HeadIcon {...this.props}/>

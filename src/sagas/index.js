@@ -57,6 +57,8 @@ function* hundleReqTasks() {
       const issueList = yield call(taskApi.fetchRedmineTaskDetailList, demandTaskDetailList);
       mergeObj.tasks = mergeDetailTaskList(mergeObj, action.preTaskList, issueList);
 
+      console.log(mergeObj);
+
       if(isExistAccountUser(mergeObj.members)){
 
          //Slack情報取得
@@ -68,7 +70,7 @@ function* hundleReqTasks() {
          //Officeタスク情報を取得
          if(!!sessionStorage.officeToken){
             const officeTasks = yield call(taskApi.fetchOfficeTaskList);
-            mergeOfficeTaskList(mergeObj, officeTasks);
+            mergeObj = mergeOfficeTaskList(mergeObj, officeTasks);
          }
       }
 

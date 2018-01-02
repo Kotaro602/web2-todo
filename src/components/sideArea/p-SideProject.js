@@ -21,6 +21,8 @@ export default class SideProject extends Component {
       const nonActiveStyle = css(styles.projectBox);
       const activeStyle = css(styles.projectBox, styles.projectActive);
 
+      const watchGroupList = state.getIn(['account', 'watchGroup']);
+
       /** レンダリング **/
       return(
          <ul className={css(styles.sideUl)}>
@@ -33,7 +35,7 @@ export default class SideProject extends Component {
             <li className={css(styles.publicBox)}>
                <span className={css(styles.publicTitle)}>group</span>
             </li>
-            {state.getIn(['account', 'watchGroup']).map(id => (
+            {watchGroupList && watchGroupList.map(id => (
                <li key={id} className={selectConf === id ? activeStyle : nonActiveStyle}
                    data-channel={id} onClick={::this.changeGroup}>
                   <span data-channel={id} className={css(styles.projectTitle)}>{::this.taskName(id)}</span>

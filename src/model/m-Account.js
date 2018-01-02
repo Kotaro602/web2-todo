@@ -41,7 +41,9 @@ export function getFromStrage(){
    account = account.set('redmineKey', localStorage.redmineKey);
    account = account.set('slackToken', localStorage.slackToken);
    account = account.set('officeToken', sessionStorage.officeToken);
-   account = account.set('watchGroup', localStorage.watchGroup.split(","));
+   if(!!localStorage.watchGroup){
+      account = account.set('watchGroup', localStorage.watchGroup.split(","));
+   }
 
    return account;
 }
