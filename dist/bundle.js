@@ -47329,8 +47329,6 @@
 	      return task.Status !== 'Completed';
 	   });
 	
-	   console.log(officetask);
-	
 	   //Officeタスクを追加
 	   officetask.forEach(function (task) {
 	
@@ -47351,8 +47349,6 @@
 	   mergeTaskList.map(function (task, taskIndex) {
 	
 	      if (!task.get('officeFlg')) return;
-	
-	      console.log(task.get('_id'));
 	
 	      //完了済みのタスクを更新する
 	      var officeIndex = officeIdList.indexOf(task.get('_id'));
@@ -68001,7 +67997,7 @@
 	         switch (_context3.prev = _context3.next) {
 	            case 0:
 	               if (false) {
-	                  _context3.next = 33;
+	                  _context3.next = 32;
 	                  break;
 	               }
 	
@@ -68033,53 +68029,51 @@
 	
 	               mergeObj.tasks = (0, _mTask.mergeDetailTaskList)(mergeObj, action.preTaskList, issueList);
 	
-	               console.log(mergeObj);
-	
 	               if (!(0, _mMember.isExistAccountUser)(mergeObj.members)) {
-	                  _context3.next = 28;
+	                  _context3.next = 27;
 	                  break;
 	               }
 	
 	               if (!localStorage.slackToken) {
-	                  _context3.next = 23;
+	                  _context3.next = 22;
 	                  break;
 	               }
 	
-	               _context3.next = 21;
+	               _context3.next = 20;
 	               return (0, _effects.call)(taskApi.fetchSlackTaskList);
 	
-	            case 21:
+	            case 20:
 	               slackTasks = _context3.sent;
 	
 	               mergeObj = (0, _mTask.mergeSlackTaskList)(mergeObj, slackTasks);
 	
-	            case 23:
+	            case 22:
 	               if (!sessionStorage.officeToken) {
-	                  _context3.next = 28;
+	                  _context3.next = 27;
 	                  break;
 	               }
 	
-	               _context3.next = 26;
+	               _context3.next = 25;
 	               return (0, _effects.call)(taskApi.fetchOfficeTaskList);
 	
-	            case 26:
+	            case 25:
 	               officeTasks = _context3.sent;
 	
 	               mergeObj = (0, _mTask.mergeOfficeTaskList)(mergeObj, officeTasks);
 	
-	            case 28:
+	            case 27:
 	
 	               //マージしたRedmineTaskをDBに更新（非同期）
 	               taskApi.updateTaskList(mergeObj.reqTasks);
 	
-	               _context3.next = 31;
+	               _context3.next = 30;
 	               return (0, _effects.put)(actCreater.recieveTasks(mergeObj));
 	
-	            case 31:
+	            case 30:
 	               _context3.next = 0;
 	               break;
 	
-	            case 33:
+	            case 32:
 	            case "end":
 	               return _context3.stop();
 	         }
@@ -89436,13 +89430,10 @@
 	         var nextGroup = nextState.getIn(['conf', 'selectGroup']);
 	
 	         var nextAccountId = nextProps.state.getIn(['account', '_id']);
-	         console.log(nextAccountId);
 	         if (!nextAccountId) return;
 	
 	         if (state.get('account') !== nextProps.state.get('account') || state.getIn(['account', 'officeToken']) !== nextProps.state.getIn(['account', 'officeToken']) || state.getIn(['conf', 'selectGroup']) !== nextGroup) {
 	
-	            console.log('nextGroup' + nextGroup);
-	            console.log('nextAccountId' + nextAccountId);
 	            var reqTask = !!nextGroup ? nextGroup : nextProps.state.getIn(['account', '_id']);
 	
 	            reqTasks(undefined, reqTask);
@@ -90972,8 +90963,6 @@
 	         var filterTaskList = (0, _mTask.filterTask)(state.get('tasks'), member.get('_id'), state.getIn(['conf', 'filterKey']));
 	         var sortTaskList = (0, _mTask.sortTask)(filterTaskList, state.getIn(['conf', 'sortKey']));
 	         var taskProjectList = (0, _mTask.sumEachProject)(sortTaskList);
-	
-	         console.log(taskProjectList.toJS());
 	
 	         /** レンダリング **/
 	         return _react2.default.createElement(
@@ -104298,8 +104287,6 @@
 	      key: 'render',
 	      value: function render() {
 	
-	         console.log('eee');
-	
 	         /** prop取得 **/
 	         var task = this.props.task;
 	
@@ -109039,9 +109026,6 @@
 	               'form',
 	               { onSubmit: handleSubmit },
 	               _react2.default.createElement(_immutable2.Field, { name: 'userName', type: 'text', component: renderField, title: '\u540D\u524D' }),
-	               _react2.default.createElement(_immutable2.Field, { name: 'redmineLoginId', type: 'text', component: renderField, title: 'Redmine\u30ED\u30B0\u30A4\u30F3ID' }),
-	               _react2.default.createElement(_immutable2.Field, { name: 'redmineKey', type: 'text', component: renderField, title: 'RedmineKey' }),
-	               _react2.default.createElement(_immutable2.Field, { name: 'slackToken', type: 'text', component: renderField, title: 'SlackToken' }),
 	               _react2.default.createElement(
 	                  'div',
 	                  { className: (0, _noImportant.css)(styles.inputBox) },
@@ -109062,6 +109046,9 @@
 	                     '\u203B\u73FE\u5728\u306F\u30D6\u30E9\u30A6\u30B6\u843D\u3068\u3059\u3068\u9023\u643A\u304C\u5207\u308C\u307E\u3059\u3002\u518D\u63A5\u7D9A\u3057\u3066\u304F\u3060\u3055\u3044\u3002'
 	                  )
 	               ),
+	               _react2.default.createElement(_immutable2.Field, { name: 'redmineLoginId', type: 'text', component: renderField, title: 'Redmine\u30ED\u30B0\u30A4\u30F3ID' }),
+	               _react2.default.createElement(_immutable2.Field, { name: 'redmineKey', type: 'text', component: renderField, title: 'RedmineKey' }),
+	               _react2.default.createElement(_immutable2.Field, { name: 'slackToken', type: 'text', component: renderField, title: 'SlackToken' }),
 	               _react2.default.createElement(
 	                  'button',
 	                  { type: 'submit', disabled: submitting },
@@ -109122,11 +109109,12 @@
 	      padding: '30px 0px 0px 30px'
 	   },
 	   inputBox: {
-	      marginBottom: 20
+	      marginBottom: 25
 	   },
 	   label: {
 	      display: 'block',
-	      marginBottom: 8
+	      marginBottom: 2,
+	      fontWeight: 550
 	   },
 	   inputText: {
 	      display: 'block',

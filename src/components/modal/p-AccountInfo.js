@@ -33,15 +33,16 @@ class AccountInfo extends Component {
          <div className={css(styles.accountInfoBox)}>
             <form onSubmit={handleSubmit}>
                 <Field name="userName" type="text" component={renderField} title="名前"/>
+                <div className={css(styles.inputBox)}>
+                   <label className={css(styles.label)}>Office365 OAuth連携</label>
+                   <button type="button" className={css(styles.button, buttonColorStyle)}
+                           onClick={callGraphApi}>{linkComment}</button>
+                   <p className={css(styles.commentOffice)}>※現在はブラウザ落とすと連携が切れます。再接続してください。</p>
+                </div>
                 <Field name="redmineLoginId" type="text" component={renderField} title="RedmineログインID"/>
                 <Field name="redmineKey" type="text" component={renderField} title="RedmineKey"/>
                 <Field name="slackToken" type="text" component={renderField} title="SlackToken"/>
-               <div className={css(styles.inputBox)}>
-                  <label className={css(styles.label)}>Office365 OAuth連携</label>
-                  <button type="button" className={css(styles.button, buttonColorStyle)}
-                          onClick={callGraphApi}>{linkComment}</button>
-                  <p className={css(styles.commentOffice)}>※現在はブラウザ落とすと連携が切れます。再接続してください。</p>
-               </div>
+
                 <button type="submit" disabled={submitting}>登録/編集（押したらちょっと待ってね）</button>
                 <button type="button" disabled={pristine || submitting} onClick={reset}>キャンセル</button>
             </form>
@@ -80,11 +81,12 @@ const styles = StyleSheet.create({
       padding: '30px 0px 0px 30px'
    },
    inputBox: {
-      marginBottom: 20
+      marginBottom: 25
    },
    label:{
       display: 'block',
-      marginBottom: 8
+      marginBottom: 2,
+      fontWeight: 550
    },
    inputText:{
       display: 'block',

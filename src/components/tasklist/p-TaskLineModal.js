@@ -26,8 +26,6 @@ class TaskLineModal extends Component {
       /** prop取得 **/
       const {handleSubmit} = this.props;
 
-      console.log(this.props.state.get('form'));
-
       /** レンダリング **/
       return (
          <div className={css(styles.popupBox)}>

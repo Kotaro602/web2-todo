@@ -466,8 +466,6 @@ export function mergeOfficeTaskList(mergeObj, officetask){
    //完了済タスクを除外する
    officetask = officetask.value.filter(task => task.Status !== 'Completed');
 
-   console.log(officetask);
-
    //Officeタスクを追加
    officetask.forEach(task => {
 
@@ -488,8 +486,6 @@ export function mergeOfficeTaskList(mergeObj, officetask){
    mergeTaskList.map((task, taskIndex) => {
 
       if (!task.get('officeFlg')) return;
-
-      console.log(task.get('_id'));
 
       //完了済みのタスクを更新する
       const officeIndex = officeIdList.indexOf(task.get('_id'));

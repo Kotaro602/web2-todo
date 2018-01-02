@@ -19,8 +19,6 @@ export default class RedmineHeader extends Component {
 
    render() {
 
-      console.log('eee')
-
       /** prop取得 **/
       const {task} = this.props;
 
