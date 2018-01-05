@@ -104052,7 +104052,7 @@
 	
 	            if (openRedmineDOM == null) return;
 	            if (openRedmineDOM.contains(evt.target)) return;
-	            if (event.target.className.match('redmineIcon')) return;
+	            if (evt.target.className.match('redmineIcon')) return;
 	
 	            openRedmineModal(undefined);
 	         };
