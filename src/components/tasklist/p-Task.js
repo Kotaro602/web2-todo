@@ -48,6 +48,19 @@ export default class Task extends Component {
          selectTask(undefined);
       };
 
+       //オープン中のレッドマインモーダルをクローズ
+       const closeRedmineModal = (evt) => {
+           const openRedmineDOM = document.getElementById('redmineModal');
+
+           if(openRedmineDOM == null) return;
+           if(openRedmineDOM.contains(evt.target)) return;
+           if(evt.target.innerText.match('R')) return;
+
+           console.log('背景')
+           this.props.openRedmineModal(undefined);
+       };
+       document.addEventListener('click', closeRedmineModal);
+
       //イベントハンドラに追加
       document.addEventListener('click', closeSelectTask);
       document.addEventListener('click', closeOpenTask);
