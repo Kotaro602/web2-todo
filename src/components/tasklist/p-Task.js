@@ -55,11 +55,12 @@ export default class Task extends Component {
       //タスクリスト定期的に取得する
       setInterval(() => {
          //タスクがオープン中は再更新しない
-         if(this.props.state.get('conf').get('openTaskId') === undefined) {
+         if(!!this.props.state.getIn(['account', '_id']) &&
+               this.props.state.get('conf').get('openTaskId') === undefined) {
 
             const selectGroup =  this.props.state.getIn(['conf', 'selectGroup']);
             const reqTask = !!selectGroup ? selectGroup : this.props.state.getIn(['account', '_id']);
-            this.props.reqTasks(this.props.state.get('tasks'), reqTask);
+            this.props.reqTasks(this.props.state.get('tasks'), reqTask, false);
          }
       }, 120000);
    }
@@ -69,8 +70,8 @@ export default class Task extends Component {
       const {state, reqTasks} = this.props;
       const nextState = nextProps.state;
       const nextGroup = nextState.getIn(['conf', 'selectGroup']);
-
       const nextAccountId = nextProps.state.getIn(['account', '_id']);
+
       if(!nextAccountId) return;
 
       if(state.get('account') !== nextProps.state.get('account') ||
@@ -79,7 +80,7 @@ export default class Task extends Component {
 
          const reqTask = !!nextGroup ? nextGroup : nextProps.state.getIn(['account', '_id']);
 
-         reqTasks(undefined, reqTask);
+         reqTasks(undefined, reqTask, true);
 
       }
    }
@@ -89,13 +90,10 @@ export default class Task extends Component {
       /** prop取得 **/
       const {state} = this.props;
 
-      const registeredFlg = !!state.getIn(['account', '_id']);
-
       /** レンダリング **/
       return (
          <div className={css(styles.taskAreaBox)}>
             <div className={css(styles.taskMainArea)}>
-            {!registeredFlg && <div>左上から登録してください</div>}
             {state.get('members').map((member, key) => (
                <div key={key} className={css(styles.userTaskArea)}>
                   <TaskUser {...this.props} member={member}/>
@@ -103,7 +101,7 @@ export default class Task extends Component {
                </div>
             ))}
             </div>
-            <TogglePattern isOpenFlg={state.get('conf').get('openRedmineId') != undefined}>
+            <TogglePattern isOpenFlg={state.get('conf').get('openRedmineId') !== undefined}>
                <RedmineArea isOpenFlg={true} {...this.props}/>
             </TogglePattern>
          </div>
@@ -116,7 +114,7 @@ const styles = StyleSheet.create({
       height: '95%'
    },
    taskMainArea: {
-      marginTop: 20,
+      paddingTop: 20,
       marginLeft: 10,
       marginRight: 180,
       overflowX: 'hidden',

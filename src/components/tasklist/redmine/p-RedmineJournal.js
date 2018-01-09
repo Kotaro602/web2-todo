@@ -16,15 +16,15 @@ export default class RedmineJournal extends Component {
    render() {
 
       /** prop取得 **/
-      const {task} = this.props;
+      const {journals} = this.props;
 
       /** レンダリング **/
       return (
          <div className={css(styles.journalArea)}>
             <div>履歴</div>
-            {task.get('journals').map((journal, i) => {
+            {journals.map((journal, i) => {
                return (
-                  <div className={css(styles.journal)} key={journal.get('id')}>
+                  <div className={css(styles.journal)} key={i}>
                      <a className={css(styles.name)}>
                         <span>
                            {journal.getIn(['user', 'name'])}

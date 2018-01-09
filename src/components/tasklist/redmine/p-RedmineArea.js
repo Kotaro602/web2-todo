@@ -19,9 +19,9 @@ export default class RedmineArea extends Component {
          if(openRedmineDOM.contains(evt.target)) return;
          if(evt.target.className.match('redmineIcon')) return;
 
+         console.log('背景')
          openRedmineModal(undefined);
-      }
-
+      };
       document.addEventListener('click', closeRedmineModal);
    }
 
@@ -30,16 +30,15 @@ export default class RedmineArea extends Component {
       /** prop取得 **/
       const {state} = this.props;
       const openRedmineId = state.get('conf').get('openRedmineId');
-      const task = state.get('tasks').filter(t => t.get('_id') == openRedmineId).get(0);
+      const task = state.get('tasks').filter(t => t.get('_id') === openRedmineId).get(0);
+      const journals = state.get('redmine');
 
       /** レンダリング **/
       return (
          <div className={css(styles.redmineBox)} id="redmineModal">
             <RedmineHeader task={task} {...this.props}/>
             <RedmineMain task={task} {...this.props}/>
-            <TogglePattern isDisp={task.get('journals') !== undefined}>
-               <RedmineJournal isDisp={true} task={task} {...this.props}/>
-            </TogglePattern>
+            {!!journals && <RedmineJournal journals={journals} task={task} {...this.props}/>}
          </div>
       );
       }

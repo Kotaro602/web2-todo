@@ -6,14 +6,23 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 import { Map, List, fromJS, toJS } from 'immutable';
 import Dialog from 'rc-dialog';
 import 'rc-dialog/assets/index.css';
+import AlertContainer from 'react-alert'
 import ModalSide from './p-ModalSide';
 import AccountInfo  from './p-AccountInfo';
 import Account from '../../model/m-Account';
 import WatchGroup from './p-WatchGroup';
-
-
+import AddGroup from './p-AddGroup';
 
 export default class PaModal extends Component {
+
+   alertOptions = {
+      offset: 30,
+      position: 'top center',
+      theme: 'dark',
+      time: 1500,
+      transition: 'fade',
+      type: 'success'
+   };
 
    closeAccountModal(){
       const {openMenuModal} = this.props;
@@ -23,6 +32,7 @@ export default class PaModal extends Component {
    setAccount(data){
       const {reqAddAccount} = this.props;
       reqAddAccount(new Account().merge(data));
+      this.msg.show('登録完了しました',{type: 'success'});
    }
 
    setChannelAccount(data){
@@ -31,6 +41,7 @@ export default class PaModal extends Component {
       data.map((flg, key) => flg && watchGroupArray.push(key));
       const nextAccount = this.props.state.get('account').set('watchGroup', watchGroupArray);
       this.props.reqAddAccount(nextAccount);
+      this.msg.show('登録完了しました',{type: 'success'});
    }
 
    render() {
@@ -40,6 +51,8 @@ export default class PaModal extends Component {
 
       /** レンダリング **/
       return (
+         <div>
+         <AlertContainer ref={a => this.msg = a} {...this.alertOptions} />
          <Dialog
             visible={state.getIn(['conf', 'openMenuFlg'])}
             animation="zoom"
@@ -51,37 +64,14 @@ export default class PaModal extends Component {
             <ModalSide {...this.props}/>
             {menu === 'account' && <AccountInfo {...this.props} onSubmit={::this.setAccount}/>}
             {menu === 'watchGroup' && <WatchGroup {...this.props} onSubmit={::this.setChannelAccount}/>}
+            {menu === 'addGroup' && <AddGroup {...this.props} onSubmit={::this.setChannelAccount}/>}
          </Dialog>
+         </div>
       );
    }
 }
 
 
 const styles = StyleSheet.create({
-   addLinePopupOverLay:{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.4)',
-      zIndex: 1000
-   },
-   addLinePopup: {
-      position: 'absolute',
-      top: '20%',
-      left: '50%',
-      marginTop: -125,
-      marginLeft: -350,
-      border: '1px solid rgba(0,0,0,.15)',
-      boxShadow: '0 1px 25px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08)',
-      background: 'rgb(255, 255, 255)',
-      overflow: 'auto',
-      borderRadius: '4px',
-      outline: 'none',
-      width: 700,
-      height: 650,
-      zIndex: 1001,
 
-   }
 });

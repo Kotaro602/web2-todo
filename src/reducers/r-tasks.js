@@ -23,9 +23,9 @@ export default function task(state=List([]), action) {
       //完了
       case a.CLEAN_TASK:
          return state.map(task =>
-            task.get('tempDelFlg') && task.get('redmineUserId') == action.userId
+            task.get('tempDelFlg') && task.get('redmineUserId') === action.userId
             ? task.set('compDelFlg', true) : task
-         )
+         );
 
       //順序変更
       case a.CHG_SORT_NO:
@@ -37,6 +37,6 @@ export default function task(state=List([]), action) {
    }
 
    function findIndexById(id) {
-      return state.findIndex((task) => task.get('_id') == id);
+      return state.findIndex((task) => task.get('_id') === id);
    }
 }

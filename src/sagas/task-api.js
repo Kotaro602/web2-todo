@@ -25,6 +25,9 @@ export function fetchTaskList(reqTaskId) {
  */
 export function fetchRedmineTaskList(taskListEachMember) {
 
+   //本番環境を再現するために、少し待たせてみる。
+   if(process.env.NODE_ENV !== `production`) sleep(800);
+
    //RedmineURLを取得
    return Promise.all(taskListEachMember.members.map(member => {
       const redmineUrl = process.env.NODE_ENV === `production` ?
@@ -40,6 +43,26 @@ export function fetchRedmineTaskList(taskListEachMember) {
       }
    )
 }
+
+/**
+ * Redmineからタスク詳細情報を取得
+ *
+ * @param redmineTaskId
+ * @returns {Promise|Promise.<T>}
+ */
+export function fetchRedmineTaskDetail(redmineTaskId) {
+
+   const redmineUrl = process.env.NODE_ENV === `production` ?
+      `${REDMINE_URL}/issues/${redmineTaskId}.json?include=attachments,journals&key=${localStorage.redmineKey}`:
+      `/testdata/detail_${redmineTaskId}.json`;
+
+   return fetch(redmineUrl)
+      .then(res => {
+         if(res.status !== 200) alert(ERR_MESSAGE);
+         return res.json();
+      }).then(json => json);
+}
+
 
 /**
  * Redmineからタスク詳細情報を全て取得
@@ -58,13 +81,11 @@ export function fetchRedmineTaskDetailList(taskList) {
             `/testdata/detail_${task.get('_id')}.json`;
          return fetch(redmineUrl).then(res => res.json());
       }
-
    })).then(redmineTasks => redmineTasks)
       .catch(e => {
             console.log(e);
             return null;
-         }
-      )
+      })
 }
 
 /**
@@ -79,7 +100,7 @@ export function fetchSlackTaskList() {
          if(res.status !== 200) alert(ERR_MESSAGE);
          return res.json();
       }).then(json => json);
-};
+}
 
 /**
  * Officeからタスクを取得
@@ -113,17 +134,20 @@ export function updateTask(task) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(task.toJS())
    }).then(res => {
-      if(res.status != 200) alert(ERR_MESSAGE);
+      if(res.status !== 200) alert(ERR_MESSAGE);
    }).catch(err => err);
 }
 
 export function updateTaskList(taskList) {
+
+   if(taskList === List([])) return;
+
    return fetch(`api/updateTaskList`,{
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(taskList.toJS())
    }).then(res => {
-      if(res.status != 200) alert(ERR_MESSAGE);
+      if(res.status !== 200) alert(ERR_MESSAGE);
    }).catch(err => err);
 }
 
@@ -133,7 +157,7 @@ export function addTask(task) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(task)
    }).then(res => {
-      if(res.status != 200) alert(ERR_MESSAGE);
+      if(res.status !== 200) alert(ERR_MESSAGE);
    }).catch(err => err);
 }
 
@@ -143,6 +167,15 @@ export function cleanTask(userId) {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({userId: userId})
    }).then(res => {
-      if(res.status != 200)alert(ERR_MESSAGE)
+      if(res.status !== 200)alert(ERR_MESSAGE)
    }).catch(err => err);
+}
+
+function sleep(waitMsec) {
+
+   var startMsec = new Date();
+
+   // 指定ミリ秒間、空ループ。CPUは常にビジー。
+   while (new Date() - startMsec < waitMsec);
+
 }

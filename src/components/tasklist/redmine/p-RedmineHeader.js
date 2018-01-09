@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
    redmineId:{
       display: 'inline-block',
       margin: 0,
-      width: 630
+      width: 600
    },
    redmineLink:{
       display: 'inline-block',

@@ -36,15 +36,6 @@ export default class RedmineHeader extends Component {
                defaultValue={task.get('description')}
                ref='description'
                readOnly/>
-            {/*            タスク名称：{task.get('taskName')}<br/>
-             プロジェクト：{task.getIn(['project', 'name'])}<br/>
-             トラッカー：{task.getIn(['tracker', 'name'])}<br/>
-             ディスクリプション：{task.get('description')}<br/>
-             WEB2メモ：{task.get('taskName')}<br/>
-             開始日：{task.get('startDate')}<br/>
-             締切日：{task.get('dueDate')}
-             {task.get('description')}
-             */}
          </div>
       );
    }

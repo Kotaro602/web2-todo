@@ -27,7 +27,6 @@ class WatchGroup extends Component {
 
       /** prop取得 **/
       const {state, handleSubmit, pristine, submitting, reset} = this.props;
-      const account = state.get('account');
       const channelList = state.get('channels');
 
       /** レンダリング **/
@@ -81,14 +80,15 @@ const styles = StyleSheet.create({
       width: 400,
       height: '100%',
       display: 'inline-block',
-      padding: '30px 30px'
+      padding: '30px 0px 0px 30px'
    },
    inputBox: {
       marginBottom: 10
    },
    label:{
       display: 'block',
-      marginBottom: 8
+      marginBottom: 2,
+      fontWeight: 550
    },
    inputText:{
       display: 'block',

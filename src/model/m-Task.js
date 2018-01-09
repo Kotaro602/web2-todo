@@ -1,7 +1,7 @@
 /**
  * Created by ma on 2017/01/07.
  */
-import {Immutable, Record, List, Map, toJS, fromJS} from 'immutable';
+import {Immutable, Record, List, Map, toJS, fromJS, set} from 'immutable';
 import moment from 'moment';
 import koyomi from 'koyomi';
 
@@ -129,7 +129,6 @@ function copyTaskFromRedmine(task){
    nextTask = nextTask.set('description', task.description);
    nextTask = nextTask.set('tracker', Map({id: task.tracker.id, name: task.tracker.name}));
    nextTask = nextTask.set('status', Map({id: task.status.id, name: task.status.name}));
-   nextTask = nextTask.set('updateJournalsFlg', true);
 
    return nextTask;
 }
@@ -179,7 +178,7 @@ function formatJournals(oriJournals){
    let journalList = List([]);
    oriJournals.map(journal => {
 
-      if(journal.notes == '') return;
+      if(journal.notes === '') return;
 
       journalList = journalList.push(
          Map({
@@ -270,7 +269,6 @@ export function mergeTasks(dbMemberAndTask, redmineTasks){
    let mergeTaskList = createTaskListFromObj(dbMemberAndTask.tasks);
    let redmineIdList = List([]);
    let reqRedmineTaskList = List([]);
-   let reqRedmineDetailList = List([]);
 
    //RedmineTaskをDBタスクに追加/マージする。
    if(redmineTasks != null) {
@@ -279,23 +277,16 @@ export function mergeTasks(dbMemberAndTask, redmineTasks){
 
             const index = findIndexById(mergeTaskList, task.id);
 
-            //更新時刻が更新されていたら詳細情報を取得する
-            if(mergeTaskList.getIn([index, 'redmineUpdDate']) !== task.updated_on){
-               reqRedmineDetailList = reqRedmineDetailList.push(mergeTaskList.get(index));
-            }
-
             if (index >= 0) {
                //既にDBに登録済みのRedmineタスク
                const mergeTask = mergeRedmineTask(mergeTaskList.get(index), task);
                mergeTaskList = mergeTaskList.set(index, mergeTask);
-               reqRedmineTaskList = reqRedmineTaskList.push(mergeTask);
 
             } else {
                //Redmine未登録のタスク
                const addTask = copyTaskFromRedmine(task);
                mergeTaskList = mergeTaskList.push(addTask);
                reqRedmineTaskList = reqRedmineTaskList.push(addTask);
-               reqRedmineDetailList = reqRedmineDetailList.push(addTask);
             }
 
             //完了済みのRedmineタスクを知るために、RedmineのIDリストを取得する。
@@ -324,7 +315,6 @@ export function mergeTasks(dbMemberAndTask, redmineTasks){
    mergeObj.members = fromJS(dbMemberAndTask.members);
    mergeObj.tasks = mergeTaskList;
    mergeObj.reqTasks = reqRedmineTaskList;
-   mergeObj.reqDetails = reqRedmineDetailList;
 
    return mergeObj;
 }
@@ -419,13 +409,16 @@ export function mergeSlackTaskList(mergeObj, slackTasks){
 
       const index = findIndexById(mergeTaskList, Number(task.date_create));
 
-      if(index === -1){
+      if (index >= 0) {
+         //DB登録済のSlackタスク
+         mergeTaskList = mergeTaskList.setIn([index, 'taskName'], task.message.text);
+
+      }else{
          //DB未登録のSlackタスク
          const addTask = createSlackTask(task);
          mergeTaskList = mergeTaskList.push(addTask);
          reqSlackTaskList = reqSlackTaskList.push(addTask);
       }
-
       slackIdList = slackIdList.push(Number(task.date_create));
    });
 
@@ -472,7 +465,11 @@ export function mergeOfficeTaskList(mergeObj, officetask){
       const officeId = Number(moment(task.CreatedDateTime).format('YYYYMMDDHHmmssSSS'));
       const index = findIndexById(mergeTaskList, officeId);
 
-      if(index === -1){
+      if(index >= 0){
+         //DB登録済のSlackタスク
+         mergeTaskList = mergeTaskList.setIn([index, 'taskName'], task.Subject);
+
+      }else{
          //DB未登録のSlackタスク
          const addTask = createOfficeTask(task, officeId);
          mergeTaskList = mergeTaskList.push(addTask);
@@ -503,6 +500,36 @@ export function mergeOfficeTaskList(mergeObj, officetask){
 }
 
 /**
+ * セキュリティのため、不要な情報は削除する
+ * @param task
+ * @returns {*}
+ */
+export function removeTaskName(task){
+
+   let reqTask = task;
+   if(task.redmineFlg || task.slackFlg || task.officeFlg) {
+      reqTask = reqTask.delete('taskName');
+      reqTask = reqTask.delete('description');
+      reqTask = reqTask.delete('tracker');
+      reqTask = reqTask.delete('status');
+   }
+   return reqTask;
+}
+
+/**
+ * セキュリティのため、不要な情報は削除する
+ * @param taskList
+ * @returns {*|List<any>}
+ */
+export function removeTaskListName(taskList){
+
+   let reqTaskList = List([]);
+   taskList.forEach(task => reqTaskList = reqTaskList.push(removeTaskName(task)))
+   return reqTaskList;
+}
+
+
+/**
  * タスクをフィルタリングする
  *
  * @param taskList
@@ -519,23 +546,19 @@ export function filterTask(taskList, userId, filterKey){
       switch (filterKey){
 
          case 'priority':
-            return t.get('redmineUserId') == userId && !t.get('compDelFlg')
-               && t.get('priority') == 1
+            return t.get('redmineUserId') === userId && !t.get('compDelFlg') && t.get('priority') === 1;
 
          case '1day':
-            return t.get('redmineUserId') == userId && !t.get('compDelFlg')
-               && t.get('remainDate') <= 1
+            return t.get('redmineUserId') === userId && !t.get('compDelFlg') && t.get('remainDate') <= 1;
 
          case '3day':
-            return t.get('redmineUserId') == userId && !t.get('compDelFlg')
-               && t.get('remainDate') <= 3
+            return t.get('redmineUserId') === userId && !t.get('compDelFlg') && t.get('remainDate') <= 3;
 
          case '5day':
-            return t.get('redmineUserId') == userId && !t.get('compDelFlg')
-               && t.get('remainDate') <= 5
+            return t.get('redmineUserId') === userId && !t.get('compDelFlg') && t.get('remainDate') <= 5;
 
          default:
-            return t.get('redmineUserId') == userId && !t.get('compDelFlg')
+            return t.get('redmineUserId') === userId && !t.get('compDelFlg')
       }
    });
 }

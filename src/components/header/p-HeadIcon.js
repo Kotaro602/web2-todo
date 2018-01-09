@@ -73,7 +73,7 @@ export default class HeadIcon extends Component {
       const {reqTasks, state} = this.props;
       const userId = state.getIn(['account', '_id']);
       const selectGroup = state.getIn(['conf', 'selectGroup']);
-      reqTasks(state.get('tasks'), !!selectGroup ? selectGroup : userId);
+      reqTasks(state.get('tasks'), !!selectGroup ? selectGroup : userId, true);
    }
 
    render() {
@@ -89,7 +89,7 @@ export default class HeadIcon extends Component {
                   <div className={css(styles.iconModalBox)}>
                      <ul className={css(styles.iconUl)}　id='iconModal'>
                         <li className={css(styles.iconLi)} onClick={::this.noFilter}>全て</li>
-                        <li className={css(styles.iconLi)} onClick={::this.filterByPriority}>星付き</li>
+                        <li className={css(styles.iconLi)} onClick={::this.filterByPriority}>今日やる</li>
                         <li className={css(styles.iconLi)} onClick={::this.filterIn1Day}>本日期限</li>
                         <li className={css(styles.iconLi)} onClick={::this.filterIn3Day}>３日以内</li>
                         <li className={css(styles.iconLi)} onClick={::this.filterIn5Day}>５日以内</li>

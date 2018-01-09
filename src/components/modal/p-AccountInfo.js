@@ -14,6 +14,7 @@ const renderField = props =>(
         <label className={css(styles.label)}>{props.title}</label>
         <input {...props.input} type={props.type}
                className={css(styles.inputText)}/>
+       {props.title === 'RedmineKey' && <p className={css(styles.commentOffice)}>※ここの右側にキーがあります。</p>}
     </div>
 );
 
@@ -23,7 +24,7 @@ class AccountInfo extends Component {
 
       /** prop取得 **/
       const {state, handleSubmit, pristine, submitting, reset} = this.props;
-      const account = state.get('account');
+      const registeredFlg = !!state.getIn(['account', '_id']);
 
       const linkComment = state.getIn(['conf', 'officeConnecedFlg']) ? '連携済み' : '未連携';
       const buttonColorStyle = state.getIn(['conf', 'officeConnecedFlg']) ?  styles.connected: styles.unConnected;
@@ -31,6 +32,13 @@ class AccountInfo extends Component {
       /** レンダリング **/
       return (
          <div className={css(styles.accountInfoBox)}>
+            {!registeredFlg &&
+            <div className={css(styles.unregisterdBox)}>
+               <p className={css(styles.unregisterdComment)}>まずは登録をしてください。</p>
+               <p className={css(styles.comment)}>※登録情報はローカルストレージに保存され、DBには保存されません。</p>
+               <p className={css(styles.comment)}>※複数ブラウザを使う場合は、同じ情報で登録してください。</p>
+            </div>
+            }
             <form onSubmit={handleSubmit}>
                 <Field name="userName" type="text" component={renderField} title="名前"/>
                 <div className={css(styles.inputBox)}>
@@ -39,16 +47,12 @@ class AccountInfo extends Component {
                            onClick={callGraphApi}>{linkComment}</button>
                    <p className={css(styles.commentOffice)}>※現在はブラウザ落とすと連携が切れます。再接続してください。</p>
                 </div>
-                <Field name="redmineLoginId" type="text" component={renderField} title="RedmineログインID"/>
+                <Field name="redmineLoginId" type="text" component={renderField} title="Redmine登録メールアドレス"/>
                 <Field name="redmineKey" type="text" component={renderField} title="RedmineKey"/>
                 <Field name="slackToken" type="text" component={renderField} title="SlackToken"/>
-
-                <button type="submit" disabled={submitting}>登録/編集（押したらちょっと待ってね）</button>
+                <button type="submit" disabled={submitting}>登録/編集</button>
                 <button type="button" disabled={pristine || submitting} onClick={reset}>キャンセル</button>
             </form>
-            <p className={css(styles.comment)}>※基本全ての情報を登録してください。</p>
-            <p className={css(styles.comment)}>※登録情報はローカルストレージに保存され、DBには登録されません。</p>
-            <p className={css(styles.comment)}>※複数ブラウザを使う場合は、同じ情報で登録してください。</p>
          </div>
       );
    }
@@ -68,7 +72,7 @@ AccountInfo = connect(
          initialValues: fromJS(state.get('account'))
       }
    }
-)(AccountInfo)
+)(AccountInfo);
 
 export default AccountInfo;
 
@@ -123,5 +127,13 @@ const styles = StyleSheet.create({
    commentOffice: {
       marginTop: 7,
       fontSize: '80%'
+   },
+   unregisterdBox:{
+      marginBottom: 10
+   },
+   unregisterdComment:{
+      color: '#d80a1f',
+      margin:0,
+      fontWeight:600
    }
 });

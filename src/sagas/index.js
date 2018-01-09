@@ -6,8 +6,7 @@ import * as actCreater from "../actions/a-index";
 import * as taskApi from "./task-api.js";
 import * as accountApi from "./account-api.js";
 import * as channelApi from "./channel-api.js";
-import * as officeApi from './../office-auth-api';
-import {mergeTasks, mergeOfficeTaskList, mergeDetailTaskList, mergeSlackTaskList} from '../model/m-Task';
+import {mergeTasks, mergeOfficeTaskList, mergeSlackTaskList, removeTaskName, removeTaskListName} from '../model/m-Task';
 import {setLocalStrage} from '../model/m-Account';
 import {isExistAccountUser} from '../model/m-Member';
 
@@ -36,7 +35,9 @@ function* hundleReqAccount() {
       //ローカルストレージに登録
       setLocalStrage(regAccount);
 
-      yield put(actCreater.addAccount(regAccount));
+      //yield put(actCreater.addAccount(regAccount));
+
+      yield put(actCreater.reqInit(regAccount));
    }
 }
 
@@ -45,22 +46,19 @@ function* hundleReqTasks() {
    while (true) {
       const action = yield take(actCreater.REQ_TASKS);
 
+      //最初にタスクを空にする
+      if(action.loadingFlg) yield put(actCreater.resetTasks());
+
       //DBタスクを取得
-      const oriTasks = yield call(taskApi.fetchTaskList, action.reqTask);
+      let oriTasks = yield call(taskApi.fetchTaskList, action.reqTask);
 
       //Redmine一覧タスク取得
       const redmineTasks = yield call(taskApi.fetchRedmineTaskList, oriTasks);
       let mergeObj = mergeTasks(oriTasks, redmineTasks);
 
-      //Redmine詳細情報取得
-      const demandTaskDetailList = !action.preTaskList ? mergeObj.tasks : mergeObj.reqDetails;
-      const issueList = yield call(taskApi.fetchRedmineTaskDetailList, demandTaskDetailList);
-      mergeObj.tasks = mergeDetailTaskList(mergeObj, action.preTaskList, issueList);
-
       if(isExistAccountUser(mergeObj.members)){
-
          //Slack情報取得
-         if(localStorage.slackToken){
+         if(!!localStorage.slackToken){
             const slackTasks = yield call(taskApi.fetchSlackTaskList);
             mergeObj = mergeSlackTaskList(mergeObj, slackTasks);
          }
@@ -73,16 +71,28 @@ function* hundleReqTasks() {
       }
 
       //マージしたRedmineTaskをDBに更新（非同期）
-      taskApi.updateTaskList(mergeObj.reqTasks);
+      taskApi.updateTaskList(removeTaskListName(mergeObj.reqTasks));
+
+      //他のユーザのSlack、Officeタスクを消す。
+      mergeObj.tasks = mergeObj.tasks.filter(t => !!t.get('taskName'));
 
       yield put(actCreater.recieveTasks(mergeObj));
+   }
+}
 
+/** タスク更新実行 */
+function* hundleReqRedmineDetail(){
+   while (true) {
+      const action = yield take(actCreater.REQ_REDMINE_DETAIL);
+      const response = yield call(taskApi.fetchRedmineTaskDetail, action.redmineId);
+      const journals = fromJS(response.issue.journals);
+      yield put(actCreater.recieveRedmineDetail(journals));
    }
 }
 
 /** タスク更新実行 */
 function* ReqUpdateTask(action){
-   taskApi.updateTask(action.task); //非同期
+   taskApi.updateTask(removeTaskName(action.task)); //非同期
    if(action.closeFlg) yield put(actCreater.updateAndCloseTask(action.task));
    else yield put(actCreater.updateTask(action.task));
 }
@@ -96,7 +106,7 @@ function* hundleReqUpdateTask() {
 function* hundleReqUpdNewFlg() {
    while (true) {
       const action = yield take(actCreater.REQ_UPD_NEW_FLG);
-      taskApi.updateTask(action.task); //非同期
+      taskApi.updateTask(removeTaskName(action.task)); //非同期
       yield put(actCreater.updateNewFlgTask(action.task));
    }
 }
@@ -123,6 +133,7 @@ function* hundleReqCleanTask() {
 export default function* rootSaga() {
    yield fork(hundleReqInit);
    yield fork(hundleReqTasks);
+   yield fork(hundleReqRedmineDetail);
    yield fork(hundleReqUpdateTask);
    yield fork(hundleReqUpdNewFlg);
    yield fork(hundleReqAddTask);

@@ -11,12 +11,6 @@ export default class ModalSide extends Component {
 
    changeMenuType(event){
       const changeMenuType = event.currentTarget.getAttribute('data-type');
-
-      if(changeMenuType === 'edicGroup' || changeMenuType === 'addMembertoGroup'){
-         window.alert('あ、まだ作ってないです。。必要だったら関原まで言ってください。')
-         return;
-      }
-
       this.props.chgMenuType(changeMenuType);
    }
 
@@ -29,16 +23,22 @@ export default class ModalSide extends Component {
       return (
          <div className={css(styles.sideBox)}>
             <ul className={css(styles.sideUl)}>
+               <li className={css(styles.sideLiTitle)}>個人設定</li>
                <li　className={menuType === 'account' ? css(styles.sideLi, styles.active) : css(styles.sideLi)}
                   onClick={::this.changeMenuType} data-type='account'>
                   <a className={css(styles.sideA)} >アカウント</a>
                </li>
+               {/*<li　className={menuType === 'account' ? css(styles.sideLi, styles.active) : css(styles.sideLi)}*/}
+                   {/*onClick={::this.changeMenuType} data-type='account'>*/}
+                  {/*<a className={css(styles.sideA)} >外部連携</a>*/}
+               {/*</li>*/}
                <li className={menuType === 'watchGroup' ? css(styles.sideLi, styles.active) : css(styles.sideLi)}
                    onClick={::this.changeMenuType} data-type='watchGroup'>
                   <a className={css(styles.sideA)}>ウォッチするグループ</a>
                </li>
-               <li className={menuType === 'edicGroup' ? css(styles.sideLi, styles.active) : css(styles.sideLi)}
-                   onClick={::this.changeMenuType} data-type='edicGroup'>
+               <li className={css(styles.sideLiTitle)}>管理設定</li>
+               <li className={menuType === 'addGroup' ? css(styles.sideLi, styles.active) : css(styles.sideLi)}
+                   onClick={::this.changeMenuType} data-type='addGroup'>
                   <a className={css(styles.sideA)}>グループ編集</a>
                </li>
                <li className={menuType === 'addMembertoGroup' ? css(styles.sideLi, styles.active) : css(styles.sideLi)}
@@ -61,11 +61,16 @@ const styles = StyleSheet.create({
       listStyle: 'none',
       margin: 0,
       padding: 0,
-      cursor: 'pointer'
+   },
+   sideLiTitle:{
+     margin:'10 0 0 7',
+      fontSize: 13,
+      fontWeight: 600
    },
    sideLi:{
       lineHeight: 2.7,
       padding: '0px 20px',
+      cursor: 'pointer'
    },
    active:{
       backgroundColor: '#e8e8e8'

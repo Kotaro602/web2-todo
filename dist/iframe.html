@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>OfficeLoginPage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<script>
+
+   const graphApiAhtuUrl = 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize';
+   const clientID = "0ec0e046-8ca5-49ee-8358-185aab128361";
+   const scope = 'https://graph.microsoft.com/user.read openid';
+   const updateAuthUrl = graphApiAhtuUrl +
+      '?response_type=token' +
+      '&response_mode=fragment' +
+      '&prompt=none' +
+      '&login_hint=sekihara_k@waku-2.com'+
+      '&client_id=' + clientID +
+      '&domain_hint=organizations' +
+      '&redirect_uri=' + encodeURIComponent(location.origin + '/iframe.html') +
+      '&scope=' + encodeURIComponent(scope)+
+      '&nonce=678910';
+
+    function updateToken() {
+
+       if(!sessionStorage.officeToken) return;
+
+        if(location.hash) {
+            var hasharr = location.hash.substr(1).split("&");
+                hasharr.forEach(function(hashelem) {
+                var elemarr = hashelem.split('=');
+                if(elemarr[0] === 'access_token') {
+                   window.parent.postMessage(elemarr[1], location.origin);
+                }
+            }, this);
+        } else {
+           location.href = updateAuthUrl;
+        }
+    }
+
+   updateToken();
+   setInterval(() => updateToken(), 3000000);
+
+</script>
+</body>
+</html>

@@ -3,7 +3,6 @@ import TaskMemSo from './p-TaskMemBx';
 import {Map} from 'immutable';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import {createNewTask} from '../../model/m-Task';
-import CSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default class TaskMemBo extends React.Component {
 

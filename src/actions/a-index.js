@@ -2,11 +2,12 @@
 export const INIT_ACCOUNT = 'INIT_ACCOUNT';
 export function initAccount(account, channelList){return {type: INIT_ACCOUNT, account, channelList}}
 
-   /** アカウント系Action */
+/** アカウント系Action */
 export const ADD_ACCOUNT = 'ADD_ACCOUNT';
 export function addAccount(account){return {type: ADD_ACCOUNT, account}}
 
 /** タスク系Action */
+export const REST_TASKS = 'REST_TASKS';
 export const RECIEVE_TASKS = 'RECIEVE_TASKS';
 export const ADD_TASK   = 'ADD_TASK';
 export const UPDATE_TASK = 'UPDATE_TASK';
@@ -14,6 +15,7 @@ export const UPDATE_AND_CLOSE_TASK = 'UPDATE_AND_CLOSE_TASK';
 export const UPDATE_NEW_FLG_TASK = 'UPDATE_NEW_FLG_TASK';
 export const CLEAN_TASK = 'CLEAN_TASK';
 export const CHG_SORT_NO = 'CHG_SORT_NO';
+export function resetTasks(){return {type:REST_TASKS}}
 export function recieveTasks(mergeObj){return {type: RECIEVE_TASKS, mergeObj}}
 export function addTask(task){return {type: ADD_TASK, task}}
 export function updateTask(task){return {type: UPDATE_TASK, task}}
@@ -21,7 +23,9 @@ export function updateNewFlgTask(task){return {type: UPDATE_NEW_FLG_TASK, task}}
 export function updateAndCloseTask(task){return {type: UPDATE_AND_CLOSE_TASK, task}}
 export function cleanTask(userId){return{type: CLEAN_TASK, userId}}
 
-/** メンバー系Action */
+/** Redmine詳細系Action */
+export const RECIEVE_REDMINE_DETAIL = 'RECIEVE_REDMINE_DETAIL';
+export function recieveRedmineDetail(journals){return{type: RECIEVE_REDMINE_DETAIL, journals}}
 
 /** グループ系Action */
 export const CHANGE_GROUP = 'CHANGE_GROUP';
@@ -57,10 +61,12 @@ export const REQ_ADD_TASK = 'REQ_ADD_TASK';
 export const REQ_CLEAN_TASK = 'REQ_CLEAN_TASK';
 export const REQ_UPD_NEW_FLG = 'REQ_UPD_NEW_FLG';
 export const REQ_ADD_ACCOUNT = 'REQ_ADD_ACCOUNT';
+export const REQ_REDMINE_DETAIL = 'REQ_REDMINE_DETAIL';
 export function reqInit(account){return {type: REQ_INIT, account}}
-export function reqTasks(preTaskList, reqTask){return {type: REQ_TASKS, preTaskList, reqTask}}
+export function reqTasks(preTaskList, reqTask, loadingFlg){return {type: REQ_TASKS, preTaskList, reqTask, loadingFlg}}
 export function reqUpdateTask(task, closeFlg){return {type: REQ_UPDATE_TASK, task, closeFlg}}
 export function reqUpdNewFlg(task){return {type: REQ_UPD_NEW_FLG, task}}
 export function reqAddTask(task){return {type: REQ_ADD_TASK, task}}
 export function reqCleanTask(userId){return {type: REQ_CLEAN_TASK, userId}}
 export function reqAddAccount(account){return {type: REQ_ADD_ACCOUNT, account}}
+export function reqRedmineDetail(redmineId){return {type: REQ_REDMINE_DETAIL, redmineId}}

@@ -17,14 +17,13 @@ export default class TaskMemBxMaIc extends Component {
    }
 
    //Redmineモーダルを開く
-   openRedmineModal() {
+   openRedmineModal(e) {
 
-      const {state, task, openRedmineModal} = this.props;
-      const preOpenId = state.get('conf').get('openRedmineId');
+      const {state, task, openRedmineModal, reqRedmineDetail} = this.props;
+      const openId = task.get('_id');
 
-      //既に開いているボタンならば閉じる
-      const nextOpenId = preOpenId === task.get('_id') ? undefined : task.get('_id');
-      openRedmineModal(nextOpenId);
+      openRedmineModal(openId);
+      reqRedmineDetail(openId);
    }
 
    render(){

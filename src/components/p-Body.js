@@ -12,16 +12,16 @@ export default class Body extends Component {
 
    componentDidMount() {
 
-      const {state, reqInit, officeConnected} = this.props;
+      const {state, reqInit, openMenuModal, officeConnected} = this.props;
 
-      //画面起動時にアカウント情報を登録する
-      if (!state.getIn[('account', '_id')]){
+      if(!localStorage._id){
+         //取得できない場合は登録画面を表示する
+         openMenuModal(true);
+
+      }else if (!state.getIn[('account', '_id')]){
+         //画面起動時にアカウント情報を登録する
          reqInit(getFromStrage());
       }
-
-      //1時間でトークンが切れるので、最新化する。
-      renewToken();
-      setInterval(() => renewToken(), 3500000);
 
       window.onmessage = e => {
          if(typeof (e.data) === "string"){
