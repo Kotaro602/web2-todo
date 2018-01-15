@@ -115,10 +115,11 @@ export default class TaskMemSo extends React.Component {
       const {state, task, isDraggingTaskId} = this.props;
       const selectedFlg = task.get('_id') === state.get('conf').get('selectTaskId');
       const openTaskFlg = state.get('conf').get('openTaskId') === task.get('_id');
+      const newFlg = task.get('newFlg') && task.get('redmineUserId') === state.getIn(['account', '_id']);
 
       const taskBoxClass = css(
          styles.taskListBox,
-         task.get('newFlg') && styles.newTask,
+         newFlg && styles.newTask,
          selectedFlg && styles.selectedTask,
          openTaskFlg ? styles.taskOpen : styles.taskNoOpen,
          isDraggingTaskId === task.get('_id') && styles.taskDraggingLi

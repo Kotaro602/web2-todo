@@ -21,7 +21,7 @@ export default class RedmineJournal extends Component {
       /** レンダリング **/
       return (
          <div className={css(styles.journalArea)}>
-            <div>履歴</div>
+            {journals.size > 0 && <div>履歴</div>}
             {journals.map((journal, i) => {
                return (
                   <div className={css(styles.journal)} key={i}>
@@ -30,7 +30,7 @@ export default class RedmineJournal extends Component {
                            {journal.getIn(['user', 'name'])}
                         </span>
                         <span className={css(styles.createOn)}>
-                           {journal.get('createOn')}
+                           {moment(journal.get('created_on')).format('YYYY-MM-DD hh:mm')}
                         </span>
                      </a>
                      <Textarea

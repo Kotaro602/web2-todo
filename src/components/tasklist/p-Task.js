@@ -24,7 +24,6 @@ export default class Task extends Component {
          // 追加ボタンを押した時、タイトルを押した時に2回呼ばれるのも無効にする
          if(openTaskDOM == null) return;
          if(openTaskDOM.contains(evt.target)) return;
-         if(event.target.className.match('addIcon')) return;
          if(event.target.className.match('redmineIcon')) return;
          if(openTaskId === evt.target.getAttribute('data-closeId')) return;
 
@@ -39,7 +38,6 @@ export default class Task extends Component {
          // 追加ボタンを押した時、タイトルを押した時に2回呼ばれるのも無効にする
          if(selectTaskDOM == null) return;
          if(selectTaskDOM.contains(evt.target)) return;
-         if(event.target.className.match('addTaskButton')) return;
          if(event.target.className.match('redmineIcon')) return;
          if(event.target.className.match('todayButton')) return;
          if(event.target.className.match('react-datepicker')) return;

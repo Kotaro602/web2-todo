@@ -67912,13 +67912,14 @@
 	var _marked = /*#__PURE__*/regeneratorRuntime.mark(hundleReqInit),
 	    _marked2 = /*#__PURE__*/regeneratorRuntime.mark(hundleReqAccount),
 	    _marked3 = /*#__PURE__*/regeneratorRuntime.mark(hundleReqTasks),
-	    _marked4 = /*#__PURE__*/regeneratorRuntime.mark(hundleReqRedmineDetail),
-	    _marked5 = /*#__PURE__*/regeneratorRuntime.mark(ReqUpdateTask),
-	    _marked6 = /*#__PURE__*/regeneratorRuntime.mark(hundleReqUpdateTask),
-	    _marked7 = /*#__PURE__*/regeneratorRuntime.mark(hundleReqUpdNewFlg),
-	    _marked8 = /*#__PURE__*/regeneratorRuntime.mark(hundleReqAddTask),
-	    _marked9 = /*#__PURE__*/regeneratorRuntime.mark(hundleReqCleanTask),
-	    _marked10 = /*#__PURE__*/regeneratorRuntime.mark(rootSaga);
+	    _marked4 = /*#__PURE__*/regeneratorRuntime.mark(ReqTasks),
+	    _marked5 = /*#__PURE__*/regeneratorRuntime.mark(hundleReqRedmineDetail),
+	    _marked6 = /*#__PURE__*/regeneratorRuntime.mark(ReqUpdateTask),
+	    _marked7 = /*#__PURE__*/regeneratorRuntime.mark(hundleReqUpdateTask),
+	    _marked8 = /*#__PURE__*/regeneratorRuntime.mark(hundleReqUpdNewFlg),
+	    _marked9 = /*#__PURE__*/regeneratorRuntime.mark(hundleReqAddTask),
+	    _marked10 = /*#__PURE__*/regeneratorRuntime.mark(hundleReqCleanTask),
+	    _marked11 = /*#__PURE__*/regeneratorRuntime.mark(rootSaga);
 	
 	/** 初期設定 */
 	function hundleReqInit() {
@@ -68005,78 +68006,84 @@
 	   }, _marked2, this);
 	}
 	
-	/** 通常タスク取得 */
+	/** 通常タスク取得親 */
 	function hundleReqTasks() {
-	   var action, oriTasks, redmineTasks, mergeObj, slackTasks, officeTasks;
 	   return regeneratorRuntime.wrap(function hundleReqTasks$(_context3) {
 	      while (1) {
 	         switch (_context3.prev = _context3.next) {
 	            case 0:
-	               if (false) {
-	                  _context3.next = 31;
-	                  break;
-	               }
+	               _context3.next = 2;
+	               return (0, _reduxSaga.takeEvery)(actCreater.REQ_TASKS, ReqTasks);
 	
-	               _context3.next = 3;
-	               return (0, _effects.take)(actCreater.REQ_TASKS);
+	            case 2:
+	            case "end":
+	               return _context3.stop();
+	         }
+	      }
+	   }, _marked3, this);
+	}
 	
-	            case 3:
-	               action = _context3.sent;
-	
+	/** 通常タスク取得 */
+	function ReqTasks(action) {
+	   var oriTasks, redmineTasks, mergeObj, slackTasks, officeTasks;
+	   return regeneratorRuntime.wrap(function ReqTasks$(_context4) {
+	      while (1) {
+	         switch (_context4.prev = _context4.next) {
+	            case 0:
 	               if (!action.loadingFlg) {
-	                  _context3.next = 7;
+	                  _context4.next = 3;
 	                  break;
 	               }
 	
-	               _context3.next = 7;
+	               _context4.next = 3;
 	               return (0, _effects.put)(actCreater.resetTasks());
 	
-	            case 7:
-	               _context3.next = 9;
+	            case 3:
+	               _context4.next = 5;
 	               return (0, _effects.call)(taskApi.fetchTaskList, action.reqTask);
 	
-	            case 9:
-	               oriTasks = _context3.sent;
-	               _context3.next = 12;
+	            case 5:
+	               oriTasks = _context4.sent;
+	               _context4.next = 8;
 	               return (0, _effects.call)(taskApi.fetchRedmineTaskList, oriTasks);
 	
-	            case 12:
-	               redmineTasks = _context3.sent;
+	            case 8:
+	               redmineTasks = _context4.sent;
 	               mergeObj = (0, _mTask.mergeTasks)(oriTasks, redmineTasks);
 	
 	               if (!(0, _mMember.isExistAccountUser)(mergeObj.members)) {
-	                  _context3.next = 25;
+	                  _context4.next = 21;
 	                  break;
 	               }
 	
 	               if (!localStorage.slackToken) {
-	                  _context3.next = 20;
+	                  _context4.next = 16;
 	                  break;
 	               }
 	
-	               _context3.next = 18;
+	               _context4.next = 14;
 	               return (0, _effects.call)(taskApi.fetchSlackTaskList);
 	
-	            case 18:
-	               slackTasks = _context3.sent;
+	            case 14:
+	               slackTasks = _context4.sent;
 	
 	               mergeObj = (0, _mTask.mergeSlackTaskList)(mergeObj, slackTasks);
 	
-	            case 20:
+	            case 16:
 	               if (!sessionStorage.officeToken) {
-	                  _context3.next = 25;
+	                  _context4.next = 21;
 	                  break;
 	               }
 	
-	               _context3.next = 23;
+	               _context4.next = 19;
 	               return (0, _effects.call)(taskApi.fetchOfficeTaskList);
 	
-	            case 23:
-	               officeTasks = _context3.sent;
+	            case 19:
+	               officeTasks = _context4.sent;
 	
 	               mergeObj = (0, _mTask.mergeOfficeTaskList)(mergeObj, officeTasks);
 	
-	            case 25:
+	            case 21:
 	
 	               //マージしたRedmineTaskをDBに更新（非同期）
 	               taskApi.updateTaskList((0, _mTask.removeTaskListName)(mergeObj.reqTasks));
@@ -68086,52 +68093,10 @@
 	                  return !!t.get('taskName');
 	               });
 	
-	               _context3.next = 29;
+	               _context4.next = 25;
 	               return (0, _effects.put)(actCreater.recieveTasks(mergeObj));
 	
-	            case 29:
-	               _context3.next = 0;
-	               break;
-	
-	            case 31:
-	            case "end":
-	               return _context3.stop();
-	         }
-	      }
-	   }, _marked3, this);
-	}
-	
-	/** タスク更新実行 */
-	function hundleReqRedmineDetail() {
-	   var action, response, journals;
-	   return regeneratorRuntime.wrap(function hundleReqRedmineDetail$(_context4) {
-	      while (1) {
-	         switch (_context4.prev = _context4.next) {
-	            case 0:
-	               if (false) {
-	                  _context4.next = 12;
-	                  break;
-	               }
-	
-	               _context4.next = 3;
-	               return (0, _effects.take)(actCreater.REQ_REDMINE_DETAIL);
-	
-	            case 3:
-	               action = _context4.sent;
-	               _context4.next = 6;
-	               return (0, _effects.call)(taskApi.fetchRedmineTaskDetail, action.redmineId);
-	
-	            case 6:
-	               response = _context4.sent;
-	               journals = (0, _immutable.fromJS)(response.issue.journals);
-	               _context4.next = 10;
-	               return (0, _effects.put)(actCreater.recieveRedmineDetail(journals));
-	
-	            case 10:
-	               _context4.next = 0;
-	               break;
-	
-	            case 12:
+	            case 25:
 	            case "end":
 	               return _context4.stop();
 	         }
@@ -68140,30 +68105,38 @@
 	}
 	
 	/** タスク更新実行 */
-	function ReqUpdateTask(action) {
-	   return regeneratorRuntime.wrap(function ReqUpdateTask$(_context5) {
+	function hundleReqRedmineDetail() {
+	   var action, response, journals;
+	   return regeneratorRuntime.wrap(function hundleReqRedmineDetail$(_context5) {
 	      while (1) {
 	         switch (_context5.prev = _context5.next) {
 	            case 0:
-	               taskApi.updateTask((0, _mTask.removeTaskName)(action.task)); //非同期
-	
-	               if (!action.closeFlg) {
-	                  _context5.next = 6;
+	               if (false) {
+	                  _context5.next = 12;
 	                  break;
 	               }
 	
-	               _context5.next = 4;
-	               return (0, _effects.put)(actCreater.updateAndCloseTask(action.task));
+	               _context5.next = 3;
+	               return (0, _effects.take)(actCreater.REQ_REDMINE_DETAIL);
 	
-	            case 4:
-	               _context5.next = 8;
-	               break;
+	            case 3:
+	               action = _context5.sent;
+	               _context5.next = 6;
+	               return (0, _effects.call)(taskApi.fetchRedmineTaskDetail, action.redmineId);
 	
 	            case 6:
-	               _context5.next = 8;
-	               return (0, _effects.put)(actCreater.updateTask(action.task));
+	               response = _context5.sent;
+	               journals = (0, _immutable.fromJS)(response.issue.journals).filter(function (t) {
+	                  return t.get('notes') !== '';
+	               });
+	               _context5.next = 10;
+	               return (0, _effects.put)(actCreater.recieveRedmineDetail(journals));
 	
-	            case 8:
+	            case 10:
+	               _context5.next = 0;
+	               break;
+	
+	            case 12:
 	            case "end":
 	               return _context5.stop();
 	         }
@@ -68171,16 +68144,31 @@
 	   }, _marked5, this);
 	}
 	
-	/** タスク更新ハンドラ */
-	function hundleReqUpdateTask() {
-	   return regeneratorRuntime.wrap(function hundleReqUpdateTask$(_context6) {
+	/** タスク更新実行 */
+	function ReqUpdateTask(action) {
+	   return regeneratorRuntime.wrap(function ReqUpdateTask$(_context6) {
 	      while (1) {
 	         switch (_context6.prev = _context6.next) {
 	            case 0:
-	               _context6.next = 2;
-	               return (0, _reduxSaga.takeEvery)(actCreater.REQ_UPDATE_TASK, ReqUpdateTask);
+	               taskApi.updateTask((0, _mTask.removeTaskName)(action.task)); //非同期
 	
-	            case 2:
+	               if (!action.closeFlg) {
+	                  _context6.next = 6;
+	                  break;
+	               }
+	
+	               _context6.next = 4;
+	               return (0, _effects.put)(actCreater.updateAndCloseTask(action.task));
+	
+	            case 4:
+	               _context6.next = 8;
+	               break;
+	
+	            case 6:
+	               _context6.next = 8;
+	               return (0, _effects.put)(actCreater.updateTask(action.task));
+	
+	            case 8:
 	            case "end":
 	               return _context6.stop();
 	         }
@@ -68188,33 +68176,16 @@
 	   }, _marked6, this);
 	}
 	
-	/** タスクnewFlgを更新 */
-	function hundleReqUpdNewFlg() {
-	   var action;
-	   return regeneratorRuntime.wrap(function hundleReqUpdNewFlg$(_context7) {
+	/** タスク更新ハンドラ */
+	function hundleReqUpdateTask() {
+	   return regeneratorRuntime.wrap(function hundleReqUpdateTask$(_context7) {
 	      while (1) {
 	         switch (_context7.prev = _context7.next) {
 	            case 0:
-	               if (false) {
-	                  _context7.next = 9;
-	                  break;
-	               }
+	               _context7.next = 2;
+	               return (0, _reduxSaga.takeEvery)(actCreater.REQ_UPDATE_TASK, ReqUpdateTask);
 	
-	               _context7.next = 3;
-	               return (0, _effects.take)(actCreater.REQ_UPD_NEW_FLG);
-	
-	            case 3:
-	               action = _context7.sent;
-	
-	               taskApi.updateTask((0, _mTask.removeTaskName)(action.task)); //非同期
-	               _context7.next = 7;
-	               return (0, _effects.put)(actCreater.updateNewFlgTask(action.task));
-	
-	            case 7:
-	               _context7.next = 0;
-	               break;
-	
-	            case 9:
+	            case 2:
 	            case "end":
 	               return _context7.stop();
 	         }
@@ -68222,10 +68193,10 @@
 	   }, _marked7, this);
 	}
 	
-	/** タスク追加 */
-	function hundleReqAddTask() {
+	/** タスクnewFlgを更新 */
+	function hundleReqUpdNewFlg() {
 	   var action;
-	   return regeneratorRuntime.wrap(function hundleReqAddTask$(_context8) {
+	   return regeneratorRuntime.wrap(function hundleReqUpdNewFlg$(_context8) {
 	      while (1) {
 	         switch (_context8.prev = _context8.next) {
 	            case 0:
@@ -68235,14 +68206,14 @@
 	               }
 	
 	               _context8.next = 3;
-	               return (0, _effects.take)(actCreater.REQ_ADD_TASK);
+	               return (0, _effects.take)(actCreater.REQ_UPD_NEW_FLG);
 	
 	            case 3:
 	               action = _context8.sent;
 	
-	               taskApi.addTask(action.task); //非同期
+	               taskApi.updateTask((0, _mTask.removeTaskName)(action.task)); //非同期
 	               _context8.next = 7;
-	               return (0, _effects.put)(actCreater.addTask(action.task));
+	               return (0, _effects.put)(actCreater.updateNewFlgTask(action.task));
 	
 	            case 7:
 	               _context8.next = 0;
@@ -68256,35 +68227,33 @@
 	   }, _marked8, this);
 	}
 	
-	/** タスククリーニング */
-	function hundleReqCleanTask() {
+	/** タスク追加 */
+	function hundleReqAddTask() {
 	   var action;
-	   return regeneratorRuntime.wrap(function hundleReqCleanTask$(_context9) {
+	   return regeneratorRuntime.wrap(function hundleReqAddTask$(_context9) {
 	      while (1) {
 	         switch (_context9.prev = _context9.next) {
 	            case 0:
 	               if (false) {
-	                  _context9.next = 10;
+	                  _context9.next = 9;
 	                  break;
 	               }
 	
 	               _context9.next = 3;
-	               return (0, _effects.take)(actCreater.REQ_CLEAN_TASK);
+	               return (0, _effects.take)(actCreater.REQ_ADD_TASK);
 	
 	            case 3:
 	               action = _context9.sent;
-	               _context9.next = 6;
-	               return (0, _effects.call)(taskApi.cleanTask, action.userId);
 	
-	            case 6:
-	               _context9.next = 8;
-	               return (0, _effects.put)(actCreater.cleanTask(action.userId));
+	               taskApi.addTask(action.task); //非同期
+	               _context9.next = 7;
+	               return (0, _effects.put)(actCreater.addTask(action.task));
 	
-	            case 8:
+	            case 7:
 	               _context9.next = 0;
 	               break;
 	
-	            case 10:
+	            case 9:
 	            case "end":
 	               return _context9.stop();
 	         }
@@ -68292,49 +68261,85 @@
 	   }, _marked9, this);
 	}
 	
-	/** ルート **/
-	function rootSaga() {
-	   return regeneratorRuntime.wrap(function rootSaga$(_context10) {
+	/** タスククリーニング */
+	function hundleReqCleanTask() {
+	   var action;
+	   return regeneratorRuntime.wrap(function hundleReqCleanTask$(_context10) {
 	      while (1) {
 	         switch (_context10.prev = _context10.next) {
 	            case 0:
-	               _context10.next = 2;
-	               return (0, _effects.fork)(hundleReqInit);
+	               if (false) {
+	                  _context10.next = 10;
+	                  break;
+	               }
 	
-	            case 2:
-	               _context10.next = 4;
-	               return (0, _effects.fork)(hundleReqTasks);
+	               _context10.next = 3;
+	               return (0, _effects.take)(actCreater.REQ_CLEAN_TASK);
 	
-	            case 4:
+	            case 3:
+	               action = _context10.sent;
 	               _context10.next = 6;
-	               return (0, _effects.fork)(hundleReqRedmineDetail);
+	               return (0, _effects.call)(taskApi.cleanTask, action.userId);
 	
 	            case 6:
 	               _context10.next = 8;
-	               return (0, _effects.fork)(hundleReqUpdateTask);
+	               return (0, _effects.put)(actCreater.cleanTask(action.userId));
 	
 	            case 8:
-	               _context10.next = 10;
-	               return (0, _effects.fork)(hundleReqUpdNewFlg);
+	               _context10.next = 0;
+	               break;
 	
 	            case 10:
-	               _context10.next = 12;
-	               return (0, _effects.fork)(hundleReqAddTask);
-	
-	            case 12:
-	               _context10.next = 14;
-	               return (0, _effects.fork)(hundleReqCleanTask);
-	
-	            case 14:
-	               _context10.next = 16;
-	               return (0, _effects.fork)(hundleReqAccount);
-	
-	            case 16:
 	            case "end":
 	               return _context10.stop();
 	         }
 	      }
 	   }, _marked10, this);
+	}
+	
+	/** ルート **/
+	function rootSaga() {
+	   return regeneratorRuntime.wrap(function rootSaga$(_context11) {
+	      while (1) {
+	         switch (_context11.prev = _context11.next) {
+	            case 0:
+	               _context11.next = 2;
+	               return (0, _effects.fork)(hundleReqInit);
+	
+	            case 2:
+	               _context11.next = 4;
+	               return (0, _effects.fork)(hundleReqTasks);
+	
+	            case 4:
+	               _context11.next = 6;
+	               return (0, _effects.fork)(hundleReqRedmineDetail);
+	
+	            case 6:
+	               _context11.next = 8;
+	               return (0, _effects.fork)(hundleReqUpdateTask);
+	
+	            case 8:
+	               _context11.next = 10;
+	               return (0, _effects.fork)(hundleReqUpdNewFlg);
+	
+	            case 10:
+	               _context11.next = 12;
+	               return (0, _effects.fork)(hundleReqAddTask);
+	
+	            case 12:
+	               _context11.next = 14;
+	               return (0, _effects.fork)(hundleReqCleanTask);
+	
+	            case 14:
+	               _context11.next = 16;
+	               return (0, _effects.fork)(hundleReqAccount);
+	
+	            case 16:
+	            case "end":
+	               return _context11.stop();
+	         }
+	      }
+	   }, _marked11, this);
 	}
 
 /***/ }),
@@ -83410,7 +83415,6 @@
 	            // 追加ボタンを押した時、タイトルを押した時に2回呼ばれるのも無効にする
 	            if (openTaskDOM == null) return;
 	            if (openTaskDOM.contains(evt.target)) return;
-	            if (event.target.className.match('addIcon')) return;
 	            if (event.target.className.match('redmineIcon')) return;
 	            if (openTaskId === evt.target.getAttribute('data-closeId')) return;
 	
@@ -83425,7 +83429,6 @@
 	            // 追加ボタンを押した時、タイトルを押した時に2回呼ばれるのも無効にする
 	            if (selectTaskDOM == null) return;
 	            if (selectTaskDOM.contains(evt.target)) return;
-	            if (event.target.className.match('addTaskButton')) return;
 	            if (event.target.className.match('redmineIcon')) return;
 	            if (event.target.className.match('todayButton')) return;
 	            if (event.target.className.match('react-datepicker')) return;
@@ -91165,8 +91168,9 @@
 	
 	         var selectedFlg = task.get('_id') === state.get('conf').get('selectTaskId');
 	         var openTaskFlg = state.get('conf').get('openTaskId') === task.get('_id');
+	         var newFlg = task.get('newFlg') && task.get('redmineUserId') === state.getIn(['account', '_id']);
 	
-	         var taskBoxClass = (0, _noImportant.css)(styles.taskListBox, task.get('newFlg') && styles.newTask, selectedFlg && styles.selectedTask, openTaskFlg ? styles.taskOpen : styles.taskNoOpen, isDraggingTaskId === task.get('_id') && styles.taskDraggingLi);
+	         var taskBoxClass = (0, _noImportant.css)(styles.taskListBox, newFlg && styles.newTask, selectedFlg && styles.selectedTask, openTaskFlg ? styles.taskOpen : styles.taskNoOpen, isDraggingTaskId === task.get('_id') && styles.taskDraggingLi);
 	
 	         /** レンダリング **/
 	         return _react2.default.createElement(
@@ -98435,7 +98439,7 @@
 	         return _react2.default.createElement(
 	            'div',
 	            { className: (0, _noImportant.css)(styles.journalArea) },
-	            _react2.default.createElement(
+	            journals.size > 0 && _react2.default.createElement(
 	               'div',
 	               null,
 	               '\u5C65\u6B74'
@@ -98455,7 +98459,7 @@
 	                     _react2.default.createElement(
 	                        'span',
 	                        { className: (0, _noImportant.css)(styles.createOn) },
-	                        journal.get('createOn')
+	                        (0, _moment2.default)(journal.get('created_on')).format('YYYY-MM-DD hh:mm')
 	                     )
 	                  ),
 	                  _react2.default.createElement(_reactTextareaAutosize2.default, {
@@ -99796,10 +99800,10 @@
 	            _react2.default.createElement(
 	               _rcDialog2.default,
 	               {
-	                  visible: state.getIn(['conf', 'openMenuFlg']),
-	                  animation: 'zoom',
-	                  maskAnimation: 'fade',
-	                  closable: false,
+	                  visible: state.getIn(['conf', 'openMenuFlg'])
+	                  // animation="zoom"
+	                  // maskAnimation="fade"
+	                  , closable: false,
 	                  onClose: this.closeAccountModal.bind(this),
 	                  mousePosition: { x: 10, y: 10 }
 	               },

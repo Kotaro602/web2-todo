@@ -55,8 +55,8 @@ export default class PaModal extends Component {
          <AlertContainer ref={a => this.msg = a} {...this.alertOptions} />
          <Dialog
             visible={state.getIn(['conf', 'openMenuFlg'])}
-            animation="zoom"
-            maskAnimation="fade"
+            // animation="zoom"
+            // maskAnimation="fade"
             closable={false}
             onClose={::this.closeAccountModal}
             mousePosition={{x: 10, y: 10}}
