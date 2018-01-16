@@ -9,20 +9,6 @@ export default class RedmineArea extends Component {
 
    componentDidMount() {
 
-      const {openRedmineModal} = this.props;
-
-      //オープン中のレッドマインモーダルをクローズ
-      const closeRedmineModal = (evt) => {
-         const openRedmineDOM = document.getElementById('redmineModal');
-
-         if(openRedmineDOM == null) return;
-         if(openRedmineDOM.contains(evt.target)) return;
-         if(evt.target.className.match('redmineIcon')) return;
-
-         console.log('背景')
-         openRedmineModal(undefined);
-      };
-      document.addEventListener('click', closeRedmineModal);
    }
 
    render() {
