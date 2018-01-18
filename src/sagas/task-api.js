@@ -26,11 +26,11 @@ export function fetchTaskList(reqTaskId) {
 export function fetchRedmineTaskList(taskListEachMember) {
 
    //本番環境を再現するために、少し待たせてみる。
-   if(process.env.NODE_ENV !== `develop`) sleep(800);
+   if(process.env.NODE_ENV !== `production`) sleep(800);
 
    //RedmineURLを取得
    return Promise.all(taskListEachMember.members.map(member => {
-      const redmineUrl = process.env.NODE_ENV === `develop` ?
+      const redmineUrl = process.env.NODE_ENV === `production` ?
          `${REDMINE_URL}/issues.json?limit=100&key=${localStorage.redmineKey}&assigned_to_id=${member._id}`:
          `/testdata/issues_${member._id}.json`;
 
@@ -52,7 +52,7 @@ export function fetchRedmineTaskList(taskListEachMember) {
  */
 export function fetchRedmineTaskDetail(redmineTaskId) {
 
-   const redmineUrl = process.env.NODE_ENV === `develop` ?
+   const redmineUrl = process.env.NODE_ENV === `production` ?
       `${REDMINE_URL}/issues/${redmineTaskId}.json?include=attachments,journals&key=${localStorage.redmineKey}`:
       `/testdata/detail_${redmineTaskId}.json`;
 
@@ -76,7 +76,7 @@ export function fetchRedmineTaskDetailList(taskList) {
    return Promise.all(taskList.map(task => {
       if(task.get('redmineFlg')){
 
-         const redmineUrl = process.env.NODE_ENV === `develop` ?
+         const redmineUrl = process.env.NODE_ENV === `production` ?
             `${REDMINE_URL}/issues/${task.get('_id')}.json?include=attachments,journals&key=${localStorage.redmineKey}`:
             `/testdata/detail_${task.get('_id')}.json`;
          return fetch(redmineUrl).then(res => res.json());
