@@ -14,7 +14,7 @@ export function fetchRedmineUserId(account) {
    const redmineLoginId = account.get('redmineLoginId');
    const redmineKey = account.get('redmineKey');
 
-   const redmineUrl = process.env.NODE_ENV === `develop` ?
+   const redmineUrl = process.env.NODE_ENV === `production` ?
       `${REDMINE_URL}/users.json?name=${redmineLoginId}&key=${redmineKey}`:
       `/testdata/user_${redmineLoginId}.json`;
 
